@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('customers/', views.CustomerViewSet.as_view({'get': 'list'}), name = 'customers')
+    path('customers/', views.CustomerViewSet.as_view({'get': 'list'}), name = 'customers'),
+    path('customers/<int:id>/',views.singleCustomer,name = 'singleCustomer')
 ]
