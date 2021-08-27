@@ -1,30 +1,31 @@
-from app.serializers import CustomerSerializer
-from django.shortcuts import render
-from rest_framework import viewsets,status
-from rest_framework import permissions
-from app.models import Customer
+from app.serializers import CustomerSerializer, EmployeeSerializer
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
+from app.models import Customer, Employee
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-# Create your views here.
 
-from django.http import HttpResponse, response
-
-
+@api_view(['GET', 'HEAD'])
 def index(request):
-    return HttpResponse("Hello, world!")
+    return Response("Hello World!")
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
 
-@api_view(('GET',))
-def singleCustomer(request,id):
-    try:
-        singleCustomer= Customer.objects.get(id= id)
-    except Customer.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    serializers = CustomerSerializer(singleCustomer)
+@api_view(['GET', 'HEAD'])
+def fetch_customer(request, id):
+    customer = get_object_or_404(Customer, id = id)
+    serializers = CustomerSerializer(customer)
+    return Response(serializers.data)
+
+@api_view(['GET', 'HEAD'])
+def fetch_employee(request, id):
+    employee = get_object_or_404(Employee, id = id)
+    serializers = EmployeeSerializer(employee)
     return Response(serializers.data)
