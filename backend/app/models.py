@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.db.models.deletion import CASCADE
 
 # Create your models here.
 
@@ -13,3 +15,12 @@ class Customer(models.Model):
     photo = models.BinaryField(null= True, blank = True)
     class Meta:
         db_table = "customer"
+
+# This class is in a one to one relationship with the auth_user table
+class Employee(models.Model):
+    id = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=CASCADE, db_column='id')
+    job_title = models.CharField(max_length=255, null = True, blank = True)
+    phone = models.CharField(max_length=255, null= True, blank = True)
+    photo = models.BinaryField(null= True, blank = True)
+    class Meta:
+        db_table = "employee"
