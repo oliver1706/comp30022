@@ -6,7 +6,7 @@ from app.models import Customer, Employee
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-import json
+from django.contrib.auth.models import User
 
 @api_view(['GET', 'HEAD'])
 def index(request):
@@ -41,9 +41,26 @@ def create_customer(request):
             return Response(serializer.data)
     return Response(serializer.errors)
 
+#Function to create employee atm
+#probably have to update in future 
 @api_view(['POST','HEAD'])
 def create_employee(request):
-    serializer = EmployeeSerializer(data=request.data)
+    user = User.objects.create_user(
+        request.data["username"],
+        request.data['email'],
+        request.data['password'],
+        first_name= request.data['first_name'],
+        last_name= request.data['last_name'],
+        
+    )
+
+    user_data={
+        "id":user.id,
+        "job_title":request.data["job_title"],
+        "phone":request.data["phone"],
+        
+    }
+    serializer = EmployeeSerializer(data=user_data)
 
     if serializer.is_valid():
             serializer.save()

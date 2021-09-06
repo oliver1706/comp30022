@@ -9,5 +9,5 @@ urlpatterns = [
     path('employees/', views.EmployeeViewSet.as_view({'get': 'list'}), name = 'employees'),
     path('employees/<int:id>/', views.fetch_employee, name = 'employee'),
     path('customers/create/',views.create_customer,name = 'create_customer'),
-    path('employees/create/',views.create_customer,name='create_customer')
+    path('employees/create/',views.create_employee,name='create_customer')
 ]
