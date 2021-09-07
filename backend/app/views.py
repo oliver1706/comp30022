@@ -41,28 +41,10 @@ def create_customer(request):
             return Response(serializer.data)
     return Response(serializer.errors)
 
-#Function to create employee atm
-#probably have to update in future 
-@api_view(['POST','HEAD'])
-def create_employee(request):
-    user = User.objects.create_user(
-        request.data["username"],
-        request.data['email'],
-        request.data['password'],
-        first_name= request.data['first_name'],
-        last_name= request.data['last_name'],
-        
-    )
-
-    user_data={
-        "id":user.id,
-        "job_title":request.data["job_title"],
-        "phone":request.data["phone"],
-        
-    }
-    serializer = EmployeeSerializer(data=user_data)
-
+@api_view(['POST'])
+def edit_customer(request,id):
+    customer = get_object_or_404(Customer, id = id)    
+    serializer = CustomerSerializer(customer, request.data)
     if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-    return Response(serializer.errors)
+        serializer.save()
+    return Response(serializer.data)
