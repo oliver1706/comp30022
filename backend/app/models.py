@@ -2,7 +2,10 @@ from django.db import models
 from django.conf import settings
 from django.db.models.deletion import CASCADE
 
-# Create your models here.
+class Department(models.Model):
+    name = models.CharField(max_length=255, null = False, blank = False, unique= True)
+    class Meta:
+        db_table = "department"
 
 class Customer(models.Model):
     # Id autoincrement is automatically added apparently
@@ -13,6 +16,7 @@ class Customer(models.Model):
     email = models.CharField(max_length=255, null= True, blank = True)
     phone = models.CharField(max_length=255, null= True, blank = True)
     photo = models.BinaryField(null= True, blank = True)
+    department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     class Meta:
         db_table = "customer"
 
@@ -22,5 +26,6 @@ class Employee(models.Model):
     job_title = models.CharField(max_length=255, null = True, blank = True)
     phone = models.CharField(max_length=255, null= True, blank = True)
     photo = models.BinaryField(null= True, blank = True)
+    department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     class Meta:
         db_table = "employee"

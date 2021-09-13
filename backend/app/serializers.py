@@ -1,4 +1,5 @@
-from app.models import Customer, Employee
+from django.shortcuts import get_object_or_404
+from app.models import Customer, Department, Employee
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
@@ -7,10 +8,15 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = '__all__'
 
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = '__all__'
+
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ("id", "job_title", "phone", "username", "first_name", "last_name", "email", "password", "photo")
+        fields = ("id", "job_title", "phone", "username", "first_name", "last_name", "email", "password", "photo", "department", "department_name")
 
     id = serializers.PrimaryKeyRelatedField(source="id.id", read_only = True)
     username = serializers.CharField(source="id.username")
@@ -18,6 +24,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source="id.first_name")
     last_name = serializers.CharField(source="id.last_name")
     email = serializers.EmailField(source="id.email")
+    department = serializers.IntegerField(write_only = True, allow_null = True)
+    department_name = serializers.CharField(source = "department.name", required = False)
 
     
     def create(validated_data):
@@ -41,4 +49,13 @@ class EmployeeSerializer(serializers.ModelSerializer):
         instance.job_title = validated_data.get("job_title", instance.job_title)
         instance.phone = validated_data.get("phone", instance.phone)
         instance.photo = validated_data.get("photo", instance.photo)
+
+        department_id = validated_data.get("department")
+        if department_id != None:
+            department = get_object_or_404(Department, id = department_id)
+            instance.department = department
+        else:
+            instance.department = None
+
+        instance.save()
         return instance
