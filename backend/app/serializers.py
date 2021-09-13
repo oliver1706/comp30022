@@ -2,11 +2,43 @@ from django.shortcuts import get_object_or_404
 from app.models import Customer, Department, Employee
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from app.views.utils import update_department_id
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = '__all__'
+        fields =  ("id", "description", "first_name", "last_name", "job_title", "email", "phone", "photo", "department", "department_name")
+    department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
+    department_name = serializers.CharField(source = "department.name", required = False)
+
+    def create(self, validated_data):
+        customer = Customer.objects.create(description = validated_data.get("description"), first_name = validated_data.get("first_name"),
+            last_name = validated_data.get("last_name"), job_title = validated_data.get("job_title"), email = validated_data.get("email"),
+            phone = validated_data.get("phone"), photo = validated_data.get("photo"))
+        update_department_id(customer, validated_data)
+        customer.save()
+        return customer
+
+    def update(self, instance, validated_data):
+        update_department_id(instance, validated_data)
+        instance.first_name = validated_data.get("first_name", instance.phone)
+        instance.last_name = validated_data.get("last_name", instance.photo)
+        instance.job_title = validated_data.get("job_title", instance.job_title)
+        instance.email = validated_data.get("email", instance.phone)
+        instance.phone = validated_data.get("phone", instance.phone)
+        instance.photo = validated_data.get("photo", instance.photo)
+        return instance
+
+    def validate_department(self, department_id):
+        # Department_id is nullable
+        if department_id == None:
+            return
+        try:
+            Department.objects.get(id=department_id)
+        except Exception as e:
+            raise serializers.ValidationError(e)
+        return department_id
+
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,7 +56,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source="id.first_name")
     last_name = serializers.CharField(source="id.last_name")
     email = serializers.EmailField(source="id.email")
-    department = serializers.IntegerField(write_only = True, allow_null = True)
+    department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     department_name = serializers.CharField(source = "department.name", required = False)
 
     
@@ -36,6 +68,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
         
         employee = Employee(id = user, job_title = validated_data.get("job_title"),
             phone = validated_data.get("phone"), photo = validated_data.get("photo"))
+        update_department_id(employee, validated_data)
         employee.save()
         
         return user.id
@@ -50,12 +83,17 @@ class EmployeeSerializer(serializers.ModelSerializer):
         instance.phone = validated_data.get("phone", instance.phone)
         instance.photo = validated_data.get("photo", instance.photo)
 
-        department_id = validated_data.get("department")
-        if department_id != None:
-            department = get_object_or_404(Department, id = department_id)
-            instance.department = department
-        else:
-            instance.department = None
+        update_department_id(instance, validated_data)
 
         instance.save()
         return instance
+
+    def validate_department(self, department_id):
+        # Department_id is nullable
+        if department_id == None:
+            return
+        try:
+            Department.objects.get(id=department_id)
+        except Exception as e:
+            raise serializers.ValidationError(e)
+        return department_id

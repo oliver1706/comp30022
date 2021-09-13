@@ -18,7 +18,7 @@ def create_department(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    return Response(serializer.errors)
+    return Response(data = serializer.errors, status = 400)
 
 def get_department(id):
     department = get_object_or_404(Department, id = id)
@@ -31,7 +31,7 @@ def edit_department(request, id):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    return Response(serializer.errors)
+    return Response(data = serializer.errors, status = 400)
 
 @api_view(['GET', 'PATCH'])
 def individual_department(request, id):

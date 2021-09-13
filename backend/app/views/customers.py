@@ -18,7 +18,7 @@ def create_customer(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    return Response(serializer.errors)
+    return Response(data = serializer.errors, status = 400)
 
 def get_customer(id):
     customer = get_object_or_404(Customer, id = id)
@@ -27,11 +27,11 @@ def get_customer(id):
 
 def edit_customer(request, id):
     customer = get_object_or_404(Customer, id = id) 
-    serializer = CustomerSerializer(instance = customer, data = request.data)
+    serializer = CustomerSerializer(instance = customer, data = request.data, partial = True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    return Response(serializer.errors)
+    return Response(data = serializer.errors, status = 400)
 
 @api_view(['GET', 'PATCH'])
 def individual_customer(request, id):

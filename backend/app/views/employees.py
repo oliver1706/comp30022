@@ -23,7 +23,7 @@ def create_employee(request):
         # Fetch the created employee
         serializer = EmployeeSerializer(Employee.objects.get(id = id))
         return Response(serializer.data)
-    return Response(serializer.errors)
+    return Response(data = serializer.errors, status = 400)
 
 def get_employee(id):
     employee = get_object_or_404(Employee, id = id)
@@ -36,7 +36,7 @@ def edit_employee(request, id):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    return Response(serializer.errors)
+    return Response(data = serializer.errors, status = 400)
 
 @api_view(['GET', 'PATCH'])
 def individual_employee(request, id):
