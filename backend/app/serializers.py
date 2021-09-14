@@ -79,18 +79,19 @@ class EmployeeSerializer(serializers.ModelSerializer):
     department_name = serializers.CharField(source = "department.name", required = False)
 
     
-    def create(validated_data):
-        user = User.objects.create_user(validated_data["username"], validated_data["email"], validated_data["password"])
-        user.first_name = validated_data["first_name"]
-        user.last_name = validated_data["last_name"]
+    def create(self, validated_data):
+        print(validated_data)
+        user = User.objects.create_user(validated_data.get("id").get("username"), validated_data.get("id").get("email"), validated_data.get("id").get("password"))
+        user.first_name = validated_data.get("id").get("first_name")
+        user.last_name = validated_data.get("id").get("last_name")
         user.save()
         
-        employee = Employee(id = user, job_title = validated_data.get("job_title"),
+        employee = Employee.objects.create(id = user, job_title = validated_data.get("job_title"),
             phone = validated_data.get("phone"), photo = validated_data.get("photo"))
         update_department_id(employee, validated_data)
         employee.save()
         
-        return user.id
+        return employee
 
     def update(self, instance, validated_data):
         user = instance.id
