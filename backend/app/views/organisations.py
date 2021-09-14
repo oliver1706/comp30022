@@ -25,6 +25,11 @@ def get_organisation(id):
     serializers = OrganisationSerializer(organisation)
     return Response(serializers.data)
 
+def delete_organisation(id):
+    organisation = get_object_or_404(Organisation, id = id)
+    organisation.delete()
+    return Response(status = 200)
+
 def edit_organisation(request, id):
     organisation = get_object_or_404(Organisation, id = id) 
     serializer = OrganisationSerializer(instance = organisation, data = request.data)
@@ -33,9 +38,11 @@ def edit_organisation(request, id):
         return Response(serializer.data)
     return Response(data = serializer.errors, status = 400)
 
-@api_view(['GET', 'PATCH'])
+@api_view(['GET', 'PATCH', 'DELETE'])
 def individual_organisation(request, id):
     if (request.method == 'GET'):
         return get_organisation(id)
+    elif (request.method == 'DELETE'):
+        return delete_organisation(id)
     else:
         return edit_organisation(request, id)

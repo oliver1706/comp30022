@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from app.serializers import EmployeeSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
@@ -30,6 +31,13 @@ def get_employee(id):
     serializers = EmployeeSerializer(employee)
     return Response(serializers.data)
 
+def delete_employee(id):
+    employee = get_object_or_404(Employee, id = id)
+    user = get_object_or_404(User, id = id)
+    employee.delete()
+    user.delete()
+    return Response(status = 200)
+
 def edit_employee(request, id):
     customer = get_object_or_404(Employee, id = id) 
     serializer = EmployeeSerializer(instance = customer, data = request.data, partial = True)
@@ -38,9 +46,11 @@ def edit_employee(request, id):
         return Response(serializer.data)
     return Response(data = serializer.errors, status = 400)
 
-@api_view(['GET', 'PATCH'])
+@api_view(['GET', 'PATCH', 'DELETE'])
 def individual_employee(request, id):
     if (request.method == 'GET'):
         return get_employee(id)
+    elif (request.method == 'DELETE'):
+        return delete_employee(id)
     else:
         return edit_employee(request, id)

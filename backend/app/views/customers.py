@@ -25,6 +25,11 @@ def get_customer(id):
     serializers = CustomerSerializer(customer)
     return Response(serializers.data)
 
+def delete_customer(id):
+    customer = get_object_or_404(Customer, id = id)
+    customer.delete()
+    return Response(status = 200)
+
 def edit_customer(request, id):
     customer = get_object_or_404(Customer, id = id) 
     serializer = CustomerSerializer(instance = customer, data = request.data, partial = True)
@@ -33,9 +38,11 @@ def edit_customer(request, id):
         return Response(serializer.data)
     return Response(data = serializer.errors, status = 400)
 
-@api_view(['GET', 'PATCH'])
+@api_view(['GET', 'PATCH', 'DELETE'])
 def individual_customer(request, id):
     if (request.method == 'GET'):
         return get_customer(id)
+    elif (request.method == 'DELETE'):
+        return delete_customer(id)
     else:
         return edit_customer(request, id)

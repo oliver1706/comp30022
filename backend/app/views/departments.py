@@ -25,6 +25,11 @@ def get_department(id):
     serializers = DepartmentSerializer(department)
     return Response(serializers.data)
 
+def delete_department(id):
+    department = get_object_or_404(Department, id = id)
+    department.delete()
+    return Response(status = 200)
+
 def edit_department(request, id):
     department = get_object_or_404(Department, id = id) 
     serializer = DepartmentSerializer(instance = department, data = request.data)
@@ -33,9 +38,11 @@ def edit_department(request, id):
         return Response(serializer.data)
     return Response(data = serializer.errors, status = 400)
 
-@api_view(['GET', 'PATCH'])
+@api_view(['GET', 'PATCH', 'DELETE'])
 def individual_department(request, id):
     if (request.method == 'GET'):
         return get_department(id)
+    elif (request.method == 'DELETE'):
+        return delete_department(id)
     else:
         return edit_department(request, id)
