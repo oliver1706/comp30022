@@ -20,9 +20,9 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields =  ("id", "description", "first_name", "last_name", "job_title", "email", "phone", "photo", "department", "department_name",
         "organisation", "organisation_name")
     department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
-    department_name = serializers.CharField(source = "department.name", required = False)
+    department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
     organisation = serializers.IntegerField(write_only = True, allow_null = True, required = False)
-    organisation_name = serializers.CharField(source = "organisation.name", required = False)
+    organisation_name = serializers.CharField(source = "organisation.name", read_only = True, required = False)
 
     def create(self, validated_data):
         customer = Customer.objects.create(description = validated_data.get("description"), first_name = validated_data.get("first_name"),
@@ -76,7 +76,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source="id.last_name")
     email = serializers.EmailField(source="id.email")
     department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
-    department_name = serializers.CharField(source = "department.name", required = False)
+    department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
 
     
     def create(self, validated_data):
