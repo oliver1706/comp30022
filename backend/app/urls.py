@@ -1,6 +1,6 @@
 from django.urls import path
 
-from app.views import index, departments, customers, employees
+from app.views import index, departments, organisations, customers, employees
 
 urlpatterns = [
     path('', index.index, name='index'),
@@ -8,6 +8,10 @@ urlpatterns = [
     path('departments', departments.DepartmentViewSet.as_view({'get': 'list'}), name = 'department'),
     path('departments/<int:id>', departments.individual_department, name = 'department'),
     path('departments/create', departments.create_department, name = 'create_department'),
+    # organisation endpoints
+    path('organisations', organisations.OrganisationViewSet.as_view({'get': 'list'}), name = 'organisations'),
+    path('organisations/<int:id>', organisations.individual_organisation, name = 'organisations'),
+    path('organisations/create', organisations.create_organisation, name = 'create_organisations'),
     # customer endpoints
     path('customers', customers.CustomerViewSet.as_view({'get': 'list'}), name = 'customers'),
     path('customers/<int:id>', customers.individual_customer, name = 'customer'),

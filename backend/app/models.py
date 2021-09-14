@@ -7,16 +7,23 @@ class Department(models.Model):
     class Meta:
         db_table = "department"
 
+# Organisation a customer represents/is affiliated with
+class Organisation(models.Model):
+    name = models.CharField(max_length=255, null = False, blank = False, unique= True)
+    class Meta:
+        db_table = "organisation"
+
 class Customer(models.Model):
     # Id autoincrement is automatically added apparently
     description = models.CharField(max_length=255, null= True, blank = True)
     first_name = models.CharField(max_length=255, null= True, blank = True)
     last_name = models.CharField(max_length=255, null= True, blank = True)
     job_title = models.CharField(max_length=255, null= True, blank = True)
-    email = models.CharField(max_length=255, null= True, blank = True)
+    email = models.EmailField(max_length=255, null= True, blank = True)
     phone = models.CharField(max_length=255, null= True, blank = True)
     photo = models.BinaryField(null= True, blank = True)
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
+    organisation = models.ForeignKey(Organisation, on_delete= models.SET_NULL, null = True)
     class Meta:
         db_table = "customer"
 
