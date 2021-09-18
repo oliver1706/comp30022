@@ -3,11 +3,8 @@ from app.serializers import EmployeeSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from app.models import Employee
-from django.db.utils import IntegrityError
 
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from app import urls
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()

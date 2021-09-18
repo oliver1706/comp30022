@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import include
 
-from app.views import index, departments, organisations, customers, employees
+from app.views import index, departments, invoices, organisations, customers, employees
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from rest_framework import routers
 
@@ -11,6 +11,7 @@ router.register(r'departments', departments.DepartmentViewSet)
 router.register(r'employees', employees.EmployeeViewSet)
 router.register(r'organisations', organisations.OrganisationViewSet)
 router.register(r'customers', customers.CustomerViewSet)
+router.register(r'invoices', invoices.InvoiceViewSet)
 
 urlpatterns = [
     path('', index.index, name='index'),

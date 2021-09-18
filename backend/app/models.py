@@ -36,3 +36,17 @@ class Employee(models.Model):
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     class Meta:
         db_table = "employee"
+
+class Invoice(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    total_due = models.DecimalField(max_digits=12, decimal_places=2, null=False)
+    total_paid = models.DecimalField(max_digits=12, decimal_places=2, null=False)
+    date_added = models.DateField(null = False, auto_now_add=True)
+    date_due = models.DateField(null = True, blank = True)
+    incoming = models.BooleanField(null = False)
+    description = models.CharField(max_length=255, null = False)
+    pdf = models.BinaryField(null = True, blank = True)
+
+    class Meta:
+        db_table = "invoice"
