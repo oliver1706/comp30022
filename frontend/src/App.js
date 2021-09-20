@@ -4,36 +4,6 @@ import './App.css';
 import React, { Component } from 'react';
 import axios from "axios";
 
-const defaultEmployees = [
-  {
-    id: 0,
-    job_title: "Back End",
-    phone: "There isn't a name field this is Oliver",
-  },
-  {
-    id: 1,
-    job_title: "Front End",
-    phone: "Max",
-  },
-  {
-    id: 2,
-    job_title: "Designer",
-    phone: "Patrick",
-  },
-  {
-    id: 3,
-    job_title: "Back End",
-    phone: "Alice"
-  },
-  {
-    id: 4,
-    job_title: "Back End",
-    phone: "Marlon",
-  }
-
-
-]
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +25,7 @@ class App extends Component {
 
   refreshList = () => {
     axios
-      .get("/app/employees")
+      .get("/app/employees/")
       .then((res) => this.setState({employeeList: res.data}))
       .then(console.log("Uhhhhh?"))
       .then(console.log(this.state.activeItem.job_title))
