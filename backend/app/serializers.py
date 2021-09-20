@@ -1,4 +1,4 @@
-from app.models import Customer, Department, Employee, Organisation
+from app.models import Customer, Department, Employee, Invoice, Organisation
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from app.views.utils import update_department_id, update_organisation_id
@@ -80,7 +80,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     
     def create(self, validated_data):
-        print(validated_data)
         user = User.objects.create_user(validated_data.get("id").get("username"), validated_data.get("id").get("email"), validated_data.get("id").get("password"))
         user.first_name = validated_data.get("id").get("first_name")
         user.last_name = validated_data.get("id").get("last_name")
@@ -117,3 +116,19 @@ class EmployeeSerializer(serializers.ModelSerializer):
         except Exception as e:
             raise serializers.ValidationError(e)
         return department_id
+
+class InvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invoice
+        fields = ("customer", "employee", "total_due", "total_paid", "date_added", "date_due", "incoming", "description", "pdf")
+        extra_kwargs = {"customer": {"write_only": True}}
+        
+    def create(self, validated_data):
+        print(validated_data)
+        print(self.context["request"])
+        invoice = Invoice.objects.create(total_due = validated_data.get("total_due"), total_paid = validated_data.get("total_paid"), date_added = validated_data.get("date_added"),
+            date_due = validated_data.get("date_due"), incoming = validated_data.get("incoming"), description = validated_data.get("description"), 
+            pdf = validated_data.get("pdf"), customer = validated_data.get("customer"))
+        invoice.employee = Employee.objects.get(id = self.context["request"].user.id)
+        invoice.save()
+        return invoice
