@@ -10,8 +10,8 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
-    search_fields = '__all__'
-    filter_fields = '__all__'
+    search_fields = ['id__first_name', 'id__last_name']
+    filter_fields = ['id__first_name', 'id__last_name', 'id__username', 'id__email', 'job_title', 'phone', 'department__name']
     ordering_fields = '__all__'
 
     def destroy(self, request, pk=None):

@@ -11,6 +11,6 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     serializer_class = DepartmentSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
     permission_classes = [GetOnlyIfNotAdmin]
-    search_fields = '__all__'
+    search_fields = ['name']
     filter_fields = '__all__'
     ordering_fields = '__all__'
