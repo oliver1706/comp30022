@@ -4,6 +4,32 @@ import './App.css';
 import React, { Component } from 'react';
 import axios from "axios";
 
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+
+
+
+import Login from '../src/components/Login'
+import Home from '../src/components/Home'
+
+function App() {
+  return (
+    <div className="wrapper">
+      <BrowserRouter>
+        <Switch>
+          <Route path = '/login'>
+            <Login/>
+          </Route>
+          <Route path = '/home'>
+            <Home/>
+          </Route>
+        </Switch>
+      </BrowserRouter>
+
+    </div>
+  );
+}
+/*
 class App extends Component {
   constructor(props) {
     super(props);
@@ -140,5 +166,6 @@ class App extends Component {
     )
   }
 }
+*/
 
 export default App;

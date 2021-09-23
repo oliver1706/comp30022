@@ -2,6 +2,7 @@ In order to run the frontend locally you will need to run the following:
 
 npm install axios
 npm install bootstrap@4.6.0 reactstrap@8.9.0 --legacy-peer-deps
+npm install react-router-dom
 
 # Getting Started with Create React App
 

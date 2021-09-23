@@ -1,0 +1,37 @@
+.center {
+    text-align: left;  
+    /* border: 3px solid #73AD21; */  
+    margin: auto;
+    width: 20%;
+    padding:300px 0;
+    font-size: 20px;
+    
+}
+
+.text {
+    text-align: left;
+    color: rgb(46, 191, 240);
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+.loginButton {
+    color: white;
+    background-color: rgb(46, 191, 240);
+    /* border: 3px solid red; */ 
+    margin-top: 30px;
+    margin-left: 30%;
+}
+
+.logo {
+    height: 200px;
+    width: 300px;
+    /*border: 3px solid green; */
+    margin-bottom: 50px;
+    padding-right: 40px;
+    text-align: left;
+}
+
+.input {
+    margin-bottom: 30px;
+}
