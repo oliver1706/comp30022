@@ -2,8 +2,5 @@ djangorestframework==3.12.4
 django==3.2.6
 mysqlclient==2.0.3
 drf-spectacular==0.18.2
-<<<<<<< HEAD
 Pillow==8.3.2
-=======
 django-rest-auth==0.9.5
->>>>>>> 5a7e40acbff5ac5b7eda1ff0a74f3055b3534222

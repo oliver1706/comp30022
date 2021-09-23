@@ -21,7 +21,8 @@ class Customer(models.Model):
     job_title = models.CharField(max_length=255, null= True, blank = True)
     email = models.EmailField(max_length=255, null= True, blank = True)
     phone = models.CharField(max_length=255, null= True, blank = True)
-    photo = models.BinaryField(null= True, blank = True)
+    #photo = models.BinaryField(null= True, blank = True)
+    photo = models.ImageField(upload_to=upload_to)
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     organisation = models.ForeignKey(Organisation, on_delete= models.SET_NULL, null = True)
     class Meta:
@@ -32,7 +33,8 @@ class Employee(models.Model):
     id = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=CASCADE, db_column='id')
     job_title = models.CharField(max_length=255, null = True, blank = True)
     phone = models.CharField(max_length=255, null= True, blank = True)
-    photo = models.BinaryField(null= True, blank = True)
+    #photo = models.BinaryField(null= True, blank = True)
+    photo = models.ImageField(null=True, blank = True)
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     class Meta:
         db_table = "employee"
