@@ -3,3 +3,4 @@ django==3.2.6
 mysqlclient==2.0.3
 drf-spectacular==0.18.2
 django-rest-auth==0.9.5
+django-filter==2.4.0
