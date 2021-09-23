@@ -1,46 +1,100 @@
 import logo from './logo.svg';
+import Modal from "./components/Modal.js"
 import './App.css';
 import React, { Component } from 'react';
+import axios from "axios";
 
-const defaultEmployees = [
-  {
-    id: 0,
-    job_title: "Back End",
-    phone: "There isn't a name field this is Oliver",
-  },
-  {
-    id: 1,
-    job_title: "Front End",
-    phone: "Max",
-  },
-  {
-    id: 2,
-    job_title: "Designer",
-    phone: "Patrick",
-  },
-  {
-    id: 3,
-    job_title: "Back End",
-    phone: "Alice"
-  },
-  {
-    id: 4,
-    job_title: "Back End",
-    phone: "Marlon",
-  }
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
-]
 
+
+import Login from '../src/components/Login'
+import Home from '../src/components/Home'
+
+function App() {
+  return (
+    <div className="wrapper">
+      <BrowserRouter>
+        <Switch>
+          <Route path = '/login'>
+            <Login/>
+          </Route>
+          <Route path = '/home'>
+            <Home/>
+          </Route>
+        </Switch>
+      </BrowserRouter>
+
+    </div>
+  );
+}
+/*
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       viewAll: true,
       employeeList: [],
+      modal: false,
+      activeItem: {
+        id: "",
+        job_title: "",
+        phone: ""
+      },
     };
   };
 
+  componentDidMount() {
+    this.refreshList();
+  }
+
+  refreshList = () => {
+    axios
+      .get("/app/employees/")
+      .then((res) => this.setState({employeeList: res.data}))
+      .then(console.log("Uhhhhh?"))
+      .then(console.log(this.state.activeItem.job_title))
+      .then(console.log("Rip?"))
+      .catch((err) => console.log(err));
+
+  }
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  handleSubmit = (item) => {
+    this.toggle();
+
+    if (item.id) {
+      console.log("Item submitted");
+      axios
+        .put(`/app/employees/${item.id}/`, item)
+        .then((res) => this.refreshList());
+      return;
+    }
+    axios
+      .post("/app/employees", item)
+      .then((res) => this.refreshList());
+  };
+
+  handleDelete = (item) => {
+    
+    axios
+      .delete(`/app/employees/${item.id}/`)
+      .then((res) => this.refreshList());
+  };
+
+  createItem = () => {
+    const item = { id: "", job_title: "", phone: "" };
+
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+
+  editItem = (item) => {
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
 
   displayAll = (status) => {
     if (status) {
@@ -51,7 +105,6 @@ class App extends Component {
   }
 
   renderItems = () => {
-    const { viewCompleted } = this.state;
     const allItems = this.state.employeeList;
     return allItems.map((item) => (
       <li
@@ -60,16 +113,18 @@ class App extends Component {
       >
         <span
           className = "Employees"
-        >{item.id}: {item.phone},  {item.job_title}
+        >{item.id}: {item.job_title},  {item.phone}
         </span>
         <span>
           <button
             className = "btn btn-secondary mr-2"
+            onClick={() => this.editItem(item)}
           >
             Edit
           </button>
           <button
             className="btn btn-danger"
+            onClick = {() => this.handleDelete(item)}
           >
             Delete
           </button>
@@ -79,6 +134,7 @@ class App extends Component {
   };
 
   render() {
+    
     return (
       <main className = "container">
         <h1 className= "text-white text-uppercase text-center my-4">Employee app</h1>
@@ -88,6 +144,7 @@ class App extends Component {
               <div className = "mb-4">
                 <button
                   className = "btn btn-primary"
+                  onClick = {this.createItem}
                 >
                   Add employee
                 </button>
@@ -98,12 +155,17 @@ class App extends Component {
             </div>
           </div>
         </div>
+        {this.state.modal ? (
+          <Modal
+            activeItem = {this.state.activeItem}
+            toggle = {this.toggle}
+            onSave = {this.handleSubmit}
+            />
+        ) : null}
       </main>
     )
   }
 }
-
-
-
+*/
 
 export default App;

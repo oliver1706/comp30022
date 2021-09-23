@@ -11,6 +11,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
+    search_fields = ['first_name', 'last_name']
+    filter_fields = ['description', 'first_name', 'last_name', 'job_title', 'email', 'phone', 'department__name', 'organisation__name']
+    ordering_fields =['description', 'first_name', 'last_name', 'job_title', 'email', 'phone', 'department__name', 'organisation__name']
 
     @action(detail=True, methods = ['get'])
     def invoices(self, request, pk=None):
