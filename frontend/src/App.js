@@ -17,10 +17,10 @@ function App() {
     <div className="wrapper">
       <BrowserRouter>
         <Switch>
-          <Route path = '/login'>
+          <Route path = '/app/accounts/login/'>
             <Login/>
           </Route>
-          <Route path = '/home'>
+          <Route path = '/app/home/'>
             <Home/>
           </Route>
         </Switch>
