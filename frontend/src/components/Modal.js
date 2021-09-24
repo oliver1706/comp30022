@@ -11,7 +11,7 @@ import {
   Label,
 } from "reactstrap";
 
-export default class CustomModal extends Component {
+export default class EmployeeModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,6 +46,26 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
+              <Label for="first_name">First Name</Label>
+              <Input
+                type="text"
+                name="first_name"
+                value={this.state.activeItem.first_name}
+                onChange={this.handleChange}
+                placeholder="Enter Employee First Name"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="last_name">Last Name</Label>
+              <Input
+                type="text"
+                name="last_name"
+                value={this.state.activeItem.last_name}
+                onChange={this.handleChange}
+                placeholder="Enter Employee Last Name"
+              />
+            </FormGroup>
+            <FormGroup>
               <Label for="job_title">Job Title</Label>
               <Input
                 type="text"
@@ -64,6 +84,16 @@ export default class CustomModal extends Component {
                 onChange={this.handleChange}
                 placeholder="Enter Employee Phone Number"
               />
+            </FormGroup>
+            <FormGroup>
+              <Label for="department">Department</Label>
+              <Input
+                type="text"
+                name="department"
+                value={this.state.activeItem.department}
+                onChange={this.handleChange}
+                placeholder="Enter Employee Department"
+                />
             </FormGroup>
           </Form>
         </ModalBody>
