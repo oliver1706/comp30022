@@ -6,7 +6,7 @@ import logo from "../images/logo.jpg"
 export default function Login() {
   return (
       <section id = 'loginform' className = {styles.center}>
-
+          <form method="POST" action="" name="myform">          
           <div>
               <img src = {logo} alt = "logo" className = {styles.logo}/>
           </div>
@@ -18,7 +18,7 @@ export default function Login() {
               <input type="text" data-direction="right"
                   spellcheck="false" autocomplete="off"
                   required="required" placeholder="username" 
-                  id = "username" className = {styles.input}/>
+                  name = "username" className = {styles.input}/>
             </div>
             
             <div className = {styles.text}>
@@ -29,12 +29,13 @@ export default function Login() {
                 <input type="text" data-direction="right"
                 spellcheck="false" autocomplete="off"
                 required="required" placeholder="password" 
-                id = "password"/>
+                name = "password" type = "password"/>
             </div>
             
             <div>
                 <input type="submit" value="Login" class="Login-btn" className = {styles.loginButton}/>
             </div>
+            </form>
       </section>
     
     
