@@ -77,7 +77,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(source="id.email")
     department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
-
     
     def create(self, validated_data):
         user = User.objects.create_user(validated_data.get("id").get("username"), validated_data.get("id").get("email"), validated_data.get("id").get("password"))
