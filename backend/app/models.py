@@ -2,11 +2,16 @@ from django.db import models
 from django.conf import settings
 from django.db.models.deletion import CASCADE
 from django.utils.translation import gettext_lazy as _ 
+from import_export import resources
 
 class Department(models.Model):
     name = models.CharField(max_length=255, null = False, blank = False, unique= True)
     class Meta:
         db_table = "department"
+
+class DepartmentResource(resources.ModelResource):
+    class Meta:
+        model = Department
 
 # Organisation a customer represents/is affiliated with
 class Organisation(models.Model):

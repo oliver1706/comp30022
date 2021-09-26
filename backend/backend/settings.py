@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'app',
     'django_filters',
+    'import_export'
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
+    'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser']
 
 }
 
@@ -156,3 +158,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
