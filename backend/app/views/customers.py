@@ -1,6 +1,6 @@
 from app.serializers import CustomerSerializer, InvoiceSerializer
 from rest_framework import viewsets
-from app.models import Customer, Invoice
+from app.models import Customer, Department, Invoice
 from django.http.response import HttpResponse
 from import_export import fields, resources
 import tablib
@@ -40,10 +40,26 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 
 class CustomerResource(resources.ModelResource):
+
+    def import_obj(self, instance, row, dry_run, **kwargs):
+        super(CustomerResource, self).import_obj(instance, row, dry_run)
+        department_name = row["department_name"]
+        if department_name != None:
+            department, _ = Department.objects.get_or_create(name = department_name)
+            instance.department = department
+
     invoices = fields.Field()
     def dehydrate_invoices(self, obj):
         invoices = Invoice.objects.filter(customer=obj)
         serializer = InvoiceSerializer(invoices, many=True)
         return serializer.data
+    department_name = fields.Field()
+    def dehydrate_department_name(self, obj):
+        department = obj.department
+        if department == None:
+            return None
+        else:
+            return department.name
     class Meta:
+        exclude = ('department', 'organisation')
         model = Customer
