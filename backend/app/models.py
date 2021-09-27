@@ -27,6 +27,11 @@ class Customer(models.Model):
     photo = models.ImageField(_("Image") ,upload_to="customers", default= "default.png", null = True, blank = True)
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     organisation = models.ForeignKey(Organisation, on_delete= models.SET_NULL, null = True)
+
+    def is_watcher(self, employee_id):
+        return CustomerWatcher.objects.filter(customer = self.id, employee = employee_id).exists()
+    def is_owner(self, employee_id):
+        return CustomerOwner.objects.filter(customer = self.id, employee = employee_id).exists()
     class Meta:
         db_table = "customer"
 
@@ -39,6 +44,20 @@ class Employee(models.Model):
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     class Meta:
         db_table = "employee"
+
+class CustomerWatcher(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    class Meta:
+        db_table = "customer_watcher"
+        unique_together = ["customer", "employee"]
+
+class CustomerOwner(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    class Meta:
+        db_table = "customer_owner"
+        unique_together = ["customer", "employee"]
 
 class Invoice(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)

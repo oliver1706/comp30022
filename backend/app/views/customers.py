@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
 from app.serializers import CustomerSerializer, InvoiceSerializer
 from rest_framework import viewsets
-from app.models import Customer, Department, Invoice
-from django.http.response import HttpResponse
+from app.models import Customer, CustomerOwner, CustomerWatcher, Department, Employee, Invoice
+from django.http.response import HttpResponse, HttpResponseForbidden, JsonResponse
 from import_export import fields, resources
 import tablib
 from rest_framework.decorators import action
@@ -38,6 +40,47 @@ class CustomerViewSet(viewsets.ModelViewSet):
         result = resource.import_data(dataset, dry_run=False, raise_errors=True)
         return HttpResponse(result.total_rows)
 
+    @action(detail=True, methods=["POST"])
+    def watch(self, request, pk=None):
+        employee_id = request.user.id
+        if employee_id != None and not self.get_object().is_watcher(employee_id):
+            customer_watcher = CustomerWatcher.objects.create(customer = self.get_object(), employee = get_object_or_404(Employee, pk = employee_id))
+            customer_watcher.save()
+        return HttpResponse()
+
+    @action(detail = True, methods=["GET"])
+    def get_watchers(self, request, pk=None):
+        customer_watchers = CustomerWatcher.objects.filter(customer = pk)
+        employee_ids = list(customer_watchers.values_list('employee', flat=True))
+        return JsonResponse(employee_ids, safe=False)
+
+    @action(detail=True, methods=["POST"])
+    def add_owners(self, request, pk=None):
+        customer = self.get_object()
+        # Only owners or admins can add owners
+        if not (customer.is_owner(request.user.id) or request.user.is_superuser()):
+            return HttpResponseForbidden()
+        data = request.data
+        if type(data) != list:
+            raise ValidationError("Body must be a list of integers.")
+        for employee_id in request.data:
+            if type(employee_id) != int:
+                raise ValidationError("Body must be a list of integers.")
+        for employee_id in request.data:
+            if customer.is_owner(employee_id):
+                continue
+            customer_owner = CustomerOwner.objects.create(customer = customer, employee = get_object_or_404(Employee, pk = employee_id))
+            customer_owner.save()
+        return HttpResponse()
+    
+    @action(detail = True, methods=["GET"])
+    def get_owners(self, request, pk=None):
+        customer_owners = CustomerOwner.objects.filter(customer = pk)
+        employee_ids = list(customer_owners.values_list('employee', flat=True))
+        return JsonResponse(employee_ids, safe=False)
+    
+    def update_watchers(instance):
+        return
 
 class CustomerResource(resources.ModelResource):
 

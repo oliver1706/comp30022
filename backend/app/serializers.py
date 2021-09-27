@@ -1,4 +1,4 @@
-from app.models import Customer, Department, Employee, Invoice, Organisation
+from app.models import Customer, CustomerOwner, CustomerWatcher, Department, Employee, Invoice, Organisation
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from app.views.utils import update_department_id, update_organisation_id
@@ -105,6 +105,13 @@ class CustomerSerializer(serializers.ModelSerializer):
         update_department_id(customer, validated_data)
         update_organisation_id(customer, validated_data)
         customer.save()
+        employee_id = self.context["request"].user.id
+        if employee_id != None:
+            employee = Employee.objects.get(id = employee_id)
+            customer_owner = CustomerOwner.objects.create(customer = customer, employee = employee)
+            customer_owner.save()
+            customer_watcher = CustomerWatcher.objects.create(customer = customer, employee = employee)
+            customer_watcher.save()
         return customer
 
     def update(self, instance, validated_data):
@@ -116,6 +123,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get("email", instance.phone)
         instance.phone = validated_data.get("phone", instance.phone)
         instance.photo = validated_data.get("photo", instance.photo)
+        instance.save()
         return instance
 
     def validate_department(self, department_id):
