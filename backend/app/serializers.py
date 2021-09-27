@@ -46,6 +46,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
         user.first_name = validated_data.get("id", user.first_name).get("first_name", user.first_name)
         user.last_name = validated_data.get("id", user.last_name).get("last_name", user.last_name)
         user.email = validated_data.get("id", user.email).get("email", user.email)
+        user.save()
 
         instance.job_title = validated_data.get("job_title", instance.job_title)
         instance.phone = validated_data.get("phone", instance.phone)
@@ -78,6 +79,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
             pdf = validated_data.get("pdf"), customer = validated_data.get("customer"))
         invoice.employee = Employee.objects.get(id = self.context["request"].user.id)
         invoice.save()
+        validated_data.get("customer").update_watchers()
         return invoice
 
 
@@ -124,6 +126,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         instance.phone = validated_data.get("phone", instance.phone)
         instance.photo = validated_data.get("photo", instance.photo)
         instance.save()
+        instance.update_watchers()
         return instance
 
     def validate_department(self, department_id):

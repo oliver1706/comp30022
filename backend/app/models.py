@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db.models.deletion import CASCADE
 from django.utils.translation import gettext_lazy as _ 
 from import_export import resources
+from django.core.mail import send_mail
 
 class Department(models.Model):
     name = models.CharField(max_length=255, null = False, blank = False, unique= True)
@@ -32,6 +33,13 @@ class Customer(models.Model):
         return CustomerWatcher.objects.filter(customer = self.id, employee = employee_id).exists()
     def is_owner(self, employee_id):
         return CustomerOwner.objects.filter(customer = self.id, employee = employee_id).exists()
+    def update_watchers(self):
+        customer = self
+        customer_watchers = CustomerWatcher.objects.filter(customer = customer.id)
+        for customer_watcher in customer_watchers:
+            employee = customer_watcher.employee
+            send_mail('Customer ' + customer.first_name + ' ' + customer.last_name + ' has been updated!', 'Visit http://localhost:8000/app/customers/' + str(customer.id) + '/',
+            None, [employee.id.email], fail_silently=False)
     class Meta:
         db_table = "customer"
 
