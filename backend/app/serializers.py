@@ -70,8 +70,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
-        fields = ("customer", "employee", "total_due", "total_paid", "date_added", "date_due", "incoming", "description", "pdf")
-        extra_kwargs = {"customer": {"write_only": True}}
+        fields = ("id", "customer", "employee", "total_due", "total_paid", "date_added", "date_due", "incoming", "description", "pdf")
         
     def create(self, validated_data):
         invoice = Invoice.objects.create(total_due = validated_data.get("total_due"), total_paid = validated_data.get("total_paid"), date_added = validated_data.get("date_added"),
@@ -82,11 +81,17 @@ class InvoiceSerializer(serializers.ModelSerializer):
         validated_data.get("customer").update_watchers()
         return invoice
 
+    def update(self, instance, validated_data):
+        super(InvoiceSerializer, self).update(instance, validated_data)
+        instance.save()
+        instance.customer.update_watchers()
+        return instance
+
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields =  ("id", "description", "first_name", "last_name", "job_title", "email", "phone", "photo", "department", "department_name",
+        fields =  ("id", "description", "first_name", "last_name", "job_title", "gender", "tag", "email", "phone", "photo", "department", "department_name",
         "organisation", "organisation_name", "invoices")
     department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     department_name = serializers.CharField(source = "department.name", read_only = True, required = False)

@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.db.models.deletion import CASCADE
 from django.utils.translation import gettext_lazy as _ 
-from import_export import resources
+from django.core.validators import MinLengthValidator
 from django.core.mail import send_mail
 
 class Department(models.Model):
@@ -28,6 +28,8 @@ class Customer(models.Model):
     photo = models.ImageField(_("Image") ,upload_to="customers", default= "default.png", null = True, blank = True)
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     organisation = models.ForeignKey(Organisation, on_delete= models.SET_NULL, null = True)
+    tag = models.CharField(max_length=255, null = True, blank = True)
+    gender = models.CharField(max_length=1, validators=[MinLengthValidator(1)], null=True, blank=True)
 
     def is_watcher(self, employee_id):
         return CustomerWatcher.objects.filter(customer = self.id, employee = employee_id).exists()
