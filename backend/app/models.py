@@ -9,9 +9,6 @@ class Department(models.Model):
     class Meta:
         db_table = "department"
 
-class DepartmentResource(resources.ModelResource):
-    class Meta:
-        model = Department
 
 # Organisation a customer represents/is affiliated with
 class Organisation(models.Model):

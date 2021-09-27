@@ -14,56 +14,6 @@ class OrganisationSerializer(serializers.ModelSerializer):
         model = Organisation
         fields = '__all__'
 
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields =  ("id", "description", "first_name", "last_name", "job_title", "email", "phone", "photo", "department", "department_name",
-        "organisation", "organisation_name")
-    department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
-    department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
-    organisation = serializers.IntegerField(write_only = True, allow_null = True, required = False)
-    organisation_name = serializers.CharField(source = "organisation.name", read_only = True, required = False)
-
-    def create(self, validated_data):
-        customer = Customer.objects.create(description = validated_data.get("description"), first_name = validated_data.get("first_name"),
-            last_name = validated_data.get("last_name"), job_title = validated_data.get("job_title"), email = validated_data.get("email"),
-            phone = validated_data.get("phone"), photo = validated_data.get("photo"))
-        update_department_id(customer, validated_data)
-        update_organisation_id(customer, validated_data)
-        customer.save()
-        return customer
-
-    def update(self, instance, validated_data):
-        update_department_id(instance, validated_data)
-        update_organisation_id(instance, validated_data)
-        instance.first_name = validated_data.get("first_name", instance.phone)
-        instance.last_name = validated_data.get("last_name", instance.photo)
-        instance.job_title = validated_data.get("job_title", instance.job_title)
-        instance.email = validated_data.get("email", instance.phone)
-        instance.phone = validated_data.get("phone", instance.phone)
-        instance.photo = validated_data.get("photo", instance.photo)
-        return instance
-
-    def validate_department(self, department_id):
-        # Department_id is nullable
-        if department_id == None:
-            return
-        try:
-            Department.objects.get(id=department_id)
-        except Exception as e:
-            raise serializers.ValidationError(e)
-        return department_id
-
-    def validate_organisation(self, organisation_id):
-        # Department_id is nullable
-        if organisation_id == None:
-            return
-        try:
-            Organisation.objects.get(id=organisation_id)
-        except Exception as e:
-            raise serializers.ValidationError(e)
-        return organisation_id
-
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
@@ -123,11 +73,67 @@ class InvoiceSerializer(serializers.ModelSerializer):
         extra_kwargs = {"customer": {"write_only": True}}
         
     def create(self, validated_data):
-        print(validated_data)
-        print(self.context["request"])
         invoice = Invoice.objects.create(total_due = validated_data.get("total_due"), total_paid = validated_data.get("total_paid"), date_added = validated_data.get("date_added"),
             date_due = validated_data.get("date_due"), incoming = validated_data.get("incoming"), description = validated_data.get("description"), 
             pdf = validated_data.get("pdf"), customer = validated_data.get("customer"))
         invoice.employee = Employee.objects.get(id = self.context["request"].user.id)
         invoice.save()
         return invoice
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields =  ("id", "description", "first_name", "last_name", "job_title", "email", "phone", "photo", "department", "department_name",
+        "organisation", "organisation_name", "invoices")
+    department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
+    department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
+    organisation = serializers.IntegerField(write_only = True, allow_null = True, required = False)
+    organisation_name = serializers.CharField(source = "organisation.name", read_only = True, required = False)
+    invoices = serializers.SerializerMethodField()
+
+    def get_invoices(self, obj):
+        invoices = Invoice.objects.filter(customer=obj)
+        serializer = InvoiceSerializer(invoices, many=True)
+        return serializer.data
+
+
+    def create(self, validated_data):
+        customer = Customer.objects.create(description = validated_data.get("description"), first_name = validated_data.get("first_name"),
+            last_name = validated_data.get("last_name"), job_title = validated_data.get("job_title"), email = validated_data.get("email"),
+            phone = validated_data.get("phone"), photo = validated_data.get("photo"))
+        update_department_id(customer, validated_data)
+        update_organisation_id(customer, validated_data)
+        customer.save()
+        return customer
+
+    def update(self, instance, validated_data):
+        update_department_id(instance, validated_data)
+        update_organisation_id(instance, validated_data)
+        instance.first_name = validated_data.get("first_name", instance.phone)
+        instance.last_name = validated_data.get("last_name", instance.photo)
+        instance.job_title = validated_data.get("job_title", instance.job_title)
+        instance.email = validated_data.get("email", instance.phone)
+        instance.phone = validated_data.get("phone", instance.phone)
+        instance.photo = validated_data.get("photo", instance.photo)
+        return instance
+
+    def validate_department(self, department_id):
+        # Department_id is nullable
+        if department_id == None:
+            return
+        try:
+            Department.objects.get(id=department_id)
+        except Exception as e:
+            raise serializers.ValidationError(e)
+        return department_id
+
+    def validate_organisation(self, organisation_id):
+        # Department_id is nullable
+        if organisation_id == None:
+            return
+        try:
+            Organisation.objects.get(id=organisation_id)
+        except Exception as e:
+            raise serializers.ValidationError(e)
+        return organisation_id
