@@ -42,17 +42,40 @@ class CustomerViewSet(viewsets.ModelViewSet):
 class CustomerResource(resources.ModelResource):
 
     def import_obj(self, instance, row, dry_run, **kwargs):
+        # Call super
         super(CustomerResource, self).import_obj(instance, row, dry_run)
+        # If we have a non-null departments or organisations, either find or create it and assign to the instance
         department_name = row["department_name"]
         if department_name != None:
             department, _ = Department.objects.get_or_create(name = department_name)
             instance.department = department
+        organisation_name = row["organisation_name"]
+        if organisation_name != None:
+            organisation, _ = Department.objects.get_or_create(name = organisation_name)
+            instance.organisation = organisation
+        instance.save()
 
+        # Create all of the invoices
+        invoices = row["invoices"]
+        for i in invoices:        
+            invoice = Invoice.objects.create(customer = instance, **i)
+            invoice.save()
+
+    # We don't want any id, as this would override existing customers
+    id = fields.Field()
+    def dehydrate_id(self, obj):
+        return None
+
+    # Return json representation of invoices with no employee id
     invoices = fields.Field()
     def dehydrate_invoices(self, obj):
         invoices = Invoice.objects.filter(customer=obj)
         serializer = InvoiceSerializer(invoices, many=True)
-        return serializer.data
+        data = serializer.data
+        for invoice in data:
+            invoice["employee"] = None
+        return data
+
     department_name = fields.Field()
     def dehydrate_department_name(self, obj):
         department = obj.department
@@ -60,6 +83,14 @@ class CustomerResource(resources.ModelResource):
             return None
         else:
             return department.name
+
+    organisation_name = fields.Field()
+    def dehydrate_organisation_name(self, obj):
+        organisation = obj.organisation
+        if organisation == None:
+            return None
+        else:
+            return organisation.name
     class Meta:
         exclude = ('department', 'organisation')
         model = Customer
