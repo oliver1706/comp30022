@@ -67,6 +67,11 @@ class EmployeeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(e)
         return department_id
 
+class EmployeeIdsSerializer(serializers.Serializer):
+    class Meta:
+        fields = ('employee_ids')
+    employee_ids = serializers.ListField(child=serializers.IntegerField(), required = True)
+
 class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice

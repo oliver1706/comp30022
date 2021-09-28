@@ -1,12 +1,12 @@
-from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
-from app.serializers import CustomerSerializer, InvoiceSerializer
+from app.serializers import CustomerSerializer, EmployeeIdsSerializer, InvoiceSerializer
 from rest_framework import viewsets
 from app.models import Customer, CustomerOwner, CustomerWatcher, Department, Employee, Invoice
 from django.http.response import HttpResponse, HttpResponseForbidden, JsonResponse
 from import_export import fields, resources
 import tablib
 from rest_framework.decorators import action
+from drf_spectacular.utils import extend_schema
 from rest_framework.response import Response
 # Customer endpoints
 
@@ -48,39 +48,77 @@ class CustomerViewSet(viewsets.ModelViewSet):
             customer_watcher.save()
         return HttpResponse()
 
+    @action(detail=True, methods=["POST"])
+    def unwatch(self, request, pk=None):
+        employee_id = request.user.id
+        if employee_id != None and self.get_object().is_watcher(employee_id):
+            customer_watcher = CustomerWatcher.objects.get(customer = self.get_object(), employee = get_object_or_404(Employee, pk = employee_id))
+            customer_watcher.delete()
+        return HttpResponse()
+
     @action(detail = True, methods=["GET"])
     def get_watchers(self, request, pk=None):
         customer_watchers = CustomerWatcher.objects.filter(customer = pk)
         employee_ids = list(customer_watchers.values_list('employee', flat=True))
-        return JsonResponse(employee_ids, safe=False)
+        serializer = EmployeeIdsSerializer(data = {"employee_ids": employee_ids})
+        serializer.is_valid()
+        return JsonResponse(serializer.validated_data)
 
+    @extend_schema(
+        request=EmployeeIdsSerializer,
+        responses=EmployeeIdsSerializer
+        )
     @action(detail=True, methods=["POST"])
     def add_owners(self, request, pk=None):
         customer = self.get_object()
         # Only owners or admins can add owners
-        if not (customer.is_owner(request.user.id) or request.user.is_superuser()):
+        print(request.user)
+        if not (customer.is_owner(request.user.id) or request.user.is_superuser):
             return HttpResponseForbidden()
-        data = request.data
-        if type(data) != list:
-            raise ValidationError("Body must be a list of integers.")
-        for employee_id in request.data:
-            if type(employee_id) != int:
-                raise ValidationError("Body must be a list of integers.")
-        for employee_id in request.data:
-            if customer.is_owner(employee_id):
+        serializer = EmployeeIdsSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        print(serializer.validated_data)
+        for employee_id in serializer.validated_data.get("employee_ids"):
+            if not Employee.objects.filter(id = employee_id).exists() or customer.is_owner(employee_id):
                 continue
             customer_owner = CustomerOwner.objects.create(customer = customer, employee = get_object_or_404(Employee, pk = employee_id))
             customer_owner.save()
-        return HttpResponse()
+        current_owners = CustomerOwner.objects.filter(customer = pk).values_list('employee_id', flat=True)
+        serializer = EmployeeIdsSerializer(data = {"employee_ids": current_owners})
+        serializer.is_valid()
+        return JsonResponse(serializer.validated_data)
+    
+    @extend_schema(
+    request=EmployeeIdsSerializer,
+    responses=EmployeeIdsSerializer
+    )
+    @action(detail=True, methods=["POST"])
+    def remove_owners(self, request, pk=None):
+        customer = self.get_object()
+        # Only owners or admins can add owners
+        if not (customer.is_owner(request.user.id) or request.user.is_superuser):
+            return HttpResponseForbidden()
+        serializer = EmployeeIdsSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        print(serializer.validated_data)
+        for employee_id in serializer.validated_data.get("employee_ids"):
+            if not Employee.objects.filter(id = employee_id).exists() or not customer.is_owner(employee_id):
+                continue
+            customer_owner = CustomerOwner.objects.get(customer = customer, employee = get_object_or_404(Employee, pk = employee_id))
+            customer_owner.delete()
+        current_owners = CustomerOwner.objects.filter(customer = pk).values_list('employee_id', flat=True)
+        serializer = EmployeeIdsSerializer(data = {"employee_ids": current_owners})
+        serializer.is_valid()
+        return JsonResponse(serializer.validated_data)
     
     @action(detail = True, methods=["GET"])
     def get_owners(self, request, pk=None):
         customer_owners = CustomerOwner.objects.filter(customer = pk)
         employee_ids = list(customer_owners.values_list('employee', flat=True))
-        return JsonResponse(employee_ids, safe=False)
+        serializer = EmployeeIdsSerializer(data = {"employee_ids": employee_ids})
+        serializer.is_valid()
+        return JsonResponse(serializer.validated_data)
     
-    def update_watchers(instance):
-        return
 
 class CustomerResource(resources.ModelResource):
 
