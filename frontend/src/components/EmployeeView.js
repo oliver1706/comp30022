@@ -1,8 +1,8 @@
 
-import EmployeeModal from "../components/Modal.js"
+import EmployeeModal from '../components/Modal.js'
 import '../App.css';
 import React, { Component } from 'react';
-import axios from "axios";
+import axios from 'axios';
 import { 
   Button,
   ModalHeader,
@@ -19,14 +19,14 @@ export default class EmployeeView extends Component {
     super(props);
     this.state = {
       viewAll: true,
-      selection: "employees",
+      selection: 'employees',
       dataList: [],
       modal: false,
-      search: "",
+      search: '',
       activeItem: {
-        id: "",
-        job_title: "",
-        phone: ""
+        id: '',
+        job_title: '',
+        phone: ''
       },
 
     };
@@ -63,7 +63,7 @@ export default class EmployeeView extends Component {
     this.toggle();
 
     if (item.id) {
-      console.log("Item submitted");
+      console.log('Item submitted');
       axios
         .patch(`/app/employees/${item.id}/`, item)
         .then((res) => this.refreshList());
@@ -83,14 +83,14 @@ export default class EmployeeView extends Component {
 
   createItem = () => {
     const item = {
-                id: "", 
-                job_title: "",
-                phone: "",
-                username: "goon",
-                first_name: "",
-                last_name: "",
-                email: "company@company.com",
-                password: "default",
+                id: '', 
+                job_title: '',
+                phone: '',
+                username: 'goon',
+                first_name: '',
+                last_name: '',
+                email: 'company@company.com',
+                password: 'default',
                 department: null
               };
 
@@ -120,21 +120,21 @@ export default class EmployeeView extends Component {
     return allItems.map((item) => (
       <li
         key = {item.id}
-        className = "list-group-item d-flex justify-content-between align-items-center"
+        className = 'list-group-item d-flex justify-content-between align-items-center'
       >
         <span
-          className = "Employees"
+          className = 'Employees'
         >{item.id}: {item.first_name} {item.last_name} {item.job_title}  {item.phone}  {item.department}
         </span>
         <span>
           <button
-            className = "btn btn-secondary mr-2"
+            className = 'btn btn-secondary mr-2'
             onClick={() => this.editItem(item)}
           >
             Edit
           </button>
           <button
-            className="btn btn-danger"
+            className='btn btn-danger'
             onClick = {() => this.handleDelete(item)}
           >
             Delete
@@ -147,14 +147,14 @@ export default class EmployeeView extends Component {
   render() {
     
     return (
-      <main className = "container">
-        <h1 className= "text-white text-uppercase text-center my-4">Employee app</h1>
-        <div className = "row">
-          <div className = "col-md-20 col-sm-10 mx-auto p-0">
-            <div className = "card p-3">
-              <div className = "mb-4">
+      <main className = 'container'>
+        <h1 className= 'text-white text-uppercase text-center my-4'>Employee app</h1>
+        <div className = 'row'>
+          <div className = 'col-md-20 col-sm-10 mx-auto p-0'>
+            <div className = 'card p-3'>
+              <div className = 'mb-4'>
                 <button
-                  className = "btn btn-primary"
+                  className = 'btn btn-primary'
                   onClick = {this.createItem}
                 >
                   Add employee
@@ -164,16 +164,16 @@ export default class EmployeeView extends Component {
                 <FormGroup>
                   
                   <Input
-                    type="text"
-                    name="search"
+                    type='text'
+                    name='search'
                     value={this.state.search}
                     onChange={this.handleChange}
                     
-                    placeholder="Search"
+                    placeholder='Search'
                   />
                 </FormGroup>
               </Form>
-              <ul className = "list-group list-group-flush border-top-0">
+              <ul className = 'list-group list-group-flush border-top-0'>
                 {this.renderItems()}
               </ul>
             </div>
