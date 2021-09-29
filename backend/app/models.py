@@ -4,6 +4,7 @@ from django.db.models.deletion import CASCADE
 from django.utils.translation import gettext_lazy as _ 
 from django.core.validators import MinLengthValidator
 from django.core.mail import send_mail
+from django.core.validators import FileExtensionValidator
 
 class Department(models.Model):
     name = models.CharField(max_length=255, null = False, blank = False, unique= True)
@@ -69,6 +70,7 @@ class CustomerOwner(models.Model):
         db_table = "customer_owner"
         unique_together = ["customer", "employee"]
 
+
 class Invoice(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -78,7 +80,7 @@ class Invoice(models.Model):
     date_due = models.DateField(null = True, blank = True)
     incoming = models.BooleanField(null = False)
     description = models.CharField(max_length=255, null = False)
-    pdf = models.BinaryField(null = True, blank = True)
+    pdf = models.FileField(upload_to="invoice_pdf",validators=[FileExtensionValidator(['pdf'])], null = True, blank = True)
 
     class Meta:
         db_table = "invoice"
