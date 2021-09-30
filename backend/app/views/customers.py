@@ -8,6 +8,7 @@ import tablib
 from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema
 from rest_framework.response import Response
+from app.filters import CustomerFilter
 # Customer endpoints
 
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -15,7 +16,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
     search_fields = ['first_name', 'last_name']
-    filter_fields = ['description', 'first_name', 'last_name', 'job_title', 'gender', 'tag', 'email', 'phone', 'department__name', 'organisation__name']
+    filterset_class = CustomerFilter
     ordering_fields =['description', 'first_name', 'last_name', 'job_title', 'gender', 'tag', 'email', 'phone', 'department__name', 'organisation__name']
 
     @action(detail=True, methods = ['get'])
