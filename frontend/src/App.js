@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import Modal from "./components/Modal.js"
+
 import './App.css';
 import React, { Component } from 'react';
 import axios from "axios";
@@ -8,10 +8,12 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
 
-
+import Modal from "./components/Modal.js"
+import CustomerModal from "./components/CustomerModal"
 import Login from '../src/components/Login'
 import Home from '../src/components/Home'
 import EmployeeView from '../src/components/EmployeeView'
+import CustomerView from '../src/components/CustomerView'
 function App() {
   return (
     <div className="wrapper">
@@ -25,6 +27,9 @@ function App() {
           </Route>
           <Route path = '/employees'>
             <EmployeeView/>
+          </Route>
+          <Route path = '/customers'>
+            <CustomerView/>
           </Route>
         </Switch>
       </BrowserRouter>
