@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { Component } from "react";
 import {
   Button,
@@ -16,7 +17,23 @@ export default class CustomerModal extends Component {
     super(props);
     this.state = {
       activeItem: this.props.activeItem,
+      departments: [],
+      organisations: [],
     };
+  }
+
+  componentDidMount() {
+    this.refreshData();
+  };
+
+  refreshData() {
+    axios.get(`/app/departments/`)
+    .then((res) => this.setState({departments: res.data.results}))
+    .catch((err) => console.log(err));
+
+    axios.get(`/app/organisations/`)
+    .then((res) => this.setState({organisations: res.data.results}))
+    .catch((err) => console.log(err));
   }
 
   handleChange = (e) => {
@@ -28,6 +45,21 @@ export default class CustomerModal extends Component {
 
     this.setState({ activeItem });
   };
+
+  organisationSelection = () => {
+    const allOrganisations = this.state.departments;
+    
+    return allOrganisations.map((organisation) => (
+      <option value={organisation.id}>{organisation.name.name}</option>
+    ));
+  }
+  departmentSelection = () => {
+    const allDepartments = this.state.departments;
+    
+    return allDepartments.map((department) => (
+      <option value={department.id}>{department.name}</option>
+    ));
+  }
 
   render() {
     const { toggle, onSave } = this.props;
@@ -47,15 +79,15 @@ export default class CustomerModal extends Component {
                 placeholder="Enter Customer Description"
               />
             </FormGroup>
-              <FormGroup>
-                  <Label for="first_name">First Name</Label>
-                  <Input
-                    type="text"
-                    name="first_name"
-                    value={this.state.activeItem.first_name}
-                    onChange={this.handleChange}
-                    placeholder="Enter Customer/Rep First Name"
-                  />
+            <FormGroup>
+                <Label for="first_name">First Name</Label>
+                <Input
+                  type="text"
+                  name="first_name"
+                  value={this.state.activeItem.first_name}
+                  onChange={this.handleChange}
+                  placeholder="Enter Customer/Rep First Name"
+                />
               </FormGroup>
               <FormGroup>
                   <Label for="last_name">Last Name</Label>
@@ -98,34 +130,24 @@ export default class CustomerModal extends Component {
                   />
               </FormGroup>
               <FormGroup>
-                  <Label for="photo">photo</Label>
-                  <Input
-                    type="file"
-                    name="photo"
-                    value={this.state.activeItem.photo}
-                    onChange={this.handleChange}
-                    //placeholder={this.state.activeItem.photo}
-                  />
-              </FormGroup>
-              <FormGroup>
                   <Label for="department">Department</Label>
-                  <Input
-                    type="text"
-                    name="Department"
+                  <select 
+                    name = "department"
                     value={this.state.activeItem.department}
                     onChange={this.handleChange}
-                    placeholder="Department Blank if Not Applicable"
-                  />
+                    placeholder="Select a Department">
+                    {this.departmentSelection()}
+                </select>
               </FormGroup>
               <FormGroup>
                   <Label for="organisation">Organisation</Label>
-                  <Input
-                    type="text"
-                    name="organisation"
+                  <select 
+                    name = "organisation"
                     value={this.state.activeItem.organisation}
                     onChange={this.handleChange}
-                    placeholder="Enter Organisation"
-                  />
+                    placeholder="Select an Organisation">
+                    {this.organisationSelection()}
+                </select>
               </FormGroup>
               <FormGroup>
                   <Label for="tag">Tags</Label>
@@ -140,7 +162,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="gender">Gender</Label>
                   <select onChange={this.handleChange}
-                          value={this.state.activeItem.gender || ''}>
+                          value={this.state.activeItem.gender}>
                       <option value="M">Male</option>
                       <option value="F">Female</option>
                       <option value="N">Non-Binary</option>

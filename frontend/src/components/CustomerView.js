@@ -24,9 +24,15 @@ export default class CustomerView extends Component {
       modal: false,
       search: '',
       activeItem: {
-        id: '',
-        job_title: '',
-        phone: ''
+        first_name : "",
+        last_name : "",
+        email : "",
+        job_title : "",
+        phone : "",
+        department : "",
+        organisation : "",
+        tag : "",
+        gender : null
       },
 
     };
@@ -88,9 +94,8 @@ export default class CustomerView extends Component {
                 email : "",
                 job_title : "",
                 phone : "",
-                photo : "",
                 department : "",
-                organisation : "",
+                organisation : null,
                 tag : "",
                 gender : null
               };
