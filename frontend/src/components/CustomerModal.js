@@ -21,7 +21,9 @@ export default class CustomerModal extends Component {
 
   handleChange = (e) => {
     let { name, value } = e.target;
-
+    if (value == '') {
+      value = null;
+    }
     const activeItem = { ...this.state.activeItem, [name]: value };
 
     this.setState({ activeItem });
@@ -45,8 +47,6 @@ export default class CustomerModal extends Component {
                 placeholder="Enter Customer Description"
               />
             </FormGroup>
-          </Form>
-          <Form>
               <FormGroup>
                   <Label for="first_name">First Name</Label>
                   <Input
@@ -57,8 +57,6 @@ export default class CustomerModal extends Component {
                     placeholder="Enter Customer/Rep First Name"
                   />
               </FormGroup>
-          </Form>
-          <Form>
               <FormGroup>
                   <Label for="last_name">Last Name</Label>
                   <Input
@@ -106,7 +104,7 @@ export default class CustomerModal extends Component {
                     name="photo"
                     value={this.state.activeItem.photo}
                     onChange={this.handleChange}
-                    placeholder="Upload Image"
+                    //placeholder={this.state.activeItem.photo}
                   />
               </FormGroup>
               <FormGroup>
@@ -141,10 +139,12 @@ export default class CustomerModal extends Component {
               </FormGroup>
               <FormGroup>
                   <Label for="gender">Gender</Label>
-                  <select value={this.state.activeItem.gender} onChange={this.handleChange}>
+                  <select onChange={this.handleChange}
+                          value={this.state.activeItem.gender || ''}>
                       <option value="M">Male</option>
                       <option value="F">Female</option>
                       <option value="N">Non-Binary</option>
+                      <option value=''>Not Applicable</option>
                   </select>
               </FormGroup>
           </Form>
@@ -161,3 +161,4 @@ export default class CustomerModal extends Component {
     );
   }
 }
+

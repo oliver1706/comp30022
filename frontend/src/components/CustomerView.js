@@ -192,4 +192,3 @@ export default class CustomerView extends Component {
     )
   };
 }
-

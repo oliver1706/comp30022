@@ -24,9 +24,15 @@ export default class EmployeeView extends Component {
       modal: false,
       search: '',
       activeItem: {
-        id: '',
+        id: '', 
         job_title: '',
-        phone: ''
+        phone: '',
+        username: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        department: ''
       },
 
     };
@@ -35,13 +41,12 @@ export default class EmployeeView extends Component {
   };
 
   componentDidMount() {
-    console.log(`Search is: ${this.state.search}`);
     this.refreshList();
   };
 
   refreshList = () => {
-    console.log(`Search is: ${this.state.search}`);
-    if(this.state.search.length != 0) {
+
+    if(this.state.search.length !== 0) {
         axios.get(`/app/${this.state.selection}/?search=${this.state.search}`)
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
@@ -59,7 +64,6 @@ export default class EmployeeView extends Component {
 
   handleSubmit = (item) => {
 
-    console.log(item)
     this.toggle();
 
     if (item.id) {
@@ -70,12 +74,11 @@ export default class EmployeeView extends Component {
       return;
     }
     axios
-      .post(`/app/$${this.state.selection}/`, item)
+      .post(`/app/${this.state.selection}/`, item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
-    
     axios
       .delete(`/app/employees/${item.id}/`)
       .then((res) => this.refreshList());
@@ -86,12 +89,12 @@ export default class EmployeeView extends Component {
                 id: '', 
                 job_title: '',
                 phone: '',
-                username: 'goon',
+                username: '',
                 first_name: '',
                 last_name: '',
                 email: 'company@company.com',
                 password: 'default',
-                department: null
+                department: ''
               };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
@@ -112,7 +115,6 @@ export default class EmployeeView extends Component {
   handleChange = (e) => {
     const target = e.target;
     this.setState({ search: target.value }, () => {this.refreshList()});
-    console.log(`Goopity Moop ${target.value} vs ${this.state.search}`);
   };
 
   renderItems = () => {
@@ -150,7 +152,7 @@ export default class EmployeeView extends Component {
       <main className = 'container'>
         <h1 className= 'text-white text-uppercase text-center my-4'>Employee app</h1>
         <div className = 'row'>
-          <div className = 'col-md-20 col-sm-10 mx-auto p-0'>
+          <div className = 'col-md-30 col-sm-10 mx-auto p-0'>
             <div className = 'card p-3'>
               <div className = 'mb-4'>
                 <button

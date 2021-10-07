@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { Component } from "react";
 import {
   Button,
@@ -16,7 +17,18 @@ export default class EmployeeModal extends Component {
     super(props);
     this.state = {
       activeItem: this.props.activeItem,
+      departments: [],
     };
+  }
+
+  componentDidMount() {
+    this.refreshData();
+  };
+
+  refreshData() {
+    axios.get(`/app/departments/`)
+    .then((res) => this.setState({departments: res.data.results}))
+    .catch((err) => console.log(err));
   }
 
   handleChange = (e) => {
@@ -27,6 +39,14 @@ export default class EmployeeModal extends Component {
     this.setState({ activeItem });
   };
 
+  departmentSelection = () => {
+    const allDepartments = this.state.departments;
+    
+    return allDepartments.map((department) => (
+      <option value={department.id}>{department.name}</option>
+    ));
+  }
+
   render() {
     const { toggle, onSave } = this.props;
 
@@ -35,14 +55,14 @@ export default class EmployeeModal extends Component {
         <ModalHeader toggle={toggle}>Employee</ModalHeader>
         <ModalBody>
           <Form>
-            <FormGroup>
-              <Label for="id">Id</Label>
+          <FormGroup>
+              <Label for="user_name">Username</Label>
               <Input
                 type="text"
-                name="id"
-                value={this.state.activeItem.id}
+                name="username"
+                value={this.state.activeItem.username}
                 onChange={this.handleChange}
-                placeholder="Enter Employee Id/Name"
+                placeholder="Enter Employee Username"
               />
             </FormGroup>
             <FormGroup>
@@ -87,13 +107,14 @@ export default class EmployeeModal extends Component {
             </FormGroup>
             <FormGroup>
               <Label for="department">Department</Label>
-              <Input
-                type="text"
-                name="department"
+              
+              <select 
+                name = "department"
                 value={this.state.activeItem.department}
                 onChange={this.handleChange}
-                placeholder="Enter Employee Department"
-                />
+                placeholder="Select a Department">
+                {this.departmentSelection()}
+              </select>
             </FormGroup>
           </Form>
         </ModalBody>
