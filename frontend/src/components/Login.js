@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Component, useState} from 'react';
 import styles from '../css/login.module.css';
 import logo from "../images/logo.jpg";
 
@@ -6,8 +6,8 @@ import { Redirect, BrowserRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Home from './Home';
 
+
 async function loginUser(credentials) {
-    let mounted = true
     return fetch(`/app/accounts/login/`, {
       method: 'POST',
       headers: {
@@ -21,31 +21,46 @@ async function loginUser(credentials) {
 
 
 
-export default function Login({ setToken }) {
-    const [username, setUserName] = useState();
-    const [password, setPassword] = useState();
+export default function Login({ setToken }, mounted) {
+    const [username, setUserName] = useState(null);
+    const [password, setPassword] = useState(null);
 
     const handleSubmit = async e => {
+      console.log(mounted);
+      mounted = true;
         e.preventDefault();
         const key = await loginUser({
           username,
           password
         });
-        setToken(key);
+        if (mounted) {
+          setToken(key);
+        }
+        
+        mounted = false;
+        console.log(mounted);
+
+
+
     }
     return (
       <div>
-    <form onSubmit={handleSubmit}>
+        <div id = 'logo' className = {styles.logo}>
+          <img src = {logo} alt = "logo" className = {styles.largeLogo}/>
+        </div>
+
+    <form onSubmit={handleSubmit} className = {styles.loginCredentials}>
+
     <label>
-      <p>Username</p>
-      <input type="text" onChange={e => setUserName(e.target.value)}/>
+      <p className = {styles.text}>Username</p>
+      <input placeholder = 'username' className = {styles.input} type="text" onChange={e => setUserName(e.target.value)}/>
     </label>
     <label>
-      <p>Password</p>
-      <input type="password" onChange={e => setPassword(e.target.value)}/>
+      <p className = {styles.text}>Password</p>
+      <input placeholder = 'password' className = {styles.input} type="password" onChange={e => setPassword(e.target.value)}/>
     </label>
     <div>
-      <button type="submit">Submit</button>
+      <button className = {styles.loginButton}   type="submit">Login</button>
     </div>
   </form>
   </div>
@@ -55,3 +70,4 @@ export default function Login({ setToken }) {
 Login.propTypes = {
     setToken: PropTypes.func.isRequired
   }
+

@@ -15,17 +15,17 @@ import Home from '../src/components/Home'
 import EmployeeView from '../src/components/EmployeeView'
 
 
-
+const mounted = true;
 
 function App() {
+  // need a way to say this is my first time rendering, so don't have to check mounted before rendering
   
   const { key, setToken } = useToken();
 
-// this is always true even when we have a token in session storage
-
+  console.log(mounted);
+  
   if(!key) {
-    console.log("YUhhhh")
-    return <Login setToken={setToken} />
+    return (mounted && <Login setToken={setToken} mounted = {mounted} />)
   }
 
   return (

@@ -6,7 +6,7 @@ export default function useToken() {
       const userToken = JSON.parse(tokenString);
       return userToken?.key
     };
-  
+    
     const [key, setToken] = useState(getToken());
   
     const saveToken = userToken => {

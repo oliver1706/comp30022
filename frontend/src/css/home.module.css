@@ -1,13 +1,113 @@
-.row {
+:root {
+  --mainColour: #1B496A;
+  --secondaryColour: #F49E8F;
+}
+
+.dashboard {
     width: 100%;
+    height: 85px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-  }
-  .block {
-    width: 100px;
+    background-color: var(--mainColour);
   }
 
-  .smallLogo {
-      size: 10cm;
+  .search {
+    width: 90%;
+    height: 60px;
+    margin-top: 10%;
+    margin-bottom: auto;
+    margin-left: 4%;
+    margin-right: auto;
+    font-family: 'Font Awesome 5 Free';
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
   }
+  .heading {
+    width: 90%;
+    height: 80px;
+    margin-left: 4%;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .block {
+    width: 100%;
+    
+    
+  }
+  .smallLogo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    background-size: 0%;
+
+}
+
+.dashButton {
+    color: var(--secondaryColour) ;
+    background-color: transparent;
+    font-size: 180%;
+    margin-right: 15%;
+    border: var(--mainColour);
+    font-weight: 100;
+    
+}
+
+.button {
+  color: var(--mainColour) ;
+  background-color: white;
+  font-size: larger;
+  margin-left: 4%;
+  margin-right: auto;
+  border: white;
+  font-size: 150%;
+}
+.icons {
+  width: 80%;
+  height: 70%;
+  margin-right: 15%;
+  margin-left: auto;
+  margin-top: 6%;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.logo {
+  width: 30%;
+  height: 70%;
+  margin-right: auto;
+  margin-left: 10%;
+  margin-top: 8%;
+  margin-bottom: auto;
+  background-color: var(--mainColour);
+}
+
+input {
+  border-radius: 9px;
+  margin-left: 5%;
+  margin-right: 10%;
+  width: 90%;
+  height: auto;
+
+}
+
+.header {
+  color: var(--mainColour);
+  font-size: 150%;
+  margin-top: 8%;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: 18%;
+}
+
+

@@ -4,6 +4,8 @@ npm install axios
 npm install bootstrap@4.6.0 reactstrap@8.9.0 --legacy-peer-deps
 npm install react-router-dom
 
+npm install react-icons
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
