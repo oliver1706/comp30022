@@ -15,6 +15,7 @@ import Home from '../src/components/Home'
 import EmployeeView from '../src/components/EmployeeView'
 import CustomerView from '../src/components/CustomerView'
 import CustomerInvoices from '../src/components/CustomerInvoices'
+import DepartmentAndOrganisationView from './components/DepartmentAndOrganisationView'
 function App() {
   return (
     <div className="wrapper">
@@ -34,6 +35,12 @@ function App() {
           </Route>
           <Route path = '/invoicetest'>
             <CustomerInvoices customerId={8}/>
+          </Route>
+          <Route path = '/departments'>
+            <DepartmentAndOrganisationView selection='department'/>
+          </Route>
+          <Route path = '/organisations'>
+            <DepartmentAndOrganisationView selection='organisation'/>
           </Route>
         </Switch>
       </BrowserRouter>
