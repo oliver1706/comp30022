@@ -1,5 +1,6 @@
 
-import EmployeeModal from '../components/Modal.js'
+import EmployeeModal from '../components/Modal.js';
+import FieldPopUp from '../components/FieldPopUp.js';
 import '../App.css';
 import React, { Component } from 'react';
 import axios from 'axios';
@@ -22,6 +23,11 @@ export default class EmployeeView extends Component {
       selection: 'employees',
       dataList: [],
       modal: false,
+      search: '',
+      searchToggle: false,
+      sortToggle: false,
+      searchOn: '',
+      sortBy: '',
       search: '',
       activeItem: {
         id: '', 
@@ -46,13 +52,21 @@ export default class EmployeeView extends Component {
 
   refreshList = () => {
 
-    if(this.state.search.length !== 0) {
-        axios.get(`/app/${this.state.selection}/?search=${this.state.search}`)
+    console.log(`Search is: ${this.state.search}`);
+    console.log(`Sort is: ${this.state.sortBy}`)
+    if(this.state.search.length != 0) {
+        if(this.state.searchOn.length != 0) {
+          axios.get(`/app/${this.state.selection}/?${this.state.sortBy}${this.state.searchOn}=${this.state.search}`)
+          .then((res) => this.setState({dataList: res.data.results}))
+          .catch((err) => console.log(err));
+        } else {
+        axios.get(`/app/${this.state.selection}/?${this.state.sortBy}search=${this.state.search}`)
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
+        }
     } else {
       axios
-        .get(`/app/${this.state.selection}/`)
+        .get(`/app/${this.state.selection}/?${this.state.sortBy}`)
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
     }
@@ -104,12 +118,28 @@ export default class EmployeeView extends Component {
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
 
-  displayAll = (status) => {
-    if (status) {
-      return this.setState({ viewAll: true });
-    } else {
-      return this.setState({ viewAll: false});
-    }
+  toggleSearchBy = () => {
+    this.setState({ searchToggle: !this.state.searchToggle});
+  }
+
+  updateSearch = (e) => {
+    console.log(e);
+    this.toggleSearchBy();
+    
+    this.setState({searchOn: e}, this.refreshList());
+
+  }
+
+  toggleSortBy = () => {
+    this.setState({sortToggle: !this.state.sortToggle});
+  }
+
+  updateSort = (e) => {
+    console.log(e)
+    const sortString = `ordering=${e}&`;
+    console.log(`sortString is: ${sortString}`)
+    this.toggleSortBy();
+    this.setState({sortBy: sortString}, () => this.refreshList());
   }
 
   handleChange = (e) => {
@@ -161,6 +191,18 @@ export default class EmployeeView extends Component {
                 >
                   Add employee
                 </button>
+                <button
+                  className = 'btn btn-primary'
+                  onClick = {this.toggleSearchBy}
+                >
+                  Search On
+                </button>
+                <button
+                  className = 'btn btn-primary'
+                  onClick = {this.toggleSortBy}
+                >
+                  Sort By
+                </button>
               </div>
               <Form onSubmit={e => { e.preventDefault();}}>
                 <FormGroup>
@@ -188,6 +230,21 @@ export default class EmployeeView extends Component {
             toggle = {this.toggle}
             onSave = {this.handleSubmit}
             />
+        ) : null}
+        {this.state.searchToggle ? (
+          <FieldPopUp
+          allFields = {['', 'phone']}
+          defaultField = {this.state.searchOn}
+          toggle = {this.toggleSearchBy}
+          onSave = {this.updateSearch}
+          />
+        ) : null}
+        {this.state.sortToggle ? (
+          <FieldPopUp
+          allFields = {['', 'phone']}
+          toggle = {this.toggleSortBy}
+          onSave = {this.updateSort}
+          />
         ) : null}
       </main>
     )

@@ -234,14 +234,6 @@ export default class CustomerView extends Component {
             </div>
           </div>
         </div>
-        {this.state.searchToggle ? (
-          <FieldPopUp
-          allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
-          defaultField = {this.state.searchOn}
-          toggle = {this.state.searchToggle}
-          onSave = {this.updateSearch}
-          />
-        ) : null}
         {this.state.modal ? (
           <CustomerModal
             activeItem = {this.state.activeItem}
@@ -249,10 +241,18 @@ export default class CustomerView extends Component {
             onSave = {this.handleSubmit}
             />
         ) : null}
+        {this.state.searchToggle ? (
+          <FieldPopUp
+          allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
+          defaultField = {this.state.searchOn}
+          toggle = {this.toggleSearchBy}
+          onSave = {this.updateSearch}
+          />
+        ) : null}
         {this.state.sortToggle ? (
           <FieldPopUp
           allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
-          toggle = {this.state.sortToggle}
+          toggle = {this.toggleSortBy}
           onSave = {this.updateSort}
           />
         ) : null}
