@@ -1,6 +1,7 @@
 
 import CustomerModal from '../components/CustomerModal.js'
 import '../App.css';
+import SortByPopUp from '../components/SortByPopUp';
 import React, { Component } from 'react';
 import axios from 'axios';
 import { 
@@ -22,6 +23,8 @@ export default class CustomerView extends Component {
       selection: 'customers',
       dataList: [],
       modal: false,
+      sortBy: false,
+      searchOn: '',
       search: '',
       activeItem: {
         first_name : "",
@@ -48,9 +51,15 @@ export default class CustomerView extends Component {
   refreshList = () => {
     console.log(`Search is: ${this.state.search}`);
     if(this.state.search.length != 0) {
+        if(this.state.searchOn.length != 0) {
+          axios.get(`/app/${this.state.selection}/?${this.state.searchOn}=${this.state.search}`)
+          .then((res) => this.setState({dataList: res.data.results}))
+          .catch((err) => console.log(err));
+        } else {
         axios.get(`/app/${this.state.selection}/?search=${this.state.search}`)
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
+        }
     } else {
       axios
         .get(`/app/${this.state.selection}/`)
@@ -62,6 +71,10 @@ export default class CustomerView extends Component {
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
+
+  toggleSortBy = () => {
+    this.setState({ sortBy: !this.state.sortBy});
+  }
 
   handleSubmit = (item) => {
 
@@ -79,6 +92,10 @@ export default class CustomerView extends Component {
       .post(`/app/${this.state.selection}/`, item)
       .then((res) => this.refreshList());
   };
+
+  updateSearch = (field) => {
+    console.log(field);
+  }
 
   handleDelete = (item) => {
     
@@ -120,6 +137,12 @@ export default class CustomerView extends Component {
     this.setState({ search: target.value }, () => {this.refreshList()});
     console.log(`Goopity Moop ${target.value} vs ${this.state.search}`);
   };
+
+  updateSearch = (e) => {
+    console.log(e);
+    this.toggleSortBy();
+    this.setState({searchOn: e});
+  }
 
   renderItems = () => {
     const allItems = this.state.dataList;
@@ -165,6 +188,12 @@ export default class CustomerView extends Component {
                 >
                   Add Customer
                 </button>
+                <button
+                  className = 'btn btn-primary'
+                  onClick = {this.toggleSortBy}
+                >
+                  Sort By
+                </button>
               </div>
               <Form onSubmit={e => { e.preventDefault();}}>
                 <FormGroup>
@@ -185,7 +214,14 @@ export default class CustomerView extends Component {
             </div>
           </div>
         </div>
-        
+        {this.state.sortBy ? (
+          <SortByPopUp
+          allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
+          defaultField = {this.state.searchOn}
+          toggle = {this.state.sortBy}
+          onSave = {this.updateSearch}
+          />
+        ) : null}
         {this.state.modal ? (
           <CustomerModal
             activeItem = {this.state.activeItem}

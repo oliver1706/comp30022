@@ -16,22 +16,19 @@ export default class CustomerModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        allFields = props.searchFields,
-        selectedField = props.selectedField,
+      selectedField: props.defaultField
     };
   }
 
   handleChange = (e) => {
     console.log(e);
-    //let { name, value } = e.target;
-    
-    //const newField = { ...this.state.activeItem, [name]: value };
+    const { value } = e.target;
 
-    //this.setState({ activeItem });
+    this.setState({selectedField: value})
   };
 
   fieldSelection = () => {
-    const fields = this.state.allFields;
+    const fields = this.props.allFields;
 
     return fields.map((field) => (
       <option value={field}>{field}</option>
@@ -40,7 +37,8 @@ export default class CustomerModal extends Component {
 
   render() {
     const { toggle, onSave } = this.props;
-
+    const field = this.state.selectedField;
+    console.log(this.state.selectedField);
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader toggle={toggle}>Sort By</ModalHeader>
@@ -50,7 +48,7 @@ export default class CustomerModal extends Component {
               <Label for="searchFields">Search Fields</Label>
               <select 
                 name = "selectedField"
-                value={this.state.selectedField}
+                value={field}
                 onChange={this.handleChange}
                 placeholder="Search by...">
                   {this.fieldSelection()}
@@ -61,7 +59,7 @@ export default class CustomerModal extends Component {
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => onSave(this.state.activeItem)}
+            onClick={() => onSave(field)}
             >
               Save
             </Button>
