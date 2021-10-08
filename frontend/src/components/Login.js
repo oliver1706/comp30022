@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import styles from '../css/login.module.css';
 import logo from "../images/logo.jpg";
 
@@ -16,33 +16,32 @@ async function loginUser(credentials) {
       body: JSON.stringify(credentials)
     })
       .then(data => data.json())
+   }
 
+   function refreshPage() {
+     window.location.reload(false);
    }
 
 
-
-export default function Login({ setToken }, mounted) {
+export default function Login({ setToken }) { 
     const [username, setUserName] = useState(null);
     const [password, setPassword] = useState(null);
+    
+
 
     const handleSubmit = async e => {
-      console.log(mounted);
-      mounted = true;
+        let mounted = true;
         e.preventDefault();
         const key = await loginUser({
           username,
           password
         });
-        if (mounted) {
-          setToken(key);
-        }
-        
-        mounted = false;
-        console.log(mounted);
-
+        setToken(key);
+        refreshPage();
 
 
     }
+
     return (
       <div>
         <div id = 'logo' className = {styles.logo}>
