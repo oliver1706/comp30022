@@ -143,8 +143,8 @@ export default class CustomerView extends Component {
     console.log(e);
     this.toggleSearchBy();
     
-    this.setState({searchOn: e});
-    this.refreshList();
+    this.setState({searchOn: e}, this.refreshList());
+
   }
 
   toggleSortBy = () => {
@@ -156,7 +156,7 @@ export default class CustomerView extends Component {
     const sortString = `ordering=${e}&`;
     console.log(`sortString is: ${sortString}`)
     this.toggleSortBy();
-    this.setState({sortBy: sortString}, () =>this.refreshList());
+    this.setState({sortBy: sortString}, () => this.refreshList());
   }
 
   renderItems = () => {
