@@ -1,28 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styles from '../css/home.module.css';
 import sidebar from '../css/sidebar.module.css'
 import logo from "../images/logo.jpg";
 
+import Menu from'./Menu.js';
+
 import {FaHome, FaPlus, FaBars,FaSearch, FaFilter,FaSortAmountUp } from 'react-icons/fa';
 import axios from 'axios';
+import useToken from '../useToken';
 
 
-export function getCustomers() {
-  return  fetch(`app/customers/`)
-  .then (data=> data.json)
-} 
-
-/*
-async function logout() {
-  axios.post(`app/accounts/logout/`);
-  sessionStorage.removeItem("key");
-  window.location.reload(false);
+export default class Home extends Component {
+  constructor(props, context) {
+    super();
+   
+    this.state = {
+      visible: false
+    };
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
+  }
+  handleMouseDown(e) {
+    console.log('Menu button clicked');
+    this.toggleMenu();
+ 
+    console.log("clicked");
+    e.stopPropagation();
+  }
+   
+  toggleMenu() {
+    this.setState({
+        visible: !this.state.visible
+    });
+  }
+ 
+toggleMenu() {
+  this.setState({
+      visible: !this.state.visible
+  });
 }
 
-*/
-
-export default function Home() {
-  console.log(getCustomers());
+  render() {
   return (
     <section id = 'HomeScreen'>
       <div id = 'main'>
@@ -38,7 +56,7 @@ export default function Home() {
           <div id = 'icons' className = {styles.icons}> 
           <button className = {styles.dashButton}> <FaPlus/>  </button>
           <button className = {styles.dashButton}> <FaHome/>  </button>
-          <button className = {styles.dashButton} onClick = {openNav}> <FaBars/>  </button>
+          <button onClick = {this.handleMouseDown} className = {styles.dashButton}> <FaBars/>  </button>
           </div>
         </div>
       </div>
@@ -55,28 +73,12 @@ export default function Home() {
 
       </div>
 
-      <div id="mySidebar" className = {sidebar}>
-        <a href="javascript:void(0)" class="closebtn" onClick= {closeNav}>Close</a>
-        <a>Logout</a>
-        <a href="#">View Profile</a>
-      </div>
-
-      
+      <Menu handleMouseDown={this.handleMouseDown}
+          menuVisibility={this.state.visible}/>
 
 
     </section>
 
   );
-}
-
-/* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-function openNav() {
-  document.getElementById("mySidebar").style.width = "350px";
-  document.getElementById("main").style.marginRight = "250px";
-}
-
-/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-function closeNav() {
-  document.getElementById("mySidebar").style.width = "0";
-  document.getElementById("main").style.marginLeft = "0";
+  }
 }
