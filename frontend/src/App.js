@@ -8,13 +8,14 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
 
-import Modal from "./components/Modal.js"
+import EmployeeModal from "./components/EmployeeModal.js"
 import CustomerModal from "./components/CustomerModal"
 import Login from '../src/components/Login'
 import Home from '../src/components/Home'
 import EmployeeView from '../src/components/EmployeeView'
 import CustomerView from '../src/components/CustomerView'
 import CustomerInvoices from '../src/components/CustomerInvoices'
+import CustomerStatistics from '../src/components/CustomerStatistics'
 import DepartmentAndOrganisationView from './components/DepartmentAndOrganisationView'
 function App() {
   return (
@@ -41,6 +42,9 @@ function App() {
           </Route>
           <Route path = '/organisations'>
             <DepartmentAndOrganisationView selection='organisation'/>
+          </Route>
+          <Route path = '/viewplot'>
+            <CustomerStatistics/>
           </Route>
         </Switch>
       </BrowserRouter>
