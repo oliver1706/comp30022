@@ -23,11 +23,15 @@ export default class CustomerView extends Component {
       selection: 'customers',
       dataList: [],
       modal: false,
+      search: '',
       searchToggle: false,
       sortToggle: false,
-      searchOn: '',
+      searchOn: 'search', //Default, searches all searchable fields
       sortBy: '',
-      search: '',
+
+      pageNum: 1,
+      next: null,
+      previous: null,
       activeItem: {
         first_name : "",
         last_name : "",
@@ -42,6 +46,8 @@ export default class CustomerView extends Component {
 
     };
     this.handleChange.bind(this);
+    this.nextPage.bind(this);
+    this.prevPage.bind(this);
 
   };
 
@@ -51,24 +57,19 @@ export default class CustomerView extends Component {
   };
 
   refreshList = () => {
+
     console.log(`Search is: ${this.state.search}`);
-    console.log(`Sort is: ${this.state.sortBy}`)
-    if(this.state.search.length != 0) {
-        if(this.state.searchOn.length != 0) {
-          axios.get(`/app/${this.state.selection}/?${this.state.sortBy}${this.state.searchOn}=${this.state.search}`)
-          .then((res) => this.setState({dataList: res.data.results}))
-          .catch((err) => console.log(err));
-        } else {
-        axios.get(`/app/${this.state.selection}/?${this.state.sortBy}search=${this.state.search}`)
-        .then((res) => this.setState({dataList: res.data.results}))
-        .catch((err) => console.log(err));
-        }
-    } else {
-      axios
-        .get(`/app/${this.state.selection}/?${this.state.sortBy}`)
-        .then((res) => this.setState({dataList: res.data.results}))
-        .catch((err) => console.log(err));
-    }
+    console.log(`Searching on: ${this.state.searchOn}`);
+    console.log(`Sort is: ${this.state.sortBy}`);
+    console.log(`Asking for page ${this.state.pageNum}`);
+
+    axios
+      .get(`/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`)
+      .then((res) => this.setState({dataList: res.data.results,
+                                    next: res.data.next,
+                                    previous: res.data.previous}),() => {console.log(`/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`)})
+      .catch((err) => console.log(err));
+
   };
 
   
@@ -128,7 +129,7 @@ export default class CustomerView extends Component {
   handleChange = (e) => {
     const target = e.target;
     this.setState({ search: target.value }, () => {this.refreshList()});
-    console.log(`Goopity Moop ${target.value} vs ${this.state.search}`);
+    console.log(`Desired ${target.value} vs Current ${this.state.search}`);
   };
 
   toggle = () => {
@@ -157,6 +158,20 @@ export default class CustomerView extends Component {
     console.log(`sortString is: ${sortString}`)
     this.toggleSortBy();
     this.setState({sortBy: sortString}, () => this.refreshList());
+  }
+
+  nextPage = () => {
+    const currPage = this.state.pageNum;
+    if(this.state.next){
+      this.setState({pageNum: currPage + 1}, () => {this.refreshList()});
+    }
+  }
+
+  prevPage = () => {
+    const currPage = this.state.pageNum;
+    if(this.state.previous) {
+      this.setState({pageNum: currPage - 1}, () => {this.refreshList()});
+    }
   }
 
   renderItems = () => {
@@ -215,6 +230,20 @@ export default class CustomerView extends Component {
                 >
                   Sort By
                 </button>
+                {this.state.next ? (
+                  (<button
+                    className = 'btn btn-primary'
+                    onClick = {this.nextPage}>
+                      Next Page
+                  </button>)
+                  ) : null}
+                {this.state.previous ? (
+                  <button
+                    className = 'btn btn-primary'
+                    onClick = {this.prevPage}>
+                      Prev Page
+                  </button>
+                  ) : null}
               </div>
               <Form onSubmit={e => { e.preventDefault();}}>
                 <FormGroup>
@@ -233,7 +262,9 @@ export default class CustomerView extends Component {
               </ul>
             </div>
           </div>
+          
         </div>
+        
         {this.state.modal ? (
           <CustomerModal
             activeItem = {this.state.activeItem}
@@ -243,7 +274,7 @@ export default class CustomerView extends Component {
         ) : null}
         {this.state.searchToggle ? (
           <FieldPopUp
-          allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
+          allFields = {['search', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
           defaultField = {this.state.searchOn}
           toggle = {this.toggleSearchBy}
           onSave = {this.updateSearch}
