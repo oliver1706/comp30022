@@ -1,5 +1,5 @@
 
-import EmployeeModal from '../components/Modal.js';
+import EmployeeModal from './EmployeeModal.js';
 import FieldPopUp from '../components/FieldPopUp.js';
 import '../App.css';
 import React, { Component } from 'react';
