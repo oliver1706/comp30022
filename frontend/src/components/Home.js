@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import styles from '../css/home.module.css';
 import sidebar from '../css/sidebar.module.css'
 import logo from "../images/logo.jpg";
-
 import Menu from'./Menu.js';
 
 import {FaHome, FaPlus, FaBars,FaSearch, FaFilter,FaSortAmountUp } from 'react-icons/fa';
 import axios from 'axios';
 import useToken from '../useToken';
+import CustomerView from './CustomerView.js';
 
 
 export default class Home extends Component {
@@ -70,6 +70,8 @@ toggleMenu() {
         <button className = {styles.button}> <FaSortAmountUp/>  </button>
         <h3 className = {styles.header}>Current Customers</h3>
       </div>
+
+      <CustomerView/>
 
       </div>
 
