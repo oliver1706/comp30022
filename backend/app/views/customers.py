@@ -1,4 +1,7 @@
 from django.shortcuts import get_object_or_404
+from rest_framework import response, serializers
+from rest_framework.permissions import IsAuthenticated
+from app.permissions import CustomerPermission
 from app.serializers import CustomerSerializer, EmployeeIdsSerializer, InvoiceSerializer
 from rest_framework import viewsets
 from app.models import Customer, CustomerOwner, CustomerWatcher, Department, Employee, Invoice
@@ -15,15 +18,37 @@ class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
+    permission_classes = [CustomerPermission]
     search_fields = ['first_name', 'last_name']
     filterset_class = CustomerFilter
     ordering_fields =['description', 'first_name', 'last_name', 'job_title', 'gender', 'tag', 'email', 'phone', 'department__name', 'organisation__name']
-
+    
+    @extend_schema(
+        responses=InvoiceSerializer(many=True)
+    )
     @action(detail=True, methods = ['get'])
     def invoices(self, request, pk=None):
         invoices = Invoice.objects.filter(customer=pk)
         serializer = InvoiceSerializer(invoices, many=True)
         return Response(serializer.data)
+    
+    @extend_schema(
+        request=InvoiceSerializer,
+        responses=InvoiceSerializer
+    )
+    @action(detail=True, methods=["POST"])
+    def invoice(self, request, pk=None):
+        customer = get_object_or_404(Customer, pk=pk)
+        self.check_object_permissions(request, obj = customer)
+        request.data._mutable = True
+        request.data["customer"] = pk
+        request.data._mutable = False
+        serializer = InvoiceSerializer(data = request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        invoice = serializer.create(serializer.validated_data)
+
+        serializer = InvoiceSerializer(invoice)
+        return JsonResponse(serializer.data)
 
     @action(detail = False, methods=["GET"])
     def export_data(self, request):
@@ -57,11 +82,15 @@ class CustomerViewSet(viewsets.ModelViewSet):
             customer_watcher.delete()
         return HttpResponse()
 
+    
+    @extend_schema(
+        request=EmployeeIdsSerializer,
+        responses=EmployeeIdsSerializer
+        )
     @action(detail = True, methods=["GET"])
-    def get_watchers(self, request, pk=None):
-        customer_watchers = CustomerWatcher.objects.filter(customer = pk)
-        employee_ids = list(customer_watchers.values_list('employee', flat=True))
-        serializer = EmployeeIdsSerializer(data = {"employee_ids": employee_ids})
+    def watchers(self, request, pk=None):
+        customer = Customer.objects.get(id = pk)
+        serializer = EmployeeIdsSerializer(data = customer.get_watchers())
         serializer.is_valid()
         return JsonResponse(serializer.validated_data)
 
@@ -73,7 +102,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
     def add_owners(self, request, pk=None):
         customer = self.get_object()
         # Only owners or admins can add owners
-        print(request.user)
         if not (customer.is_owner(request.user.id) or request.user.is_superuser):
             return HttpResponseForbidden()
         serializer = EmployeeIdsSerializer(data = request.data)
@@ -84,8 +112,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
                 continue
             customer_owner = CustomerOwner.objects.create(customer = customer, employee = get_object_or_404(Employee, pk = employee_id))
             customer_owner.save()
-        current_owners = CustomerOwner.objects.filter(customer = pk).values_list('employee_id', flat=True)
-        serializer = EmployeeIdsSerializer(data = {"employee_ids": current_owners})
+        serializer = EmployeeIdsSerializer(data = customer.get_owners())
         serializer.is_valid()
         return JsonResponse(serializer.validated_data)
     
@@ -108,15 +135,18 @@ class CustomerViewSet(viewsets.ModelViewSet):
             customer_owner = CustomerOwner.objects.get(customer = customer, employee = get_object_or_404(Employee, pk = employee_id))
             customer_owner.delete()
         current_owners = CustomerOwner.objects.filter(customer = pk).values_list('employee_id', flat=True)
-        serializer = EmployeeIdsSerializer(data = {"employee_ids": current_owners})
+        serializer = EmployeeIdsSerializer(data = customer.get_owners())
         serializer.is_valid()
         return JsonResponse(serializer.validated_data)
-    
+
+    @extend_schema(
+        request=EmployeeIdsSerializer,
+        responses=EmployeeIdsSerializer
+    )
     @action(detail = True, methods=["GET"])
-    def get_owners(self, request, pk=None):
-        customer_owners = CustomerOwner.objects.filter(customer = pk)
-        employee_ids = list(customer_owners.values_list('employee', flat=True))
-        serializer = EmployeeIdsSerializer(data = {"employee_ids": employee_ids})
+    def owners(self, request, pk=None):
+        customer = Customer.objects.get(id = pk)
+        serializer = EmployeeIdsSerializer(data = customer.get_owners())
         serializer.is_valid()
         return JsonResponse(serializer.validated_data)
     
