@@ -36,6 +36,16 @@ class Customer(models.Model):
         return CustomerWatcher.objects.filter(customer = self.id, employee = employee_id).exists()
     def is_owner(self, employee_id):
         return CustomerOwner.objects.filter(customer = self.id, employee = employee_id).exists()
+    def is_editable(self, user):
+        return user.is_superuser or self.is_owner(user.id)
+    def get_watchers(self):
+        customer_watchers = CustomerWatcher.objects.filter(customer = self.id)
+        employee_ids = customer_watchers.values_list('employee', flat=True)
+        return {"employee_ids": employee_ids}
+    def get_owners(self):
+        customer_owners = CustomerOwner.objects.filter(customer = self.id)
+        employee_ids = customer_owners.values_list('employee', flat=True)
+        return {"employee_ids": employee_ids}
     def update_watchers(self):
         customer = self
         customer_watchers = CustomerWatcher.objects.filter(customer = customer.id)
