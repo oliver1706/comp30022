@@ -100,7 +100,10 @@ class Invoice(models.Model):
     date_due = models.DateField(null = True, blank = True)
     incoming = models.BooleanField(null = False)
     description = models.CharField(max_length=255, null = False)
-    pdf = models.FileField(upload_to="invoice_pdf",validators=[FileExtensionValidator(['pdf'])], null = True, blank = True)
+    def pdfname(self, filename):
+        extension = splitext(filename)[1]
+        return "invoices" + "/" + uuid4().hex + extension
+    pdf = models.FileField(upload_to=pdfname,validators=[FileExtensionValidator(['pdf'])], null = True, blank = True)
 
     class Meta:
         db_table = "invoice"
