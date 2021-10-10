@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django_filters import filterset
+from app.permissions import EmployeePermission
 from app.serializers import EmployeeSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
@@ -13,8 +13,8 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
+    permission_classes = [EmployeePermission]
     search_fields = ['id__first_name', 'id__last_name']
-    #filterset_class = 
     ordering_fields = '__all__'
 
     def destroy(self, request, pk=None):

@@ -83,14 +83,17 @@ class InvoiceSerializer(serializers.ModelSerializer):
             pdf = validated_data.get("pdf"), customer = validated_data.get("customer"))
         invoice.employee = Employee.objects.get(id = self.context["request"].user.id)
         invoice.save()
-        validated_data.get("customer").update_watchers()
+        invoice.customer.update_watchers()
         return invoice
 
     def update(self, instance, validated_data):
+        # No changing the customer on an invoice
+        del validated_data["customer"]
         super(InvoiceSerializer, self).update(instance, validated_data)
         instance.save()
         instance.customer.update_watchers()
         return instance
+
 
 
 class CustomerSerializer(serializers.ModelSerializer):
