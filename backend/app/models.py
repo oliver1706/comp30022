@@ -1,10 +1,11 @@
 from django.db import models
 from django.conf import settings
 from django.db.models.deletion import CASCADE
-from django.utils.translation import gettext_lazy as _ 
 from django.core.validators import MinLengthValidator
 from django.core.mail import send_mail
 from django.core.validators import FileExtensionValidator
+from os.path import splitext
+from uuid import uuid4
 
 class Department(models.Model):
     name = models.CharField(max_length=255, null = False, blank = False, unique= True)
@@ -18,6 +19,7 @@ class Organisation(models.Model):
     class Meta:
         db_table = "organisation"
 
+
 class Customer(models.Model):
     # Id autoincrement is automatically added apparently
     description = models.CharField(max_length=255, null= True, blank = True)
@@ -26,7 +28,10 @@ class Customer(models.Model):
     job_title = models.CharField(max_length=255, null= True, blank = True)
     email = models.EmailField(max_length=255, null= True, blank = True)
     phone = models.CharField(max_length=255, null= True, blank = True)
-    photo = models.ImageField(_("Image") ,upload_to="customers", default= "default.png", null = True, blank = True)
+    def imagename(self, filename):
+        extension = splitext(filename)[1]
+        return "customers" + "/" + uuid4().hex + extension
+    photo = models.ImageField(upload_to=imagename, default= "default.png", null = True, blank = True)
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     organisation = models.ForeignKey(Organisation, on_delete= models.SET_NULL, null = True)
     tag = models.CharField(max_length=255, null = True, blank = True)
@@ -51,8 +56,10 @@ class Customer(models.Model):
         customer_watchers = CustomerWatcher.objects.filter(customer = customer.id)
         for customer_watcher in customer_watchers:
             employee = customer_watcher.employee
-            send_mail('Customer ' + customer.first_name + ' ' + customer.last_name + ' has been updated!', 'Visit http://localhost:8000/app/customers/' + str(customer.id) + '/',
+            send_mail('Customer ' + str(customer.first_name) + ' ' + str(customer.last_name) + ' has been updated!', 'Visit http://localhost:8000/app/customers/' + str(customer.id) + '/',
             None, [employee.id.email], fail_silently=False)
+
+
     class Meta:
         db_table = "customer"
 
@@ -61,7 +68,10 @@ class Employee(models.Model):
     id = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=CASCADE, db_column='id')
     job_title = models.CharField(max_length=255, null = True, blank = True)
     phone = models.CharField(max_length=255, null= True, blank = True)
-    photo = models.ImageField(_("Image"),upload_to="employees", default= "default.png", null = True, blank = True)
+    def imagename(self, filename):
+        extension = splitext(filename)[1]
+        return "employees" + "/" + uuid4().hex + extension
+    photo = models.ImageField(upload_to=imagename, default= "default.png", null = True, blank = True)
     department = models.ForeignKey(Department, on_delete= models.SET_NULL, null = True)
     class Meta:
         db_table = "employee"

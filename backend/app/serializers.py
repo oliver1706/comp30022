@@ -43,9 +43,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         user = instance.id
-        user.first_name = validated_data.get("id", user.first_name).get("first_name", user.first_name)
-        user.last_name = validated_data.get("id", user.last_name).get("last_name", user.last_name)
-        user.email = validated_data.get("id", user.email).get("email", user.email)
+        user.first_name = validated_data.get("id", {}).get("first_name", user.first_name)
+        user.last_name = validated_data.get("id", {}).get("last_name", user.last_name)
+        user.email = validated_data.get("id", {}).get("email", user.email)
         user.save()
 
         instance.job_title = validated_data.get("job_title", instance.job_title)

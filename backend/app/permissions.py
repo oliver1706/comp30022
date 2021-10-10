@@ -21,7 +21,7 @@ class EmployeePermission(GetOnlyIfNotAdmin):
             return True
         if request.user.is_superuser:
             return True
-        if obj.id == request.user.id:
+        if obj.id.id == request.user.id:
             return True
         return False
 
