@@ -30,8 +30,9 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         #this function return the plot in base64 
         # to view in html, use <img src ="data:image/png;base64, {{chart|safe}}"
         sales_sum= Invoice.objects.all().values('date_added').annotate(sum = Sum('total_due'))
-        x=[x['date_added'] for x in sales_sum]
+        x=[x['date_added'].date for x in sales_sum]
         y=[y['sum'] for y in sales_sum]
+        print(y)
         chart=get_plot(x,y)
         return Response({'chart':chart})
   

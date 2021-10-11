@@ -9,6 +9,9 @@ from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema
 from rest_framework.response import Response
 from app.filters import CustomerFilter
+
+from django.db.models import Avg, Min, Max, Sum
+from .utils import get_plot
 # Customer endpoints
 
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -119,7 +122,25 @@ class CustomerViewSet(viewsets.ModelViewSet):
         serializer = EmployeeIdsSerializer(data = {"employee_ids": employee_ids})
         serializer.is_valid()
         return JsonResponse(serializer.validated_data)
-    
+    @action(detail = True, methods=["GET"])
+    def stats(self, request, pk=None):
+        #this function return some basic statistics(mean,min,max) of all the invoices 
+        invoices = Invoice.objects.filter(customer=pk)
+        stats=invoices.aggregate(mean=Avg('total_due'),min=Min('total_due'),max= Max('total_due'))
+        return Response(stats)
+
+    @action(detail=True,methods = ['get'])
+    def salesplot(self,request,pk=None):
+        #this function return the plot in base64 
+        # to view in html, use <img src ="data:image/png;base64, {{chart|safe}}"
+        invoices = Invoice.objects.filter(customer=pk)
+        sales_sum= invoices.values('date_added').annotate(sum = Sum('total_due'))
+        x=[x['date_added'] for x in sales_sum]
+        y=[y['sum'] for y in sales_sum]
+        print(x)
+        print(y)
+        chart=get_plot(x,y)
+        return Response({'chart':chart})
 
 class CustomerResource(resources.ModelResource):
 
@@ -173,6 +194,8 @@ class CustomerResource(resources.ModelResource):
             return None
         else:
             return organisation.name
+
+   
     class Meta:
         exclude = ('department', 'organisation')
         model = Customer
