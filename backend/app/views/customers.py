@@ -1,6 +1,4 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import response, serializers
-from rest_framework.permissions import IsAuthenticated
 from app.permissions import CustomerPermission
 from app.serializers import CustomerSerializer, EmployeeIdsSerializer, InvoiceSerializer
 from rest_framework import viewsets
@@ -12,6 +10,10 @@ from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema
 from rest_framework.response import Response
 from app.filters import CustomerFilter
+import requests
+import base64
+from django.core.files.base import ContentFile    
+
 # Customer endpoints
 
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -165,6 +167,9 @@ class CustomerResource(resources.ModelResource):
         if organisation_name != None:
             organisation, _ = Department.objects.get_or_create(name = organisation_name)
             instance.organisation = organisation
+        photo_base64 = row["photo"]
+        if photo_base64 != None:
+            instance.photo.save("unknown.png", ContentFile(base64.b64decode(photo_base64)), save=True)
         instance.save()
 
         # Create all of the invoices
@@ -173,19 +178,15 @@ class CustomerResource(resources.ModelResource):
             invoice = Invoice.objects.create(customer = instance, **i)
             invoice.save()
 
-    # We don't want any id, as this would override existing customers
-    id = fields.Field()
-    def dehydrate_id(self, obj):
-        return None
-
-    # Return json representation of invoices with no employee id
     invoices = fields.Field()
     def dehydrate_invoices(self, obj):
         invoices = Invoice.objects.filter(customer=obj)
         serializer = InvoiceSerializer(invoices, many=True)
         data = serializer.data
         for invoice in data:
-            invoice["employee"] = None
+            del invoice["employee"]
+            del invoice["customer"]
+            del invoice["id"]
         return data
 
     department_name = fields.Field()
@@ -203,6 +204,18 @@ class CustomerResource(resources.ModelResource):
             return None
         else:
             return organisation.name
+
+    photo = fields.Field()
+    def dehydrate_photo(self, obj):
+        if obj.photo and hasattr(obj.photo, 'url'):
+            url = obj.photo.url
+            response = requests.get(url)
+            if not response.ok:
+                return None
+            return base64.b64encode(response.content).decode('ascii')
+        else:
+            return None
+
     class Meta:
-        exclude = ('department', 'organisation')
+        exclude = ('department', 'organisation', 'photo')
         model = Customer
