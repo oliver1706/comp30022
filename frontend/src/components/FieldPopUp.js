@@ -12,7 +12,7 @@ import {
   Label,
 } from "reactstrap";
 
-export default class CustomerModal extends Component {
+export default class FieldPopUp extends Component {
   // Pass the fields in as the allFields tag
   constructor(props) {
     super(props);

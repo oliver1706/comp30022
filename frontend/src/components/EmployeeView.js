@@ -28,6 +28,7 @@ export default class EmployeeView extends Component {
       sortToggle: false,
       searchOn: 'search', //Default, searches all searchable fields
       sortBy: '',
+      disableEdit: true,
 
       pageNum: 1,
       next: null,
@@ -81,12 +82,14 @@ export default class EmployeeView extends Component {
       console.log('Item submitted');
       axios
         .patch(`/app/employees/${item.id}/`, item)
-        .then((res) => this.refreshList());
+        .then((res) => this.refreshList(),
+              this.setState({disableEdit: true}));
       return;
     }
     axios
       .post(`/app/${this.state.selection}/`, item)
-      .then((res) => this.refreshList());
+      .then((res) => this.refreshList(),
+            this.setState({disableEdit: true}));
   };
 
   handleDelete = (item) => {
@@ -108,7 +111,7 @@ export default class EmployeeView extends Component {
                 department: ''
               };
 
-    this.setState({ activeItem: item, modal: !this.state.modal });
+    this.setState({ activeItem: item, modal: !this.state.modal, disableEdit: false });
   };
 
   editItem = (item) => {
@@ -252,6 +255,7 @@ export default class EmployeeView extends Component {
         
         {this.state.modal ? (
           <EmployeeModal
+            disableEdit = {this.state.disableEdit}
             activeItem = {this.state.activeItem}
             toggle = {this.toggle}
             onSave = {this.handleSubmit}

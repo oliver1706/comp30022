@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import useToken from './useToken';
 
-
+import AdvancedSearch from '../src/components/AdvancedSearch.js'
 import EmployeeModal from "./components/EmployeeModal.js"
 import CustomerModal from "./components/CustomerModal"
 import Login from '../src/components/Login'
