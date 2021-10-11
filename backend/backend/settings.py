@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'app',
     'django_filters',
-    'import_export'
+    'import_export',
+    "storages"
 ]
 
 MIDDLEWARE = [
@@ -156,6 +157,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'crm-bbtech'
+AWS_ACCESS_KEY_ID = #ASK OLIVER
+AWS_SECRET_ACCESS_KEY = #ASK OLIVER
+AWS_QUERYSTRING_AUTH = False
+
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 

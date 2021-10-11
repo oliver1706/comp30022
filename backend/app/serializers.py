@@ -43,9 +43,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         user = instance.id
-        user.first_name = validated_data.get("id", user.first_name).get("first_name", user.first_name)
-        user.last_name = validated_data.get("id", user.last_name).get("last_name", user.last_name)
-        user.email = validated_data.get("id", user.email).get("email", user.email)
+        user.first_name = validated_data.get("id", {}).get("first_name", user.first_name)
+        user.last_name = validated_data.get("id", {}).get("last_name", user.last_name)
+        user.email = validated_data.get("id", {}).get("email", user.email)
         user.save()
 
         instance.job_title = validated_data.get("job_title", instance.job_title)
@@ -83,32 +83,44 @@ class InvoiceSerializer(serializers.ModelSerializer):
             pdf = validated_data.get("pdf"), customer = validated_data.get("customer"))
         invoice.employee = Employee.objects.get(id = self.context["request"].user.id)
         invoice.save()
-        validated_data.get("customer").update_watchers()
+        invoice.customer.update_watchers()
         return invoice
 
     def update(self, instance, validated_data):
+        # No changing the customer on an invoice
+        del validated_data["customer"]
         super(InvoiceSerializer, self).update(instance, validated_data)
         instance.save()
         instance.customer.update_watchers()
         return instance
 
 
+
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields =  ("id", "description", "first_name", "last_name", "job_title", "gender", "tag", "email", "phone", "photo", "department", "department_name",
-        "organisation", "organisation_name", "invoices")
+        "organisation", "organisation_name", "invoices", "can_edit", "is_watcher", "owners", "watchers")
     department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
     organisation = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     organisation_name = serializers.CharField(source = "organisation.name", read_only = True, required = False)
     invoices = serializers.SerializerMethodField()
+    can_edit = serializers.SerializerMethodField()
+    is_watcher = serializers.SerializerMethodField()
+    owners = EmployeeIdsSerializer(source = "get_owners", read_only=True, required = False)
+    watchers = EmployeeIdsSerializer(source = "get_watchers", read_only=True, required = False)
 
     def get_invoices(self, obj):
         invoices = Invoice.objects.filter(customer=obj)
         serializer = InvoiceSerializer(invoices, many=True)
         return serializer.data
 
+    def get_can_edit(self, obj):
+        return obj.is_editable(self.context["request"].user)
+
+    def get_is_watcher(self, obj):
+        return obj.is_watcher(self.context["request"].user.id)
 
     def create(self, validated_data):
         customer = Customer.objects.create(description = validated_data.get("description"), first_name = validated_data.get("first_name"),
@@ -117,6 +129,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         update_department_id(customer, validated_data)
         update_organisation_id(customer, validated_data)
         customer.save()
+        # The creator is an owner and a watcher automatically
         employee_id = self.context["request"].user.id
         if employee_id != None:
             employee = Employee.objects.get(id = employee_id)

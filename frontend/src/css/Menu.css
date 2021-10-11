@@ -1,7 +1,9 @@
+
+
 #flyoutMenu {
     width: 100vw;
     height: 100vh;
-    background-color: #FFE600;
+    background-color: var(--mainColour);
     position: fixed;
     top: 0;
     left: 0;
@@ -12,7 +14,7 @@
   }
    
   #flyoutMenu.hide {
-    transform: translate3d(-100vw, 0, 0);
+    transform: translate3d(100vw, 0, 0);
   }
    
   #flyoutMenu.show {
@@ -20,12 +22,23 @@
     overflow: hidden;
   }
    
-  #flyoutMenu h2 a {
-    color: #333;
-    margin-left: 15px;
+  #flyoutMenu li a {
+    color: white;
     text-decoration: none;
+    text-align: center;
+    list-style-type: none;
+    margin-right: 10%;
+    font-weight: bold;
+  }
+
+  #flyoutMenu li {
+    margin: 15% 0;
   }
    
-  #flyoutMenu h2 a:hover {
-    text-decoration: underline;
+
+  #flyoutMenu ul {
+    list-style-type: none;
+    font-size: xx-large;
+    text-align: center;
+    margin-top: 20%;
   }
