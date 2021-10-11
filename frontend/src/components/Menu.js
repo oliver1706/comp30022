@@ -28,7 +28,7 @@ class Menu extends Component {
         <li><a href="#">Close</a></li>
         <li><a href="#" onClick = {() => this.logout()} >Logout</a></li>
         <li><a href="#">View Profile</a></li>
-        <li><a href="#">Manage Users</a></li>
+        <li><a href="/employees">Manage Users</a></li>
         </ul>
       </div>
     );

@@ -1,4 +1,4 @@
-import React, { Redirect, Component } from 'react';
+import React, { Redirect, Component, useState } from 'react';
 import styles from '../css/home.module.css';
 import logo from "../images/logo.jpg";
 import Menu from'./Menu.js';
@@ -65,7 +65,7 @@ export default class Home extends Component {
   
   goHome() {
     window.location.reload(false);
-  }
+    }
 
   // customer functionality 
 
@@ -219,11 +219,13 @@ toggleMenu() {
   this.setState({
       visible: !this.state.visible
   });
+
+  // logout logic
 }
 
   render() {
   return (
-    <section id = 'HomeScreen'>
+    <section id = 'HomeScreen' className = {styles.homeScreen}>
       <div id = 'main'>
 
       <div id = 'dashboard' className = {styles.dashboard}>
@@ -258,7 +260,6 @@ toggleMenu() {
         <button onClick = {this.toggleSortBy} className = {styles.button}> <FaSortAmountUp/>  </button>
         <h3 className = {styles.header}>Current Customers</h3>
       </div>
-
       </div>
 
       <Menu handleMouseDown={this.handleMouseDown}

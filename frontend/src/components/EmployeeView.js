@@ -2,8 +2,20 @@
 import EmployeeModal from './EmployeeModal.js';
 import FieldPopUp from '../components/FieldPopUp.js';
 import '../App.css';
-import React, { Component } from 'react';
+import React, { Component, Redirect } from 'react';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
+
+import {FaHome, FaPlus, FaBars,FaSearch, FaFilter,FaSortAmountUp } from 'react-icons/fa';
+import logo from "../images/logo.jpg";
+import styles from '../css/home.module.css';
+import manage_styles from '../css/manage.module.css';
+import Menu from'./Menu.js';
+
+import CustomerModal from './CustomerModal.js';
+import Home from './Home.js';
+
+
 import { 
   Button,
   ModalHeader,
@@ -19,6 +31,7 @@ export default class EmployeeView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      visible: false, 
       viewAll: true,
       selection: 'employees',
       dataList: [],
@@ -43,12 +56,16 @@ export default class EmployeeView extends Component {
 
     };
     this.handleChange.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
 
   };
 
   componentDidMount() {
     this.refreshList();
   };
+  
+  
 
   refreshList = () => {
 
@@ -151,31 +168,120 @@ export default class EmployeeView extends Component {
     const allItems = this.state.dataList;
     return allItems.map((item) => (
       <li
-        key = {item.id}
-        className = 'list-group-item d-flex justify-content-between align-items-center'
+        className = {styles.customer} 
       >
-        <span
-          className = 'Employees'
-        >{item.id}: {item.first_name} {item.last_name} {item.job_title}  {item.phone}  {item.department}
-        </span>
-        <span>
-          <button
-            className = 'btn btn-secondary mr-2'
-            onClick={() => this.editItem(item)}
-          >
-            Edit
-          </button>
-          <button
-            className='btn btn-danger'
-            onClick = {() => this.handleDelete(item)}
-          >
-            Delete
-          </button>
-        </span>
-      </li>
+        <span className = {styles.name}> {item.first_name} {item.last_name} </span>
+        <br/>
+        <span className = {styles.secondaryText}>{item.phone} {item.department} </span>
+        </li>
     ));
   };
 
+  // menu logic 
+
+  handleMouseDown(e) {
+    console.log('Menu button clicked');
+    this.toggleMenu();
+ 
+    console.log("clicked");
+    e.stopPropagation();
+  }
+   
+  toggleMenu() {
+    this.setState({
+        visible: !this.state.visible
+    });
+  }
+ 
+toggleMenu() {
+  this.setState({
+      visible: !this.state.visible
+  });
+}
+
+
+  render() {
+    return (
+      <section id = 'HomeScreen' className = {styles.homeScreen}>
+        <div id = 'main'>
+  
+        <div id = 'dashboard' className = {styles.dashboard}>
+          <div id = 'Leftside' className = {styles.block}> 
+            <div id = 'logo' className = {styles.logo}> 
+              <img src = {logo} alt = "logo" className = {styles.smallLogo}/> 
+            </div>
+          </div>
+          <a href = '/'> <button  className = {manage_styles.homebutton}> <FaHome/>  </button> </a>
+
+          <div id = 'Rightside' className = {styles.block}>
+          <a href = '/'> <button  className = {manage_styles.homebutton}> <FaHome/>  </button> </a>
+            <div id = 'icons' className = {manage_styles.icons}> 
+            <button onClick = {this.createItem} className = {manage_styles.dashButton}> <FaPlus/>  </button>
+            
+            <button onClick = {this.handleMouseDown} className = {manage_styles.dashButton}> <FaBars/>  </button>
+            </div>
+          </div>
+        </div>
+        <div id = 'Search and Filter' className = {styles.search}>
+          <button className = {styles.button}> <FaFilter/>  </button>
+          <Form onSubmit={e => { e.preventDefault();}}>
+            <FormGroup>
+              <Input className = {styles.input}  type='text' name='search' value={this.state.search}
+                      onChange={this.handleChange}
+                      placeholder='Search'
+                    />
+                  </FormGroup>
+                </Form>
+  
+        </div>
+  
+        <div id = 'Heading' className = {styles.heading}>
+          <button onClick = {this.toggleSortBy} className = {styles.button}> <FaSortAmountUp/>  </button>
+          <h3 className = {manage_styles.header}>Manage Users</h3>
+        </div>
+        </div>
+  
+        <Menu handleMouseDown={this.handleMouseDown}
+            menuVisibility={this.state.visible}/>
+  
+        <div id = 'employees'>
+        <ul className = {styles.customerList}>
+                  {this.renderItems()}
+                </ul>
+        </div>
+  
+        
+  {this.state.modal ? (
+            <CustomerModal
+              activeItem = {this.state.activeItem}
+              toggle = {this.toggle}
+              onSave = {this.handleSubmit}
+              />
+          ) : null}
+          {this.state.searchToggle ? (
+            <FieldPopUp
+            allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
+            defaultField = {this.state.searchOn}
+            toggle = {this.toggleSearchBy}
+            onSave = {this.updateSearch}
+            />
+          ) : null}
+          {this.state.sortToggle ? (
+            <FieldPopUp
+            allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
+            toggle = {this.toggleSortBy}
+            onSave = {this.updateSort}
+            className = {styles.sortPopup}
+            />
+          ) : null}
+  
+  
+      </section>
+  
+    );
+    }
+}
+  /*
   render() {
     
     return (
@@ -249,5 +355,5 @@ export default class EmployeeView extends Component {
       </main>
     )
   };
-}
+*/
 

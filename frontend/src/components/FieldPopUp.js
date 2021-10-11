@@ -1,7 +1,8 @@
-import axios from "axios";
-import React, { Component } from "react";
+import styles from '../css/sortby.module.css';
+import React, { Component, useState } from "react";
 import {
   Button,
+  ButtonGroup,
   Modal,
   ModalHeader,
   ModalBody,
@@ -20,6 +21,8 @@ export default class CustomerModal extends Component {
       selectedField: props.defaultField
     };
   }
+  //const [cSelected, setCSelected] = useState([]);
+  //const [rSelected, setRSelected] = useState(null);
 
   handleChange = (e) => {
     console.log(e);
@@ -27,6 +30,8 @@ export default class CustomerModal extends Component {
 
     this.setState({selectedField: value})
   };
+
+// button functionality
 
   fieldSelection = () => {
     const fields = this.props.allFields;
@@ -36,13 +41,29 @@ export default class CustomerModal extends Component {
     ))
   }
 
+  /*
+  onCheckboxBtnClick = (selected) => {
+    const index = cSelected.indexOf(selected);
+    if (index < 0) {
+      cSelected.push(selected);
+    } else {
+      cSelected.splice(index, 1);
+    }
+    setCSelected([...cSelected]);
+  }
+  */
+
+
   render() {
+    
+
+
     const { toggle, onSave } = this.props;
     const field = this.state.selectedField;
     console.log(this.state.selectedField);
     return (
-      <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Sort By</ModalHeader>
+      <Modal className = {styles.popup} isOpen={true} toggle={toggle}>
+        <ModalHeader className = {styles.header} toggle={toggle}>Sort By</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
@@ -55,6 +76,12 @@ export default class CustomerModal extends Component {
                   {this.fieldSelection()}
                 </select>
             </FormGroup>
+
+            <ButtonGroup>
+              <Button>Name</Button>
+            </ButtonGroup>
+
+
           </Form>
         </ModalBody>
         <ModalFooter>
