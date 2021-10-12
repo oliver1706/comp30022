@@ -1,0 +1,47 @@
+.header {
+    color: var(--mainColour);
+    font-size: 160%;
+    margin-top: 3%;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: 25%;
+  }
+
+  .dashButton {
+    color: var(--secondaryColour) ;
+    background-color: transparent;
+    font-size: 180%;
+    margin-right: 57%;
+    border: var(--mainColour);
+    font-weight: 100;
+    
+}
+
+
+
+.icons {
+    width: 80%;
+    height: 70%;
+    margin-right: 15%;
+    margin-left: auto;
+    margin-top: 6%;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: row;
+    
+  }
+
+.homebutton {
+
+    color: var(--secondaryColour) ;
+    background-color: transparent;
+    font-size: 180%;
+    position: absolute;
+    right: 74px;
+    top: 18.5px;
+    border: var(--mainColour);
+    font-weight: 100;
+    
+
+}
+  
