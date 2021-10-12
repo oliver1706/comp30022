@@ -19,6 +19,7 @@ export default class CustomerModal extends Component {
       activeItem: this.props.activeItem,
       departments: [],
       organisations: [],
+      disableEdit: this.props.disableEdit,
     };
   }
 
@@ -61,17 +62,29 @@ export default class CustomerModal extends Component {
     ));
   }
 
+  enableEdit = () => {
+    this.setState({disableEdit: false})
+  }
+
   render() {
     const { toggle, onSave } = this.props;
 
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader toggle={toggle}>Customer</ModalHeader>
+        <button 
+          className = 'btn btn-primary'
+          disabled = {!this.state.disableEdit}
+          onClick={this.enableEdit}
+        >
+          Edit
+        </button>
         <ModalBody>
           <Form>
             <FormGroup>
               <Label for="description">Description</Label>
               <Input
+                disabled={this.state.disableEdit}
                 type="text"
                 name="description"
                 value={this.state.activeItem.description}
@@ -82,6 +95,7 @@ export default class CustomerModal extends Component {
             <FormGroup>
                 <Label for="first_name">First Name</Label>
                 <Input
+                  disabled={this.state.disableEdit}
                   type="text"
                   name="first_name"
                   value={this.state.activeItem.first_name}
@@ -92,6 +106,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="last_name">Last Name</Label>
                   <Input
+                    disabled={this.state.disableEdit}
                     type="text"
                     name="last_name"
                     value={this.state.activeItem.last_name}
@@ -102,6 +117,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="job_title">Job Title</Label>
                   <Input
+                    disabled={this.state.disableEdit}
                     type="text"
                     name="job_title"
                     value={this.state.activeItem.job_title}
@@ -112,6 +128,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="email">Email</Label>
                   <Input
+                    disabled={this.state.disableEdit}
                     type="text"
                     name="email"
                     value={this.state.activeItem.email}
@@ -122,6 +139,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="phone">Phone No.</Label>
                   <Input
+                    disabled={this.state.disableEdit}
                     type="text"
                     name="phone"
                     value={this.state.activeItem.phone}
@@ -132,6 +150,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="department">Department</Label>
                   <select 
+                    disabled={this.state.disableEdit}
                     name = "department"
                     value={this.state.activeItem.department}
                     onChange={this.handleChange}
@@ -142,6 +161,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="organisation">Organisation</Label>
                   <select 
+                    disabled={this.state.disableEdit}
                     name = "organisation"
                     value={this.state.activeItem.organisation}
                     onChange={this.handleChange}
@@ -152,6 +172,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="tag">Tags</Label>
                   <Input
+                    disabled={this.state.disableEdit}
                     type="Text"
                     name="tag"
                     value={this.state.activeItem.tag}
@@ -162,6 +183,7 @@ export default class CustomerModal extends Component {
               <FormGroup>
                   <Label for="gender">Gender</Label>
                   <select onChange={this.handleChange}
+                          disabled={this.state.disableEdit}
                           value={this.state.activeItem.gender}>
                       <option value="M">Male</option>
                       <option value="F">Female</option>

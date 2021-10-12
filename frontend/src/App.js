@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import useToken from './useToken';
 
-
+import AdvancedSearch from '../src/components/AdvancedSearch.js'
 import EmployeeModal from "./components/EmployeeModal.js"
 import CustomerModal from "./components/CustomerModal"
 import Login from '../src/components/Login'
@@ -18,6 +18,8 @@ import CustomerView from '../src/components/CustomerView'
 import CustomerInvoices from '../src/components/CustomerInvoices'
 import CustomerStatistics from '../src/components/CustomerStatistics'
 import DepartmentAndOrganisationView from './components/DepartmentAndOrganisationView'
+import DepartmentView from './components/DepartmentView'
+import OrganisationView from './components/OrganisationView'
 function App() {
   // need a way to say this is my first time rendering, so don't have to check mounted before rendering
 
@@ -50,10 +52,10 @@ function App() {
             <CustomerInvoices customerId={8}/>
           </Route>
           <Route path = '/departments'>
-            <DepartmentAndOrganisationView selection='department'/>
+            <DepartmentView/>
           </Route>
           <Route path = '/organisations'>
-            <DepartmentAndOrganisationView selection='organisation'/>
+            <OrganisationView/>
           </Route>
           <Route path = '/viewplot'>
             <CustomerStatistics/>

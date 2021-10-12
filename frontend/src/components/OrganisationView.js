@@ -1,8 +1,8 @@
 
-import EmployeeModal from './EmployeeModal.js';
-import FieldPopUp from '../components/FieldPopUp.js';
+import DepartmentAndOrganisationModal from './DepartmentAndOrganisationModal.js'
 import '../App.css';
 import React, { Component } from 'react';
+import FieldPopUp from './FieldPopUp';
 import axios from 'axios';
 import { 
   Button,
@@ -17,42 +17,31 @@ import {
 import AbstractView from './AbstractView.js';
 import AdvancedSearch from './AdvancedSearch.js';
 
-export default class EmployeeView extends AbstractView {
+export default class OrganisationView extends AbstractView {
   constructor(props) {
     super(props);
     this.state = {
       ...this.state,
-      selection: 'employees',
+      selection: "organisations",
+
       activeItem: {
         id: '', 
-        job_title: '',
-        phone: '',
-        username: '',
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
-        department: ''
+        name: ''
       },
 
     };
 
+
   };
+
 
   createItem = () => {
     const item = {
                 id: '', 
-                job_title: '',
-                phone: '',
-                username: '',
-                first_name: '',
-                last_name: '',
-                email: 'company@company.com',
-                password: 'default',
-                department: ''
+                name: ''
               };
 
-    this.setState({ activeItem: item, modal: !this.state.modal, disableEdit: false });
+    this.setState({ activeItem: item, modal: !this.state.modal });
   };
 
   renderItems = () => {
@@ -62,9 +51,8 @@ export default class EmployeeView extends AbstractView {
         key = {item.id}
         className = 'list-group-item d-flex justify-content-between align-items-center'
       >
-        <span
-          className = 'Employees'
-        >{item.id}: {item.first_name} {item.last_name} {item.job_title}  {item.phone}  {item.department}
+        <span>
+          {item.name}
         </span>
         <span>
           <button
@@ -88,16 +76,16 @@ export default class EmployeeView extends AbstractView {
     
     return (
       <main className = 'container'>
-        <h1 className= 'text-white text-uppercase text-center my-4'>Employee app</h1>
+        <h1 className= 'text-white text-uppercase text-center my-4'>Organisation app</h1>
         <div className = 'row'>
           <div className = 'col-md-30 col-sm-10 mx-auto p-0'>
             <div className = 'card p-3'>
               <div className = 'mb-4'>
-                <button
+              <button
                   className = 'btn btn-primary'
                   onClick = {this.createItem}
                 >
-                  Add employee
+                  Add Organisation
                 </button>
                 <button
                   className = 'btn btn-primary'
@@ -105,6 +93,7 @@ export default class EmployeeView extends AbstractView {
                 >
                   Advanced Search
                 </button>
+                
                 <button
                   className = 'btn btn-primary'
                   onClick = {this.toggleSearchBy}
@@ -117,6 +106,20 @@ export default class EmployeeView extends AbstractView {
                 >
                   Sort By
                 </button>
+                {this.state.next ? (
+                  (<button
+                    className = 'btn btn-primary'
+                    onClick = {this.nextPage}>
+                      Next Page
+                  </button>)
+                  ) : null}
+                {this.state.previous ? (
+                  <button
+                    className = 'btn btn-primary'
+                    onClick = {this.prevPage}>
+                      Prev Page
+                  </button>
+                  ) : null}
               </div>
               <Form onSubmit={e => { e.preventDefault();}}>
                 <FormGroup>
@@ -137,32 +140,18 @@ export default class EmployeeView extends AbstractView {
             </div>
           </div>
         </div>
-        {this.state.next ? (
-          (<button
-            className = 'btn btn-primary'
-            onClick = {this.nextPage()}>
-              Next Page
-          </button>)
-        ) : null}
-        {this.state.previous ? (
-          <button
-            className = 'btn btn-primary'
-            onClick = {this.prevPage()}>
-              Prev Page
-          </button>
-        ) : null}
         
         {this.state.modal ? (
-          <EmployeeModal
-            disableEdit = {this.state.disableEdit}
+          <DepartmentAndOrganisationModal
             activeItem = {this.state.activeItem}
+            selection = {this.state.selection}
             toggle = {this.toggle}
             onSave = {this.handleSubmit}
             />
         ) : null}
         {this.state.searchToggle ? (
           <FieldPopUp
-          allFields = {['search', 'phone']}
+          allFields = {['search', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
           defaultField = {this.state.searchOn}
           toggle = {this.toggleSearchBy}
           onSave = {this.updateSearch}
@@ -170,11 +159,12 @@ export default class EmployeeView extends AbstractView {
         ) : null}
         {this.state.sortToggle ? (
           <FieldPopUp
-          allFields = {['', 'phone']}
+          allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
           toggle = {this.toggleSortBy}
           onSave = {this.updateSort}
           />
         ) : null}
+
         {this.state.advancedSearchToggle ? (
           <AdvancedSearch
           allFields ={['first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}

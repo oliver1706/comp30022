@@ -18,10 +18,13 @@ export default class EmployeeModal extends Component {
     this.state = {
       activeItem: this.props.activeItem,
       departments: [],
+      disableEdit:  this.props.disableEdit,
     };
   }
 
   componentDidMount() {
+    console.log(this.state.disableEdit);
+    console.log(this.props.disableEdit);
     this.refreshData();
   };
 
@@ -47,17 +50,29 @@ export default class EmployeeModal extends Component {
     ));
   }
 
+  enableEdit = () => {
+    this.setState({disableEdit: false})
+  }
+
   render() {
     const { toggle, onSave } = this.props;
 
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader toggle={toggle}>Employee</ModalHeader>
+        <button 
+          className = 'btn btn-primary'
+          disabled = {!this.state.disableEdit}
+          onClick={this.enableEdit}
+        >
+          Edit
+        </button>
         <ModalBody>
           <Form>
           <FormGroup>
               <Label for="user_name">Username</Label>
               <Input
+                disabled={this.state.disableEdit}
                 type="text"
                 name="username"
                 value={this.state.activeItem.username}
@@ -68,6 +83,7 @@ export default class EmployeeModal extends Component {
             <FormGroup>
               <Label for="first_name">First Name</Label>
               <Input
+                disabled={this.state.disableEdit}
                 type="text"
                 name="first_name"
                 value={this.state.activeItem.first_name}
@@ -78,6 +94,7 @@ export default class EmployeeModal extends Component {
             <FormGroup>
               <Label for="last_name">Last Name</Label>
               <Input
+                disabled={this.state.disableEdit}
                 type="text"
                 name="last_name"
                 value={this.state.activeItem.last_name}
@@ -88,6 +105,7 @@ export default class EmployeeModal extends Component {
             <FormGroup>
               <Label for="job_title">Job Title</Label>
               <Input
+                disabled={this.state.disableEdit}
                 type="text"
                 name="job_title"
                 value={this.state.activeItem.job_title}
@@ -98,6 +116,7 @@ export default class EmployeeModal extends Component {
             <FormGroup>
               <Label for="phone">Phone</Label>
               <Input
+                disabled={this.state.disableEdit}
                 type="text"
                 name="phone"
                 value={this.state.activeItem.phone}
@@ -109,6 +128,7 @@ export default class EmployeeModal extends Component {
               <Label for="department">Department</Label>
               
               <select 
+                disabled={this.state.disableEdit}
                 name = "department"
                 value={this.state.activeItem.department}
                 onChange={this.handleChange}
@@ -120,6 +140,7 @@ export default class EmployeeModal extends Component {
         </ModalBody>
         <ModalFooter>
           <Button
+            disabled={this.state.disableEdit}
             color="success"
             onClick={() => onSave(this.state.activeItem)}
           >
@@ -129,4 +150,8 @@ export default class EmployeeModal extends Component {
       </Modal>
     );
   }
+}
+
+EmployeeModal.defaultProps = {
+    disableEdit: true
 }
