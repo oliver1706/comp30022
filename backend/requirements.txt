@@ -15,4 +15,4 @@ python-dateutil==2.8.2
 django-storages==1.12
 boto3==1.18.58
 corsheaders==3.10.0
-requests=2.26.0
+requests==2.26.0
