@@ -108,7 +108,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
             return HttpResponseForbidden()
         serializer = EmployeeIdsSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
-        print(serializer.validated_data)
         for employee_id in serializer.validated_data.get("employee_ids"):
             if not Employee.objects.filter(id = employee_id).exists() or customer.is_owner(employee_id):
                 continue
@@ -130,7 +129,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
             return HttpResponseForbidden()
         serializer = EmployeeIdsSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
-        print(serializer.validated_data)
         for employee_id in serializer.validated_data.get("employee_ids"):
             if not Employee.objects.filter(id = employee_id).exists() or not customer.is_owner(employee_id):
                 continue
@@ -174,10 +172,18 @@ class CustomerResource(resources.ModelResource):
 
         # Create all of the invoices
         invoices = row["invoices"]
-        for i in invoices:        
+        for i in invoices:
+            pdf_base64 = i["pdf"]
+            del i["pdf"]
             invoice = Invoice.objects.create(customer = instance, **i)
+            if pdf_base64 != None:
+                invoice.pdf.save("unknown.pdf", ContentFile(base64.b64decode(pdf_base64)), save=True)
             invoice.save()
 
+    id = fields.Field()
+    def dehydrate_id(self, obj):
+        return None
+    
     invoices = fields.Field()
     def dehydrate_invoices(self, obj):
         invoices = Invoice.objects.filter(customer=obj)
@@ -186,7 +192,14 @@ class CustomerResource(resources.ModelResource):
         for invoice in data:
             del invoice["employee"]
             del invoice["customer"]
-            del invoice["id"]
+            invoice["id"] = None
+            pdf_url = invoice["pdf"]
+            if pdf_url != None:
+                url = obj.photo.url
+                response = requests.get(url)
+                if not response.ok:
+                    invoice["pdf"] = None
+                invoice["pdf"] = base64.b64encode(response.content).decode('ascii')
         return data
 
     department_name = fields.Field()
@@ -218,4 +231,6 @@ class CustomerResource(resources.ModelResource):
 
     class Meta:
         exclude = ('department', 'organisation', 'photo')
+        import_id_fields = []
+        skip_diff = True
         model = Customer

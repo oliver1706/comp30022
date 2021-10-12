@@ -8,9 +8,13 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/
 """
 
 import os
+import sys
 
 from django.core.wsgi import get_wsgi_application
 
+sys.path.append('/home/ec2-user/comp30022/backend')
+sys.path.append('/home/ec2-user/comp30022/backend/backend')
+sys.path.append('/home/ec2-user/comp30022/backend/app')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
 application = get_wsgi_application()
