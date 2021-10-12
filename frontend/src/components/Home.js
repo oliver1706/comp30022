@@ -188,6 +188,8 @@ export default class Home extends Component {
     const allItems = this.state.dataList;
     return allItems.map((item) => (
       <li
+        key={item.id}
+        onClick={()=> this.editItem(item)}
         className = {styles.customer} 
       >
         <span className = {styles.name}> {item.first_name} {item.last_name} </span>
