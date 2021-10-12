@@ -15,7 +15,6 @@ import Menu from'./Menu.js';
 import CustomerModal from './CustomerModal.js';
 import Home from './Home.js';
 
-
 import { 
   Button,
   ModalHeader,
@@ -33,6 +32,7 @@ export default class EmployeeView extends AbstractView {
   constructor(props) {
     super(props);
     this.state = {
+      ...this.state,
       visible: false, 
       selection: 'employees',
       activeItem: {
@@ -48,7 +48,6 @@ export default class EmployeeView extends AbstractView {
       },
 
     };
-    this.handleChange.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
 
