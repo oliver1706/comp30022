@@ -76,7 +76,7 @@ export default class OrganisationView extends AbstractView {
     
     return (
       <main className = 'container'>
-        <h1 className= 'text-white text-uppercase text-center my-4'>Department app</h1>
+        <h1 className= 'text-white text-uppercase text-center my-4'>Organisation app</h1>
         <div className = 'row'>
           <div className = 'col-md-30 col-sm-10 mx-auto p-0'>
             <div className = 'card p-3'>
@@ -85,7 +85,7 @@ export default class OrganisationView extends AbstractView {
                   className = 'btn btn-primary'
                   onClick = {this.createItem}
                 >
-                  Add Department
+                  Add Organisation
                 </button>
                 <button
                   className = 'btn btn-primary'
