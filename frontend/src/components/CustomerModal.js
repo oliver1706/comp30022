@@ -28,11 +28,11 @@ export default class CustomerModal extends Component {
   };
 
   refreshData() {
-    axios.get(`/app/departments/`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/departments/`)
     .then((res) => this.setState({departments: res.data.results}))
     .catch((err) => console.log(err));
 
-    axios.get(`/app/organisations/`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/organisations/`)
     .then((res) => this.setState({organisations: res.data.results}))
     .catch((err) => console.log(err));
   }

@@ -79,17 +79,17 @@ export default class Home extends Component {
     console.log(`Sort is: ${this.state.sortBy}`)
     if(this.state.search.length != 0) {
         if(this.state.searchOn.length != 0) {
-          axios.get(`/app/${this.state.selection}/?${this.state.sortBy}${this.state.searchOn}=${this.state.search}`)
+          axios.get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?${this.state.sortBy}${this.state.searchOn}=${this.state.search}`)
           .then((res) => this.setState({dataList: res.data.results}))
           .catch((err) => console.log(err));
         } else {
-        axios.get(`/app/${this.state.selection}/?${this.state.sortBy}search=${this.state.search}`)
+        axios.get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?${this.state.sortBy}search=${this.state.search}`)
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
         }
     } else {
       axios
-        .get(`/app/${this.state.selection}/?${this.state.sortBy}`)
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?${this.state.sortBy}`)
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
     }
@@ -105,19 +105,19 @@ export default class Home extends Component {
     if (item.id) {
       console.log('Item submitted');
       axios
-        .patch(`/app/${this.state.selection}/${item.id}/`, item)
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post(`/app/${this.state.selection}/`, item)
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     
     axios
-      .delete(`/app/${this.state.selection}/${item.id}/`)
+      .delete(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

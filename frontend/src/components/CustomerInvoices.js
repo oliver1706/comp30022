@@ -30,14 +30,14 @@ export default class CustomerInvoices extends Component {
     
   }
   refreshInvoices = () => {
-    axios.get(`/app/customers/${this.props.customerId}}`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}}`)
     .then((res) => this.setState({customer: res.data}))
     .catch((err) => console.log(err));
     
-    axios.get(`/app/customers/${this.props.customerId}/`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}/`)
     .then((res) => console.log(res.data));
 
-    axios.get(`/app/customers/${this.props.customerId}/invoices`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}/invoices`)
     .then((res) => this.setState(
         {
             allInvoices: res.data,

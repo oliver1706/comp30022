@@ -39,12 +39,12 @@ export default class DepartmentAndOrganisationView extends Component {
   refreshList = () => {
 
     if(this.state.search.length !== 0) {
-        axios.get(`/app/${this.props.selection}s/?search=${this.state.search}`)
+        axios.get(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/?search=${this.state.search}`)
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
     } else {
       axios
-        .get(`/app/${this.props.selection}s/`)
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/`)
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
     }
@@ -61,18 +61,18 @@ export default class DepartmentAndOrganisationView extends Component {
     if (item.id) {
       console.log('Item submitted');
       axios
-        .patch(`/app/${this.props.selection}s/${item.id}/`, item)
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post(`/app/${this.props.selection}s/`, item)
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/`, item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/app/${this.props.selection}s/${item.id}/`)
+      .delete(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

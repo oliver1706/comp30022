@@ -6,7 +6,7 @@ import axios from 'axios';
 class Menu extends Component {
     logout() {
         // not sure if this does anything 
-        axios.post(`app/accounts/logout/`)
+        axios.post(process.env.REACT_APP_BACKEND_URL + `/app/accounts/logout/`)
         
         .then(() =>  {
           sessionStorage.removeItem("key");

@@ -29,7 +29,7 @@ export default class EmployeeModal extends Component {
   };
 
   refreshData() {
-    axios.get(`/app/departments/`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/departments/`)
     .then((res) => this.setState({departments: res.data.results}))
     .catch((err) => console.log(err));
   }
