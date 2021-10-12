@@ -7,11 +7,34 @@
     color: var(--mainColour);
     text-align: center;
     display: block;
-
-    border: 3px solid slateblue;
 }
 
 .popup {
     margin-top: 50%;
     height: 1000px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+
+    width: 40%;
+    margin-left: 60%;
+    border: 3px solid orangered;
+}
+
+.shit {
+    color: rgb(4, 0, 255);
+    margin-top: 10%;
+}
+
+li {
+    list-style: none;
+    margin: 10% auto;
+    font-size: 100%;
+}
+
+.but {
+    background-color: pink;
+    width: 100%;
 }

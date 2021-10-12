@@ -18,7 +18,9 @@ export default class CustomerModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedField: props.defaultField
+      selectedField: props.defaultField,
+      rSelected: null,
+      setRSelected: null,
     };
   }
   //const [cSelected, setCSelected] = useState([]);
@@ -40,32 +42,8 @@ export default class CustomerModal extends Component {
       <option value={field}>{field}</option>
     ))
   }
-
-  /*
-  onCheckboxBtnClick = (selected) => {
-    const index = cSelected.indexOf(selected);
-    if (index < 0) {
-      cSelected.push(selected);
-    } else {
-      cSelected.splice(index, 1);
-    }
-    setCSelected([...cSelected]);
-  }
-  */
-
-
-  render() {
-    
-
-
-    const { toggle, onSave } = this.props;
-    const field = this.state.selectedField;
-    console.log(this.state.selectedField);
-    return (
-      <Modal className = {styles.popup} isOpen={true} toggle={toggle}>
-        <ModalHeader className = {styles.header} toggle={toggle}>Sort By</ModalHeader>
-        <ModalBody>
-          <Form>
+  
+/*
             <FormGroup>
               <Label for="searchFields">Search Fields</Label>
               <select 
@@ -76,10 +54,44 @@ export default class CustomerModal extends Component {
                   {this.fieldSelection()}
                 </select>
             </FormGroup>
+            */
 
-            <ButtonGroup>
-              <Button>Name</Button>
-            </ButtonGroup>
+
+  render() {
+    
+    const rSelected = this.state.rSelected;
+    const { toggle, onSave } = this.props;
+    const field = this.state.selectedField;
+    console.log('selected field = ' + this.state.selectedField);
+
+    console.log('Button pressed =' + JSON.stringify(this.state.rSelected));
+    return (
+      <Modal className = {styles.popup} isOpen={true} toggle={toggle}>
+        <ModalHeader className = {styles.header} toggle={toggle}>Sort By</ModalHeader>
+        <ModalBody>
+          <Form>
+
+            
+
+            <ul className = {styles.buttons}>
+              <li><Button cssClass = 'shit' className = {styles.sortButton} name = 'first' onClick={() => this.setState({rSelected: 'first_name'})} 
+              active={this.rSelected === 'first_name'}>First Name</Button> </li>
+              <Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'last_name'})} 
+              active={this.rSelected === 'last_name'}>Last Name</Button>
+
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'gender'})} 
+              active={this.rSelected === 'gender'}>Gender</Button></li>
+
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'tag'})} 
+              active={this.rSelected === 'tag'}>Tag</Button></li>
+
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'email'})} 
+              active={this.rSelected === 'email'}>Email</Button></li>
+
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'phone'})} 
+              active={this.rSelected === 'phone'}>Phone Number</Button></li>
+
+            </ul>
 
 
           </Form>
@@ -87,7 +99,7 @@ export default class CustomerModal extends Component {
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => onSave(field)}
+            onClick={() => onSave(this.state.rSelected)}
             >
               Save
             </Button>
