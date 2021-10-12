@@ -14,25 +14,15 @@ import {
   Input,
   Label, 
 } from 'reactstrap';
+import AbstractView from './AbstractView.js';
+import AdvancedSearch from './AdvancedSearch.js';
 
-export default class EmployeeView extends Component {
+export default class EmployeeView extends AbstractView {
   constructor(props) {
     super(props);
     this.state = {
-      viewAll: true,
+      ...this.state,
       selection: 'employees',
-      dataList: [],
-      modal: false,
-      search: '',
-      searchToggle: false,
-      sortToggle: false,
-      searchOn: 'search', //Default, searches all searchable fields
-      sortBy: '',
-      disableEdit: true,
-
-      pageNum: 1,
-      next: null,
-      previous: null,
       activeItem: {
         id: '', 
         job_title: '',
@@ -46,56 +36,7 @@ export default class EmployeeView extends Component {
       },
 
     };
-    this.handleChange.bind(this);
 
-  };
-
-  componentDidMount() {
-    this.refreshList();
-  };
-
-  refreshList = () => {
-
-    console.log(`Search is: ${this.state.search}`);
-    console.log(`Searching on: ${this.state.searchOn}`);
-    console.log(`Sort is: ${this.state.sortBy}`);
-    console.log(`Asking for page ${this.state.pageNum}`);
-
-    axios
-      .get(`/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`)
-      .then((res) => this.setState({dataList: res.data.results,
-                                    next: res.data.next,
-                                    previous: res.data.previous}), () =>{console.log(`/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}${this.state.sortBy}`)})
-      .catch((err) => console.log(err));
-
-  };
-
-  toggle = () => {
-    this.setState({ modal: !this.state.modal });
-  };
-
-  handleSubmit = (item) => {
-
-    this.toggle();
-
-    if (item.id) {
-      console.log('Item submitted');
-      axios
-        .patch(`/app/employees/${item.id}/`, item)
-        .then((res) => this.refreshList(),
-              this.setState({disableEdit: true}));
-      return;
-    }
-    axios
-      .post(`/app/${this.state.selection}/`, item)
-      .then((res) => this.refreshList(),
-            this.setState({disableEdit: true}));
-  };
-
-  handleDelete = (item) => {
-    axios
-      .delete(`/app/employees/${item.id}/`)
-      .then((res) => this.refreshList());
   };
 
   createItem = () => {
@@ -113,54 +54,6 @@ export default class EmployeeView extends Component {
 
     this.setState({ activeItem: item, modal: !this.state.modal, disableEdit: false });
   };
-
-  editItem = (item) => {
-    this.setState({ activeItem: item, modal: !this.state.modal });
-  };
-
-  toggleSearchBy = () => {
-    this.setState({ searchToggle: !this.state.searchToggle});
-  }
-
-  updateSearch = (e) => {
-    console.log(e);
-    this.toggleSearchBy();
-    
-    this.setState({searchOn: e}, this.refreshList());
-
-  }
-
-  toggleSortBy = () => {
-    this.setState({sortToggle: !this.state.sortToggle});
-  }
-
-  updateSort = (e) => {
-    console.log(e)
-    const sortString = `ordering=${e}`;
-    console.log(`sortString is: ${sortString}`)
-    this.toggleSortBy();
-    this.setState({sortBy: sortString}, () => this.refreshList());
-  }
-
-  handleChange = (e) => {
-    const target = e.target;
-    this.setState({ search: target.value }, () => {this.refreshList()});
-    console.log(`Desired ${target.value} vs Current ${this.state.search}`);
-  };
-
-  nextPage = () => {
-    const currPage = this.state.pageNum;
-    if(this.state.next){
-      this.setState({pageNum: currPage + 1}, this.refreshList());
-    }
-  }
-
-  prevPage = () => {
-    const currPage = this.state.pageNum;
-    if(this.state.previous) {
-      this.setState({pageNum: currPage - 1}, this.refreshList());
-    }
-  }
 
   renderItems = () => {
     const allItems = this.state.dataList;
@@ -205,6 +98,12 @@ export default class EmployeeView extends Component {
                   onClick = {this.createItem}
                 >
                   Add employee
+                </button>
+                <button
+                  className = 'btn btn-primary'
+                  onClick = {this.toggleAdvancedSearch}
+                >
+                  Advanced Search
                 </button>
                 <button
                   className = 'btn btn-primary'
@@ -274,6 +173,13 @@ export default class EmployeeView extends Component {
           allFields = {['', 'phone']}
           toggle = {this.toggleSortBy}
           onSave = {this.updateSort}
+          />
+        ) : null}
+        {this.state.advancedSearchToggle ? (
+          <AdvancedSearch
+          allFields ={['first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
+          toggle = {this.toggleAdvancedSearch}
+          onSave = {this.updateAdvancedSearch}
           />
         ) : null}
       </main>
