@@ -1,6 +1,6 @@
 from app.models import Customer, Employee, Invoice
 from django_filters.rest_framework import FilterSet
-from django_filters.filters import CharFilter, NumberFilter, RangeFilter
+from django_filters.filters import CharFilter, NumberFilter
 
 class OrganisationFilter(FilterSet):
     name = CharFilter(lookup_expr='icontains')
@@ -15,10 +15,11 @@ class CustomerFilter(FilterSet):
     job_title = CharFilter(lookup_expr='icontains')
     class Meta:
         model = Customer
-        fields = ['first_name', 'last_name', 'gender', 'tag', 'email', 'phone']
+        fields = ['id', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']
         
 
 class EmployeeFilter(FilterSet):
+    id = CharFilter('id__id')
     first_name = CharFilter('id__first_name')
     last_name = CharFilter('id__last_name')
     username = CharFilter('id__username')
@@ -36,5 +37,5 @@ class InvoiceFilter(FilterSet):
     paid_max = NumberFilter('total_paid', 'lte')
     class Meta:
         model = Invoice
-        fields = ['customer__first_name', 'customer__last_name', 'total_due',
+        fields = ['id', 'customer__first_name', 'customer__last_name', 'total_due',
          'total_paid', 'date_added', 'date_due', 'incoming']
