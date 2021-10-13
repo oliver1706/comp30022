@@ -34,6 +34,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    /*border: 3px solid violet;*/
   }
 
 
@@ -126,7 +127,9 @@
 
 .customerList {
   list-style-type: group;
-  margin-top: 5%;
+  margin-top: 0;
+  margin-right: 0%;
+  width: 90%;
 }
 
 .customer {
@@ -152,5 +155,14 @@
 
 .homeScreen {
   height: 100%;
+}
+
+.advancedSearch {
+  color: var(--mainColour);
+  font-size: 80%;
+  width: 30%;
+  margin-left: 65%;
+  margin-top: 0%;
+  text-decoration: underline;
 }
 

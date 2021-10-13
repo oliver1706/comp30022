@@ -71,7 +71,7 @@ export default class CustomerModal extends Component {
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Customer</ModalHeader>
+        <ModalHeader toggle={toggle}>Add New Customer</ModalHeader>
         <button 
           className = 'btn btn-primary'
           disabled = {!this.state.disableEdit}

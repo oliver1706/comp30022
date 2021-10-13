@@ -22,7 +22,6 @@ export default class AdvancedSearch extends Component {
 
   generateSearchString() {
     let searchString = ""
-
     for(let i = 0; i < this.props.allFields.length; i++) {
       if(this.state.searchFields[i]) {
         searchString = `${searchString}&${this.props.allFields[i]}=${this.state.searchFields[i]}`
@@ -86,6 +85,7 @@ export default class AdvancedSearch extends Component {
           <Button
           color="success"
           onClick={() => onSave(this.generateSearchString())}
+          
           >
             Search
           </Button>

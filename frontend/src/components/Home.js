@@ -13,10 +13,15 @@ import FieldPopUp from './FieldPopUp';
 
 import {Form, FormGroup, Input} from 'reactstrap';
 
+import AdvancedSearch from './AdvancedSearch.js';
+import AbstractView from './AbstractView';
 
 
 
-export default class Home extends Component {
+
+
+
+export default class Home extends AbstractView {
 
   /*
   constructor(props, context) {
@@ -33,16 +38,9 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      ...this.state,
       visible: false,
-      viewAll: true,
       selection: 'customers',
-      dataList: [],
-      modal: false,
-      searchToggle: false,
-      sortToggle: false,
-      searchOn: '',
-      sortBy: '',
-      search: '',
       activeItem: {
         first_name : "",
         last_name : "",
@@ -56,7 +54,7 @@ export default class Home extends Component {
       },
 
     };
-    this.handleChange.bind(this);
+    //this.handleChange.bind(this);
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -68,7 +66,7 @@ export default class Home extends Component {
     }
 
   // customer functionality 
-
+/*
   componentDidMount() {
     console.log(`Search is: ${this.state.search}`);
     this.refreshList();
@@ -95,8 +93,8 @@ export default class Home extends Component {
     }
   };
 
-  
-
+  */
+/*
   handleSubmit = (item) => {
 
     console.log(item)
@@ -120,6 +118,7 @@ export default class Home extends Component {
       .delete(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`)
       .then((res) => this.refreshList());
   };
+  */
 
   createItem = () => {
     console.log('Yo gaba gaba')
@@ -137,7 +136,7 @@ export default class Home extends Component {
 
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
-
+/*
   editItem = (item) => {
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
@@ -149,13 +148,15 @@ export default class Home extends Component {
       return this.setState({ viewAll: false});
     }
   }
-
+*/
+/*
   handleChange = (e) => {
     const target = e.target;
     this.setState({ search: target.value }, () => {this.refreshList()});
     console.log(`Goopity Moop ${target.value} vs ${this.state.search}`);
   };
-
+*/
+/*
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
@@ -164,6 +165,11 @@ export default class Home extends Component {
     this.setState({ searchToggle: !this.state.searchToggle});
   }
 
+  */
+ /*
+
+
+
   updateSearch = (e) => {
     console.log(e);
     this.toggleSearchBy();
@@ -171,6 +177,9 @@ export default class Home extends Component {
     this.setState({searchOn: e}, this.refreshList());
 
   }
+
+
+  
 
   toggleSortBy = () => {
     this.setState({sortToggle: !this.state.sortToggle});
@@ -183,7 +192,7 @@ export default class Home extends Component {
     this.toggleSortBy();
     this.setState({sortBy: sortString}, () => this.refreshList());
   }
-
+*/
   renderItems = () => {
     const allItems = this.state.dataList;
     return allItems.map((item) => (
@@ -217,13 +226,28 @@ export default class Home extends Component {
     });
   }
  
-toggleMenu() {
-  this.setState({
-      visible: !this.state.visible
-  });
 
-  // logout logic
-}
+  // advanced search
+
+
+  createItem = () => {
+    const item = {
+                first_name : "",
+                last_name : "",
+                email : "",
+                job_title : "",
+                phone : "",
+                department : "",
+                organisation : null,
+                tag : "",
+                gender : null
+              };
+
+    this.setState({ activeItem: item, modal: !this.state.modal, disableEdit: false });
+  };
+
+
+
 
   render() {
   return (
@@ -250,7 +274,7 @@ toggleMenu() {
         <Form onSubmit={e => { e.preventDefault();}}>
           <FormGroup>
             <Input className = {styles.input}  type='text' name='search' value={this.state.search}
-                    onChange={this.handleChange}
+                    onChange={this.updateSearchBar}
                     placeholder='Search'
                   />
                 </FormGroup>
@@ -261,7 +285,9 @@ toggleMenu() {
       <div id = 'Heading' className = {styles.heading}>
         <button onClick = {this.toggleSortBy} className = {styles.button}> <FaSortAmountUp/>  </button>
         <h3 className = {styles.header}>Current Customers</h3>
+        
       </div>
+      <h4 onClick = {this.toggleAdvancedSearch}  className = {styles.advancedSearch}>Advanced Search</h4>
       </div>
 
       <Menu handleMouseDown={this.handleMouseDown}
@@ -272,7 +298,6 @@ toggleMenu() {
                 {this.renderItems()}
               </ul>
       </div>
-
       
 {this.state.modal ? (
           <CustomerModal
@@ -294,7 +319,15 @@ toggleMenu() {
           allFields = {['', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
           toggle = {this.toggleSortBy}
           onSave = {this.updateSort}
-          className = {styles.sortPopup}
+          />
+        ) : null}
+
+        {this.state.advancedSearchToggle ? (
+          <AdvancedSearch
+          allFields = {['first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
+          isOpen = {true}
+          toggle = {this.toggleAdvancedSearch}
+          onSave = {this.updateAdvancedSearch}
           />
         ) : null}
 
@@ -304,3 +337,16 @@ toggleMenu() {
   );
   }
 }
+
+
+/*
+ {this.state.adSearch ? (
+          <AdvancedSearch
+          allFields = {['first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
+          isOpen = {true}
+          toggle = {this.toggleAdSearch}
+          onSave = {this.generateSearchString()}
+          />
+        ) : null}
+
+        */
