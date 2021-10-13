@@ -71,34 +71,50 @@ export default class FieldPopUp extends Component {
         <ModalBody>
           <Form>
 
-            
+            <div className = {styles.page}>
 
-            <ul className = {styles.buttons}>
-              <li><Button cssClass = 'shit' className = {styles.sortButton} name = 'first' onClick={() => this.setState({rSelected: 'first_name'})} 
-              active={this.rSelected === 'first_name'}>First Name</Button> </li>
-              <Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'last_name'})} 
-              active={this.rSelected === 'last_name'}>Last Name</Button>
+              <ul className = {styles.words1}> 
+                <li><p>First Name</p></li>
+                <li><p>Last Name</p></li>
+                <li><p>Gender</p></li>
+              </ul>
+
+            <ul className = {styles.radioButtons}>
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'first_name'})} 
+              active={this.rSelected === 'first_name'}> </Button></li>
+              
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'last_name'})} 
+              active={this.rSelected === 'last_name'}> </Button> </li>
 
               <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'gender'})} 
-              active={this.rSelected === 'gender'}>Gender</Button></li>
-
-              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'tag'})} 
-              active={this.rSelected === 'tag'}>Tag</Button></li>
-
-              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'email'})} 
-              active={this.rSelected === 'email'}>Email</Button></li>
-
-              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'phone'})} 
-              active={this.rSelected === 'phone'}>Phone Number</Button></li>
+              active={this.rSelected === 'gender'}></Button></li>
 
             </ul>
 
+            <ul className = {styles.words2}> 
+                <li><p>Tag</p></li>
+                <li><p>Email</p></li>
+                <li><p>Phone</p></li>
+              </ul>
 
+
+            <ul className = {styles.radioButtons}>
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'tag'})} 
+              active={this.rSelected === 'tag'}></Button></li>
+
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'email'})} 
+              active={this.rSelected === 'email'}></Button></li>
+
+              <li><Button className = {styles.sortButton} onClick={() => this.setState({rSelected: 'phone'})} 
+              active={this.rSelected === 'phone'}> </Button></li>
+
+            </ul>
+            </div>
           </Form>
         </ModalBody>
         <ModalFooter>
           <Button
-            color="success"
+            className = {styles.saveButton}
             onClick={() => onSave(this.state.rSelected)}
             >
               Save
