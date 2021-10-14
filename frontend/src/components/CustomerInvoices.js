@@ -11,6 +11,7 @@ import {
   Input,
   Label,
 } from "reactstrap";
+import getAuthheader from "../Authentication";
 
 export default class CustomerInvoices extends Component {
   constructor(props) {
@@ -30,14 +31,14 @@ export default class CustomerInvoices extends Component {
     
   }
   refreshInvoices = () => {
-    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}}`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}}`, getAuthheader())
     .then((res) => this.setState({customer: res.data}))
     .catch((err) => console.log(err));
     
-    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}/`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}/`, getAuthheader())
     .then((res) => console.log(res.data));
 
-    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}/invoices`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${this.props.customerId}/invoices`, getAuthheader())
     .then((res) => this.setState(
         {
             allInvoices: res.data,

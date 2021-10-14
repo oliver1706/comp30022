@@ -13,6 +13,7 @@ import {
   Input,
   Label, 
 } from 'reactstrap';
+import getAuthheader from '../Authentication.js';
 
 export default class DepartmentAndOrganisationView extends Component {
   constructor(props) {
@@ -39,12 +40,12 @@ export default class DepartmentAndOrganisationView extends Component {
   refreshList = () => {
 
     if(this.state.search.length !== 0) {
-        axios.get(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/?search=${this.state.search}`)
+        axios.get(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/?search=${this.state.search}`, getAuthheader())
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
     } else {
       axios
-        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/`)
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/`, getAuthheader())
         .then((res) => this.setState({dataList: res.data.results}))
         .catch((err) => console.log(err));
     }
@@ -61,18 +62,18 @@ export default class DepartmentAndOrganisationView extends Component {
     if (item.id) {
       console.log('Item submitted');
       axios
-        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/${item.id}/`, item)
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/${item.id}/`, item, getAuthheader())
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/`, item)
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/`, item, getAuthheader())
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/${item.id}/`)
+      .delete(process.env.REACT_APP_BACKEND_URL + `/app/${this.props.selection}s/${item.id}/`, getAuthheader())
       .then((res) => this.refreshList());
   };
 

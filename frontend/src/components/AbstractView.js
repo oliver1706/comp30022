@@ -15,6 +15,7 @@ import {
   Input,
   Label, 
 } from 'reactstrap';
+import getAuthheader from '../Authentication.js';
 
 export default class AbstractView extends Component {
   constructor(props) {
@@ -69,14 +70,14 @@ export default class AbstractView extends Component {
     console.log(`Advanced search is ${this.state.advancedSearch}`)
     if(this.state.advancedSearch) {
       axios
-        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.advancedSearch}&${this.state.sortBy}`)
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.advancedSearch}&${this.state.sortBy}`, getAuthheader())
         .then((res) => this.setState({dataList: res.data.results,
                                       next: res.data.next,
                                       previous: res.data.previous}))
         .catch((err) => console.log(err));
     } else {
       axios
-        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`)
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`, getAuthheader())
         .then((res) => this.setState({dataList: res.data.results,
                                       next: res.data.next,
                                       previous: res.data.previous}),() => {console.log(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`)})
@@ -97,13 +98,13 @@ export default class AbstractView extends Component {
     if (item.id) {
       console.log('Item submitted');
       axios
-        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item)
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item, getAuthheader())
         .then((res) => this.refreshList(),
               this.setState({disableEdit: true}));
       return;
     }
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item)
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item, getAuthheader())
       .then((res) => this.refreshList(),
             this.setState({disableEdit: true}));
   };
@@ -111,7 +112,7 @@ export default class AbstractView extends Component {
   handleDelete = (item) => {
     
     axios
-      .delete(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`)
+      .delete(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, getAuthheader())
       .then((res) => this.refreshList());
   };
 

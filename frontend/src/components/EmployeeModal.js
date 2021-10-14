@@ -11,6 +11,7 @@ import {
   Input,
   Label,
 } from "reactstrap";
+import getAuthheader from "../Authentication";
 
 export default class EmployeeModal extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class EmployeeModal extends Component {
   };
 
   refreshData() {
-    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/departments/`)
+    axios.get(process.env.REACT_APP_BACKEND_URL + `/app/departments/`, getAuthheader())
     .then((res) => this.setState({departments: res.data.results}))
     .catch((err) => console.log(err));
   }
