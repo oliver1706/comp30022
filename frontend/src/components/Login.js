@@ -50,14 +50,14 @@ export default function Login({ setToken }) {
 
     <form onSubmit={handleSubmit} className = {styles.loginCredentials}>
 
-    <label>
+    <div>
       <p className = {styles.text}>Username</p>
       <input placeholder = 'username' className = {styles.input} type="text" onChange={e => setUserName(e.target.value)}/>
-    </label>
-    <label>
+    </div>
+    <div>
       <p className = {styles.text}>Password</p>
       <input placeholder = 'password' className = {styles.input} type="password" onChange={e => setPassword(e.target.value)}/>
-    </label>
+    </div>
     <div>
       <button className = {styles.loginButton}   type="submit">Login</button>
     </div>

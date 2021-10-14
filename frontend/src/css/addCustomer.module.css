@@ -1,3 +1,5 @@
+
+
 :root {
     --mainColour: #1B496A;
     --secondaryColour: #F49E8F;
@@ -9,11 +11,11 @@ label {
     margin-left: 4%;
 }
 
-
 .customerInput {
     width: 75%;
     margin-left: 10%;
 }
+
 
 select {
     width: 75%;
@@ -21,10 +23,12 @@ select {
 }
 
 
+
 .saveButton {
     background-color: var(--mainColour);
     border: var(--mainColour);
 } 
+
 
 .header {
     background-color: var(--mainColour);
