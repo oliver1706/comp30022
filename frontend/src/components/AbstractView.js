@@ -69,14 +69,14 @@ export default class AbstractView extends Component {
     console.log(`Advanced search is ${this.state.advancedSearch}`)
     if(this.state.advancedSearch) {
       axios
-        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.advancedSearch}&${this.state.sortBy}`, {headers: {'Authorization': `key ${JSON.parse(sessionStorage.getItem("key")).key}`}})
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.advancedSearch}&${this.state.sortBy}`)
         .then((res) => this.setState({dataList: res.data.results,
                                       next: res.data.next,
                                       previous: res.data.previous}))
         .catch((err) => console.log(err));
     } else {
       axios
-        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`, {headers: {'Authorization': `key ${JSON.parse(sessionStorage.getItem("key")).key}`}})
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`)
         .then((res) => this.setState({dataList: res.data.results,
                                       next: res.data.next,
                                       previous: res.data.previous}),() => {console.log(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?page=${this.state.pageNum}&${this.state.searchOn}=${this.state.search}&${this.state.sortBy}`)})
