@@ -48,10 +48,10 @@ export default class CustomerModal extends Component {
   };
 
   organisationSelection = () => {
-    const allOrganisations = this.state.departments;
+    const allOrganisations = this.state.organisations;
     
     return allOrganisations.map((organisation) => (
-      <option value={organisation.id}>{organisation.name.name}</option>
+      <option value={organisation.id}>{organisation.name}</option>
     ));
   }
   departmentSelection = () => {
