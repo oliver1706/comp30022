@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 
 export default class CustomerModal extends Component {
+  // Pass the fields in as the allFields tag
   constructor(props) {
     super(props);
     this.state = {

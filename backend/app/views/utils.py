@@ -30,12 +30,12 @@ def get_graph():
     buffer.close()
     return graph
 
-def get_plot(x,y):
+def get_plot(x,y,title,xlabel,ylabel):
     plt.switch_backend('AGG')
     plt.figure(figsize=(10,5))
-    plt.title('Sales by Date')
+    plt.title(title)
     plt.plot(x,y)
-    plt.xlabel('Date')
-    plt.ylabel('Sum of Sales')
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
     graph=get_graph()
     return graph

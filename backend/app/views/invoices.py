@@ -3,7 +3,7 @@ from app.filters import InvoiceFilter
 from rest_framework import viewsets
 from app.serializers import InvoiceSerializer
 from app.models import Invoice
-from app.permissions import GetOnlyIfNotAdmin 
+from app.permissions import InvoicePermission 
 
 from django.db.models import Avg, Min, Max, Sum
 from rest_framework.response import Response
@@ -13,8 +13,9 @@ from .utils import get_plot
 class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
-    http_method_names = ['get', 'post', 'patch', 'delete']
-    permission_classes = [GetOnlyIfNotAdmin]
+    # Must create by post on customer
+    http_method_names = ['get', 'patch', 'delete']
+    permission_classes = [InvoicePermission]
     search_fields = ['customer__first_name', 'customer__last_name']
     filterset_class = InvoiceFilter
     ordering_fields = '__all__'
