@@ -131,7 +131,7 @@ toggleMenu() {
           <button className = {styles.button}> <FaFilter/>  </button>
           <Form onSubmit={e => { e.preventDefault();}}>
             <FormGroup>
-              <Input className = {styles.input}  type='text' name='search' value={this.state.search}
+              <Input className = {styles.inputBox}  type='text' name='search' value={this.state.search}
                       onChange={this.handleChange}
                       placeholder='Search'
                     />

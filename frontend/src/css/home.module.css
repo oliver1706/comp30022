@@ -95,7 +95,7 @@
 
 }
 
-.input {
+.inputBox {
   border-radius: 9px;
   color: var(--mainColour);
   font-size: 150%;
@@ -128,7 +128,7 @@
 .customerList {
   list-style-type: group;
   margin-top: 0;
-  margin-right: 0%;
+  margin-left: 5%;
   width: 90%;
 }
 

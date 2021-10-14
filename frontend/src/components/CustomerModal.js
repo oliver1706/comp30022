@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import styles from '../css/addCustomer.module.css';
 import {
   Button,
   Modal,
@@ -71,14 +72,9 @@ export default class CustomerModal extends Component {
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Add New Customer</ModalHeader>
-        <button 
-          className = 'btn btn-primary'
-          disabled = {!this.state.disableEdit}
-          onClick={this.enableEdit}
-        >
-          Edit
-        </button>
+        <ModalHeader className = {styles.header} toggle={toggle}>Add New Customer</ModalHeader>
+
+       
         <ModalBody>
           <Form>
             <FormGroup>
@@ -90,6 +86,7 @@ export default class CustomerModal extends Component {
                 value={this.state.activeItem.description}
                 onChange={this.handleChange}
                 placeholder="Enter Customer Description"
+                className = {styles.customerInput}
               />
             </FormGroup>
             <FormGroup>
@@ -100,7 +97,8 @@ export default class CustomerModal extends Component {
                   name="first_name"
                   value={this.state.activeItem.first_name}
                   onChange={this.handleChange}
-                  placeholder="Enter Customer/Rep First Name"
+                  placeholder="Enter First Name"
+                  className = {styles.customerInput}
                 />
               </FormGroup>
               <FormGroup>
@@ -111,7 +109,8 @@ export default class CustomerModal extends Component {
                     name="last_name"
                     value={this.state.activeItem.last_name}
                     onChange={this.handleChange}
-                    placeholder="Enter Customer/Rep Last Name"
+                    placeholder="Enter Last Name"
+                    className = {styles.customerInput}
                   />
               </FormGroup>
               <FormGroup>
@@ -123,6 +122,7 @@ export default class CustomerModal extends Component {
                     value={this.state.activeItem.job_title}
                     onChange={this.handleChange}
                     placeholder="Blank if Not Applicable"
+                    className = {styles.customerInput}
                   />
               </FormGroup>
               <FormGroup>
@@ -134,6 +134,7 @@ export default class CustomerModal extends Component {
                     value={this.state.activeItem.email}
                     onChange={this.handleChange}
                     placeholder="john@example.com"
+                    className = {styles.customerInput}
                   />
               </FormGroup>
               <FormGroup>
@@ -145,10 +146,12 @@ export default class CustomerModal extends Component {
                     value={this.state.activeItem.phone}
                     onChange={this.handleChange}
                     placeholder="0410123456"
+                    className = {styles.customerInput}
                   />
               </FormGroup>
               <FormGroup>
                   <Label for="department">Department</Label>
+                  <br/>
                   <select 
                     disabled={this.state.disableEdit}
                     name = "department"
@@ -160,13 +163,16 @@ export default class CustomerModal extends Component {
               </FormGroup>
               <FormGroup>
                   <Label for="organisation">Organisation</Label>
+                  <br/>
                   <select 
+                  className = {styles.selectButton}
                     disabled={this.state.disableEdit}
                     name = "organisation"
                     value={this.state.activeItem.organisation}
                     onChange={this.handleChange}
                     placeholder="Select an Organisation">
                     {this.organisationSelection()}
+                    
                 </select>
               </FormGroup>
               <FormGroup>
@@ -178,10 +184,12 @@ export default class CustomerModal extends Component {
                     value={this.state.activeItem.tag}
                     onChange={this.handleChange}
                     placeholder="Eg; #construction"
+                    className = {styles.customerInput}
                   />
               </FormGroup>
               <FormGroup>
                   <Label for="gender">Gender</Label>
+                  <br/>
                   <select onChange={this.handleChange}
                           disabled={this.state.disableEdit}
                           value={this.state.activeItem.gender}>
@@ -197,6 +205,7 @@ export default class CustomerModal extends Component {
           <Button
             color="success"
             onClick={() => onSave(this.state.activeItem)}
+            className = {styles.saveButton}
           >
             Save
           </Button>
@@ -206,3 +215,12 @@ export default class CustomerModal extends Component {
   }
 }
 
+/* Edit button 
+ <button 
+          className = 'btn btn-primary'
+          disabled = {!this.state.disableEdit}
+          onClick={this.enableEdit}
+        >
+          Edit
+        </button>
+        */
