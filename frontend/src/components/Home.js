@@ -296,7 +296,15 @@ export default class Home extends AbstractView {
       <div id = 'customers'>
       <ul className = {styles.customerList}>
                 {this.renderItems()}
-              </ul>
+      </ul>
+        <div id = 'Footing'   className = {styles.heading}>
+          {this.state.previous ? 
+          (<button onClick = {() => this.prevPage()} className = {styles.button}> Previous </button>) : (null)
+          }
+          {this.state.next ? 
+          (<button onClick = {() => this.nextPage()} className = {styles.button}> Next </button>) : (null)
+          }
+        </div>
       </div>
       
 {this.state.modal ? (
