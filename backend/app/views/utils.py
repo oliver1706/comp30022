@@ -32,7 +32,7 @@ def get_graph():
 
 def get_plot(x,y,title,xlabel,ylabel):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(10,5))
+    #plt.figure(figsize=(10,5))
     plt.title(title)
     plt.plot(x,y)
     plt.xlabel(xlabel)

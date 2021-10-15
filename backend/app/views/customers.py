@@ -15,7 +15,8 @@ from django.db.models import Avg, Min, Max, Sum
 from .utils import get_plot
 import requests
 import base64
-from django.core.files.base import ContentFile    
+from django.core.files.base import ContentFile   
+from django.db.models.functions import Trunc
 
 # Customer endpoints
 
@@ -178,12 +179,11 @@ class CustomerViewSet(viewsets.ModelViewSet):
         #this function return the plot in base64 
         # to view in html, use <img src ="data:image/png;base64, {{chart|safe}}"
         invoices = Invoice.objects.filter(customer=pk)
-        sales_sum= invoices.values('date_added').annotate(sum = Sum('total_due'))
-        x=[x['date_added'] for x in sales_sum]
+        sales_sum= invoices.annotate(month=Trunc('date_added','month')).values('month').annotate(sum=Sum('total_due')).order_by()
+        x=[x['month'].strftime('%b %Y') for x in sales_sum]
         y=[y['sum'] for y in sales_sum]
-        print(x)
-        print(y)
-        chart=get_plot(x,y)
+        chart=get_plot(x,y,"purchase each month","month","sales")
+
         return Response({'chart':chart})
 
 class CustomerResource(resources.ModelResource):
