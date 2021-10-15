@@ -284,8 +284,9 @@ export default class Home extends AbstractView {
 
       <div id = 'Heading' className = {styles.heading}>
         <button onClick = {this.toggleSortBy} className = {styles.button}> <FaSortAmountUp/>  </button>
-        <h3 className = {styles.header}>Current Customers</h3>
         
+        <h3 className = {styles.header}>Current Customers</h3>
+
       </div>
       <h4 onClick = {this.toggleAdvancedSearch}  className = {styles.advancedSearch}>Advanced Search</h4>
       </div>
@@ -358,3 +359,6 @@ export default class Home extends AbstractView {
         ) : null}
 
         */
+
+
+        /*  <h4 className = {styles.results}>Showing {this.state.dataList.length} results </h4> */

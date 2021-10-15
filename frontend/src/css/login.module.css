@@ -62,7 +62,7 @@
     
 }
 .loginButton {
-    margin-left: 1%;
+    margin-left: 3%;
     margin-right: auto;
     background-color: var(--mainColour);
     height: 40px;
@@ -76,6 +76,7 @@
     margin-bottom: 4%;
     margin-top: auto;
     color: var(--mainColour);
+    width: 85%;
 }
 
 .input[type = text] {

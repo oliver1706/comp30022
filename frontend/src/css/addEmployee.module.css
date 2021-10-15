@@ -23,16 +23,6 @@ label {
 
 }
 
-.editButton {
-    background-color: var(--mainColour);
-    border: var(--mainColour);
-    color: white;
-    width: 20%;
-    border-radius: 3px;
-    margin-left: 75%;
-    margin-top: 4%;
-}
-
 .saveButton {
     background-color: var(--mainColour);
     border: var(--mainColour);
@@ -41,19 +31,4 @@ label {
     border-radius: 3px;
     margin-left: 75%;
     margin-top: 2%;
-}
-
-
-.saveButton:disabled {
-    background-color: var(--mainColour);
-    border: var(--mainColour);
-    color: white;
-    width: 20%;
-    border-radius: 3px;
-    margin-left: 75%;
-}
-
-.inputForm {
-    margin-top: -6%;
-
 }

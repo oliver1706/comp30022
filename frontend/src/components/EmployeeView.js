@@ -1,5 +1,6 @@
 
 import EmployeeModal from './EmployeeModal.js';
+import NewEmployee from './NewEmployee.js';
 import FieldPopUp from '../components/FieldPopUp.js';
 import '../App.css';
 import React, { Component, Redirect } from 'react';
@@ -66,7 +67,7 @@ export default class EmployeeView extends AbstractView {
                 department: ''
               };
 
-    this.setState({ activeItem: item, modal: !this.state.modal, disableEdit: false });
+    this.setState({ activeItem: item, newEmployee: !this.state.newEmployee, disableEdit: false });
   };
 
   renderItems = () => {
@@ -162,6 +163,14 @@ toggleMenu() {
               activeItem = {this.state.activeItem}
               toggle = {this.toggle}
               onSave = {this.handleSubmit}
+              />
+          ) : null}
+
+{this.state.newEmployee ? (
+            <NewEmployee
+              activeItem = {this.state.activeItem}
+              toggle = {this.toggleNewEmployee}
+              onSave = {this.addEmployee}
               />
           ) : null}
           {this.state.searchToggle ? (

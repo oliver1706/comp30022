@@ -25,6 +25,8 @@ export default class AbstractView extends Component {
       selection: '',
       dataList: [],
       modal: false,
+      newEmployee: false,
+
       search: '',
       advancedSearch: '',
       searchToggle: false,
@@ -89,11 +91,34 @@ export default class AbstractView extends Component {
     this.setState({ modal: !this.state.modal });
   };
 
+  toggleNewEmployee = () => {
+    this.setState({newEmployee: !this.state.newEmployee})
+  }
+
 
   handleSubmit = (item) => {
 
     console.log(item)
     this.toggle();
+
+    if (item.id) {
+      console.log('Item submitted');
+      axios
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item, getAuthheader())
+        .then((res) => this.refreshList(),
+              this.setState({disableEdit: true}));
+      return;
+    }
+    axios
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item, getAuthheader())
+      .then((res) => this.refreshList(),
+            this.setState({disableEdit: true}));
+  };
+
+  addEmployee = (item) => {
+
+    console.log(item)
+    this.toggleNewEmployee();
 
     if (item.id) {
       console.log('Item submitted');

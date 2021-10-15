@@ -139,7 +139,7 @@
   background-color: var(--mainColour);
   color: white;
   border-radius: 4px;
-  width: 85%;
+  width: 88%;
   height: 75px;
   margin-top: 6%;
   margin-bottom: auto;
@@ -166,3 +166,11 @@
   text-decoration: underline;
 }
 
+.results {
+  font-size: medium;
+}
+
+.writing {
+  display: flex;
+  align-items: center;
+}
