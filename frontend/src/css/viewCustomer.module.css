@@ -1,0 +1,71 @@
+:root {
+    --mainColour: #1B496A;
+    --secondaryColour: #F49E8F;
+  }
+
+
+label {
+    width: 30%;
+    margin-left: 4%;
+}
+
+.customerInput {
+    width: 75%;
+    margin-left: 10%;
+}
+
+
+select {
+    width: 75%;
+    margin-left: 10%;
+}
+
+
+
+.saveButton {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+} 
+
+
+.header {
+    background-color: var(--mainColour);
+    color: white;
+    margin-bottom: 3%;
+    height: 75px;
+}
+
+.editButton {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+    width: 20%;
+    border-radius: 3px;
+    margin-left: 75%;
+    margin-top: 4%;
+}
+.saveButton:disabled {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+    width: 20%;
+    border-radius: 3px;
+    margin-left: 75%;
+}
+
+.inputForm {
+    margin-top: -6%;
+
+}
+/*
+
+.genderSelect{
+    margin-right: 1%;
+    margin-left: auto;
+}
+
+.gender {
+    width: 20%;
+}
+
+*/
