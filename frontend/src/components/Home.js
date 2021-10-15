@@ -16,6 +16,8 @@ import {Form, FormGroup, Input} from 'reactstrap';
 import AdvancedSearch from './AdvancedSearch.js';
 import AbstractView from './AbstractView';
 
+import ExistingCustomer from './ExistingCustomer';
+
 
 
 
@@ -313,6 +315,14 @@ export default class Home extends AbstractView {
             activeItem = {this.state.activeItem}
             toggle = {this.toggle}
             onSave = {this.handleSubmit}
+            />
+        ) : null}
+
+{this.state.customer ? (
+          <ExistingCustomer
+            activeItem = {this.state.activeItem}
+            toggle = {this.toggleExistingCustomer}
+            onSave = {this.handleExistingCustomer}
             />
         ) : null}
         {this.state.searchToggle ? (

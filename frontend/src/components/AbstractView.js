@@ -26,7 +26,7 @@ export default class AbstractView extends Component {
       dataList: [],
       modal: false,
       newEmployee: false,
-
+      customer: false,
       search: '',
       advancedSearch: '',
       searchToggle: false,
@@ -91,6 +91,11 @@ export default class AbstractView extends Component {
     this.setState({ modal: !this.state.modal });
   };
 
+  toggleExistingCustomer = () => {
+    this.setState({ customer: !this.state.customer });
+  };
+
+
   toggleNewEmployee = () => {
     this.setState({newEmployee: !this.state.newEmployee})
   }
@@ -114,6 +119,27 @@ export default class AbstractView extends Component {
       .then((res) => this.refreshList(),
             this.setState({disableEdit: true}));
   };
+
+
+  handleExistingCustomer = (item) => {
+
+    console.log(item)
+    this.toggleExistingCustomer();
+
+    if (item.id) {
+      console.log('Item submitted');
+      axios
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item, getAuthheader())
+        .then((res) => this.refreshList(),
+              this.setState({disableEdit: true}));
+      return;
+    }
+    axios
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item, getAuthheader())
+      .then((res) => this.refreshList(),
+            this.setState({disableEdit: true}));
+  };
+
 
   addEmployee = (item) => {
 
@@ -158,7 +184,7 @@ export default class AbstractView extends Component {
   };
 
   editItem = (item) => {
-    this.setState({ activeItem: item, modal: !this.state.modal });
+    this.setState({ activeItem: item, customer: !this.state.customer });
   };
 
 
