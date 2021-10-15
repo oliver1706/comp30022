@@ -1,0 +1,54 @@
+:root {
+    --mainColour: #1B496A;
+    --secondaryColour: #F49E8F;
+  }
+
+
+label {
+    width: 30%;
+    margin-left: 4%;
+}
+
+.customerInput {
+    width: 75%;
+    margin-left: 10%;
+}
+
+.header {
+    background-color: var(--mainColour);
+    color: white;
+    margin-bottom: 1%;
+    height: 70px;
+    font-size: xx-small;
+
+}
+
+.editButton {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+    width: 20%;
+    border-radius: 3px;
+    margin-left: 75%;
+    margin-top: 4%;
+}
+
+.saveButton {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+    width: 20%;
+    border-radius: 3px;
+    margin-left: 75%;
+    margin-top: 2%;
+}
+
+
+.saveButton:disabled {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+    width: 20%;
+    border-radius: 3px;
+    margin-left: 75%;
+}

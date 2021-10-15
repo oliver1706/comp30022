@@ -72,7 +72,7 @@ export default class CustomerModal extends Component {
     const { toggle, onSave } = this.props;
 
     return (
-      <Modal isOpen={true} toggle={toggle}>
+      <Modal isOpen={true} toggle={toggle} className = {styles.customerPopup}>
         <ModalHeader className = {styles.header} toggle={toggle}>Add New Customer</ModalHeader>
 
        

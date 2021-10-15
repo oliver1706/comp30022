@@ -1,3 +1,4 @@
+import styles from '../css/advancedSearch.module.css'
 import React, { Component } from "react";
 import {
   Button,
@@ -54,18 +55,28 @@ export default class AdvancedSearch extends Component {
     console.log(newFields);
   };
 
+  humanise = (str) => {
+    var i, frags = str.split('_');
+    for (i=0; i<frags.length; i++) {
+      frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+    }
+    return frags.join(' ');
+  }
+
   searchFields = () => {
     const fields = this.props.allFields;
+
 
     return fields.map((field) => (
 
         <FormGroup>
-            <Label for={field}>{field}</Label>
-            <Input
+            <Label className = {styles.fieldLabel }for={field}>{this.humanise(field)}</Label>
+            <Input className = {styles.customerInput}
                 type="text"
                 name={field}
                 value={this.state.searchFields[fields.indexOf(field)]}
                 onChange={this.handleChange}
+                placeholder = {this.humanise(field)}
             />
         </FormGroup>
     ))
@@ -75,7 +86,7 @@ export default class AdvancedSearch extends Component {
     const { toggle, onSave } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Advanced Search </ModalHeader>
+        <ModalHeader className = {styles.header}toggle={toggle}>Advanced Search </ModalHeader>
         <ModalBody>
           <Form>
             {this.searchFields()}
@@ -83,6 +94,7 @@ export default class AdvancedSearch extends Component {
         </ModalBody>
         <ModalFooter>
           <Button
+          className = {styles.searchButton}
           color="success"
           onClick={() => onSave(this.generateSearchString())}
           

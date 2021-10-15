@@ -1,5 +1,3 @@
-
-
 :root {
     --mainColour: #1B496A;
     --secondaryColour: #F49E8F;
@@ -34,6 +32,7 @@ select {
     background-color: var(--mainColour);
     color: white;
     margin-bottom: 3%;
+    height: 75px;
 }
 /*
 

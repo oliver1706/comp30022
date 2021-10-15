@@ -201,7 +201,7 @@ export default class Home extends AbstractView {
         onClick={()=> this.editItem(item)}
         className = {styles.customer} 
       >
-        <span className = {styles.name}> {item.first_name} {item.last_name} </span>
+        <span className = {styles.name}> {item.first_name} {item.last_name} {item.image} </span>
         <br/>
         <span className = {styles.secondaryText}>{item.phone} {item.department} </span>
         </li>

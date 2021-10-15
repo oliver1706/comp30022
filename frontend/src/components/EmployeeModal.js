@@ -1,4 +1,5 @@
 import axios from "axios";
+import styles from '../css/viewEmployee.module.css'
 import React, { Component } from "react";
 import {
   Button,
@@ -60,19 +61,21 @@ export default class EmployeeModal extends Component {
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Employee</ModalHeader>
+        <ModalHeader className ={styles.header} toggle={toggle}>{this.state.activeItem.first_name} &nbsp;
+         {this.state.activeItem.last_name} </ModalHeader>
         <button 
-          className = 'btn btn-primary'
+          className = {styles.editButton}
           disabled = {!this.state.disableEdit}
           onClick={this.enableEdit}
         >
           Edit
         </button>
         <ModalBody>
-          <Form>
+          <Form className = {styles.inputForm}>
           <FormGroup>
               <Label for="user_name">Username</Label>
               <Input
+                className = {styles.customerInput}
                 disabled={this.state.disableEdit}
                 type="text"
                 name="username"
@@ -84,6 +87,7 @@ export default class EmployeeModal extends Component {
             <FormGroup>
               <Label for="first_name">First Name</Label>
               <Input
+                className = {styles.customerInput}
                 disabled={this.state.disableEdit}
                 type="text"
                 name="first_name"
@@ -95,6 +99,7 @@ export default class EmployeeModal extends Component {
             <FormGroup>
               <Label for="last_name">Last Name</Label>
               <Input
+                className = {styles.customerInput}
                 disabled={this.state.disableEdit}
                 type="text"
                 name="last_name"
@@ -106,6 +111,7 @@ export default class EmployeeModal extends Component {
             <FormGroup>
               <Label for="job_title">Job Title</Label>
               <Input
+                className = {styles.customerInput}
                 disabled={this.state.disableEdit}
                 type="text"
                 name="job_title"
@@ -117,6 +123,7 @@ export default class EmployeeModal extends Component {
             <FormGroup>
               <Label for="phone">Phone</Label>
               <Input
+                className = {styles.customerInput}
                 disabled={this.state.disableEdit}
                 type="text"
                 name="phone"
@@ -129,6 +136,7 @@ export default class EmployeeModal extends Component {
               <Label for="department">Department</Label>
               
               <select 
+                className = {styles.customerInput}
                 disabled={this.state.disableEdit}
                 name = "department"
                 value={this.state.activeItem.department}
@@ -138,15 +146,18 @@ export default class EmployeeModal extends Component {
               </select>
             </FormGroup>
           </Form>
-        </ModalBody>
-        <ModalFooter>
+
           <Button
             disabled={this.state.disableEdit}
             color="success"
             onClick={() => onSave(this.state.activeItem)}
+            className = {styles.saveButton}
           >
             Save
           </Button>
+        </ModalBody>
+        <ModalFooter>
+          
         </ModalFooter>
       </Modal>
     );
