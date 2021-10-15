@@ -44,6 +44,10 @@ export default class CustomerModal extends Component {
     if (value == '') {
       value = null;
     }
+    if(name == "photo") {
+      console.log(e.target.files[0]);
+      value = e.target.files[0]
+    }
     const activeItem = { ...this.state.activeItem, [name]: value };
 
     this.setState({ activeItem });
@@ -88,6 +92,18 @@ export default class CustomerModal extends Component {
                 onChange={this.handleChange}
                 placeholder="Enter Customer Description"
                 className = {styles.customerInput}
+              />
+            </FormGroup>
+            
+            <FormGroup>
+                <Label for="photo">photo</Label>
+                <input
+                  disabled={this.state.disableEdit}
+                  type="file"
+                  name="photo"
+
+                  onChange={this.handleChange}
+                  className = {styles.customerInput}
               />
             </FormGroup>
             <FormGroup>
@@ -209,6 +225,13 @@ export default class CustomerModal extends Component {
             className = {styles.saveButton}
           >
             Save
+          </Button>
+          <Button
+            color="success"
+            onClick={() => console.log(this.state.activeItem)}
+            className = {styles.saveButton}
+          >
+            test
           </Button>
         </ModalFooter>
       </Modal>

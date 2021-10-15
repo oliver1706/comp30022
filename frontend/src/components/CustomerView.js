@@ -16,6 +16,7 @@ import {
   Input,
   Label, 
 } from 'reactstrap';
+import getAuthheader from '../Authentication.js';
 
 export default class CustomerView extends AbstractView {
   constructor(props) {
@@ -41,7 +42,7 @@ export default class CustomerView extends AbstractView {
 
   createItem = () => {
     const item = {
-                first_name : "",
+                /*first_name : "",
                 last_name : "",
                 email : "",
                 job_title : "",
@@ -49,11 +50,39 @@ export default class CustomerView extends AbstractView {
                 department : "",
                 organisation : null,
                 tag : "",
-                gender : null
+                gender : null*/
               };
 
     this.setState({ activeItem: item, modal: !this.state.modal, disableEdit: false });
   };
+
+  testSubmit(photo) {
+
+    const testItem = {
+        first_name: "Nigel",
+        last_name: "Miguel",
+        job_title: "Fishermaan",
+        phone: "20322321314"
+      }
+
+    var testForm = new FormData()
+
+    for (var key in testItem) {
+      console.log(key);
+      console.log(testItem[key]);
+      testForm.append(key, testItem[key]);
+      console.log(testForm);
+    }
+    testForm.append('test', 'jest');
+
+    console.log(testForm.get('test'));
+    console.log("hii");
+    testForm.append('photo', photo);
+    axios.post("http://localhost:8000/app/customers/", testForm, getAuthheader()).then((res) => console.log(res));
+
+    axios.get("http://localhost:8000/app/customers/140", getAuthheader()).then((res) => console.log(res));
+
+  }
 
   renderItems = () => {
     const allItems = this.state.dataList;
@@ -88,7 +117,12 @@ export default class CustomerView extends AbstractView {
     
     return (
       <main className = 'container'>
+
         <h1 className= 'text-white text-uppercase text-center my-4'>Customer app</h1>
+        <input
+          type="file"
+          onChange={(e) => this.testSubmit(e.target.files[0]) }
+          />
         <div className = 'row'>
           <div className = 'col-md-20 col-sm-10 mx-auto p-0'>
             <div className = 'card p-3'>
@@ -133,7 +167,7 @@ export default class CustomerView extends AbstractView {
                     type='text'
                     name='search'
                     value={this.state.search}
-                    onChange={this.handleChange}
+                    onChange={this.updateSearchBar}
                     placeholder='Search'
                   />
                 </FormGroup>

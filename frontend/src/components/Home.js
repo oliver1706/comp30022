@@ -125,7 +125,7 @@ export default class Home extends AbstractView {
   createItem = () => {
     console.log('Yo gaba gaba')
     const item = {
-                first_name : "",
+                /*first_name : "",
                 last_name : "",
                 email : "",
                 job_title : "",
@@ -133,7 +133,7 @@ export default class Home extends AbstractView {
                 department : "",
                 organisation : null,
                 tag : "",
-                gender : null
+                gender : null*/
               };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
@@ -203,6 +203,7 @@ export default class Home extends AbstractView {
         onClick={()=> this.editItem(item)}
         className = {styles.customer} 
       >
+        <img src={item.image}/>
         <span className = {styles.name}> {item.first_name} {item.last_name} {item.image} </span>
         <br/>
         <span className = {styles.secondaryText}>{item.phone} {item.department} </span>
@@ -234,7 +235,7 @@ export default class Home extends AbstractView {
 
   createItem = () => {
     const item = {
-                first_name : "",
+                /*first_name : "",
                 last_name : "",
                 email : "",
                 job_title : "",
@@ -242,7 +243,7 @@ export default class Home extends AbstractView {
                 department : "",
                 organisation : null,
                 tag : "",
-                gender : null
+                gender : null*/
               };
 
     this.setState({ activeItem: item, modal: !this.state.modal, disableEdit: false });

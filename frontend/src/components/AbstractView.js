@@ -104,60 +104,85 @@ export default class AbstractView extends Component {
   handleSubmit = (item) => {
 
     console.log(item)
+    let data = new FormData();
+
+    for (let key in item) {
+      data.append(key, item[key]);
+    }
+    console.log(data.get("photo"))
     this.toggle();
 
     if (item.id) {
       console.log('Item submitted');
       axios
-        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item, getAuthheader())
-        .then((res) => this.refreshList(),
-              this.setState({disableEdit: true}));
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, data, getAuthheader())
+        .then((res) =>  console.log(res), this.refreshList(),
+              this.setState({disableEdit: true}))
+        .catch((err) => console.log(err));;
       return;
     }
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item, getAuthheader())
-      .then((res) => this.refreshList(),
-            this.setState({disableEdit: true}));
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, data, getAuthheader())
+      .then((res) =>  console.log(res),  this.refreshList(),
+            this.setState({disableEdit: true}))
+      .catch((err) => console.log(err));;
   };
 
 
   handleExistingCustomer = (item) => {
 
     console.log(item)
+
+    let data = new FormData();
+
+    for (let key in item) {
+      data.append(key, item[key]);
+    }
     this.toggleExistingCustomer();
 
     if (item.id) {
       console.log('Item submitted');
       axios
-        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item, getAuthheader())
-        .then((res) => this.refreshList(),
-              this.setState({disableEdit: true}));
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, data, getAuthheader())
+        .then((res) => console.log(res), this.refreshList(),
+              this.setState({disableEdit: true}))
+        .catch((err) => console.log(err));;
       return;
     }
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item, getAuthheader())
-      .then((res) => this.refreshList(),
-            this.setState({disableEdit: true}));
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, data, getAuthheader())
+      .then((res) =>  console.log(res), this.refreshList(),
+            this.setState({disableEdit: true}))
+      .catch((err) => console.log(err));;
   };
 
 
   addEmployee = (item) => {
 
     console.log(item)
+
+    let data = new FormData();
+
+    for (let key in item) {
+      data.append(key, item[key]);
+    }
+
     this.toggleNewEmployee();
 
     if (item.id) {
       console.log('Item submitted');
       axios
-        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item, getAuthheader())
-        .then((res) => this.refreshList(),
-              this.setState({disableEdit: true}));
+        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, data, getAuthheader())
+        .then((res) => console.log(res), this.refreshList(),
+              this.setState({disableEdit: true}))
+        .catch((err) => console.log(err));;
       return;
     }
     axios
-      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item, getAuthheader())
-      .then((res) => this.refreshList(),
-            this.setState({disableEdit: true}));
+      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, data, getAuthheader())
+      .then((res) =>  console.log(res), this.refreshList(),
+            this.setState({disableEdit: true}))
+      .catch((err) => console.log(err));
   };
 
   handleDelete = (item) => {
