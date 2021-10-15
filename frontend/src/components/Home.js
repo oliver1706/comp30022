@@ -50,7 +50,7 @@ export default class Home extends AbstractView {
         department : "",
         organisation : "",
         tag : "",
-        gender : null
+        gender : ''
       },
 
     };

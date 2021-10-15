@@ -157,7 +157,7 @@ toggleMenu() {
   
         
   {this.state.modal ? (
-            <CustomerModal
+            <EmployeeModal
               activeItem = {this.state.activeItem}
               toggle = {this.toggle}
               onSave = {this.handleSubmit}
