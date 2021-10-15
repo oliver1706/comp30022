@@ -75,7 +75,7 @@ export default class EmployeeView extends AbstractView {
     return allItems.map((item) => (
       <li
         className = {styles.customer}
-        onClick={()=> this.editItem(item)}
+        onClick={()=> this.editEmployee(item)}
       >
         <span className = {styles.name}> {item.first_name} {item.last_name} </span>
         <br/>
