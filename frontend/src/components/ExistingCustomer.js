@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import styles from '../css/addCustomer.module.css';
+import styles from '../css/viewCustomer.module.css';
 import {
   Button,
   Modal,
@@ -76,6 +76,13 @@ export default class ExistingCustomer extends Component {
         <ModalHeader className = {styles.header} toggle={toggle}>{this.state.activeItem.first_name} &nbsp;
          {this.state.activeItem.last_name}</ModalHeader>
 
+         <button 
+          className = {styles.editButton}
+          disabled = {!this.state.disableEdit}
+          onClick={this.enableEdit}
+        >
+          Edit
+        </button>
        
         <ModalBody>
           <Form>
@@ -195,7 +202,10 @@ export default class ExistingCustomer extends Component {
                   <br/>
                   <select onChange={this.handleExistingCustomer}
                           disabled={this.state.disableEdit}
-                          value={this.state.activeItem.gender}>
+                          value={this.state.activeItem.gender}
+                          disabled={this.state.disableEdit}>
+
+                              
                       <option value="M">Male</option>
                       <option value="F">Female</option>
                       <option value="N">Non-Binary</option>
@@ -206,6 +216,7 @@ export default class ExistingCustomer extends Component {
         </ModalBody>
         <ModalFooter>
           <Button
+            disabled={this.state.disableEdit}
             color="success"
             onClick={() => onSave(this.state.activeItem)}
             className = {styles.saveButton}
@@ -216,6 +227,10 @@ export default class ExistingCustomer extends Component {
       </Modal>
     );
   }
+}
+
+ExistingCustomer.defaultProps = {
+    disableEdit: true
 }
 
 /* Edit button 

@@ -212,6 +212,12 @@ export default class AbstractView extends Component {
     this.setState({ activeItem: item, customer: !this.state.customer });
   };
 
+  editEmployee = (item) => {
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+
+
+
 
   updateSearchBar = (e) => {
     const target = e.target;
