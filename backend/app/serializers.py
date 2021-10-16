@@ -75,12 +75,12 @@ class EmployeeIdsSerializer(serializers.Serializer):
 class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
-        fields = ("id", "customer", "employee", "total_due", "total_paid", "date_added", "date_due", "incoming", "description", "pdf")
+        fields = ("id", "customer", "employee", "total_due", "total_paid", "date_added", "date_due", "incoming", "description", "pdf","date_paid")
         
     def create(self, validated_data):
-        invoice = Invoice.objects.create(total_due = validated_data.get("total_due"), total_paid = validated_data.get("total_paid"), date_added = validated_data.get("date_added"),
+        invoice = Invoice.objects.create(total_due = validated_data.get("total_due"), total_paid = validated_data.get("total_paid"),
             date_due = validated_data.get("date_due"), incoming = validated_data.get("incoming"), description = validated_data.get("description"), 
-            pdf = validated_data.get("pdf"), customer = validated_data.get("customer"))
+            pdf = validated_data.get("pdf"), customer = validated_data.get("customer"), date_paid = validated_data.get("date_paid"))
         invoice.employee = Employee.objects.get(id = self.context["request"].user.id)
         invoice.save()
         invoice.customer.update_watchers()

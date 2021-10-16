@@ -69,6 +69,9 @@ function App() {
           <Route path = '/viewplot'>
             <CustomerStatistics/>
           </Route>
+          <Route path = '/viewplot'>
+            <CustomerStatistics/>
+          </Route>
         </Switch>
       </BrowserRouter>
 

@@ -13,6 +13,12 @@ from app.filters import CustomerFilter
 import requests
 import base64
 from django.core.files.base import ContentFile    
+from django.db.models import Avg, Min, Max, Sum
+from .utils import get_plot
+import requests
+import base64
+from django.core.files.base import ContentFile   
+from django.db.models.functions import Trunc
 
 # Customer endpoints
 
@@ -149,7 +155,48 @@ class CustomerViewSet(viewsets.ModelViewSet):
         serializer = EmployeeIdsSerializer(data = customer.get_owners())
         serializer.is_valid()
         return JsonResponse(serializer.validated_data)
-    
+    @action(detail = True, methods=["GET"])
+    def stats(self, request, pk=None):
+        #this function returns the mean, min, max, number of invoices belongs to the customer, number of paid and unpaid invoice among them
+        
+        invoices = Invoice.objects.filter(customer=pk)
+        stats=invoices.aggregate(mean=Avg('total_due'),min=Min('total_due'),max= Max('total_due'))
+        stats['invoice_num']= invoices.count()
+        stats['fully_paid']=0
+        stats['underpaid']=0
+        #sum_date_diff=0
+        for i in invoices:
+            if i.total_paid >= i.total_due:
+                stats['paid']+=1
+               # sum_date_diff+=i.date_due-i.date_added
+            else: 
+                stats['underpaid']+=1
+        
+       # stats['average_date_diff']=sum_date_diff/stats['invoice_num']
+        return Response(stats)
+
+    @action(detail=True,methods = ['get'])
+    def salesplot(self,request,pk=None):
+        #this function return the plot in base64 
+        # to view in html, use <img src ="data:image/png;base64, {{chart|safe}}"
+        invoices = Invoice.objects.filter(customer=pk)
+        sales_sum= invoices.annotate(month=Trunc('date_added','month')).values('month').annotate(sum=Sum('total_due')).order_by()
+        x=[x['month'].strftime('%b %Y') for x in sales_sum]
+        sum_y=[y['sum'] for y in sales_sum]
+        sum_of_sales_plot=get_plot(x,sum_y,"Total Purchase of Each Month","Month","Sales")
+
+        #average amount of invoices per month
+        sales_mean= invoices.annotate(month=Trunc('date_added','month')).values('month').annotate(mean=Avg('total_due')).order_by()
+        mean_y=[y['mean'] for y in sales_mean]
+        mean_of_sales_plot=get_plot(x,mean_y,"Average Purchase of Each month","Month","Sales")
+
+        #amount per invoice ordered by time
+        invoice_amount= invoices.values('total_due','date_added').order_by('date_added')
+        invoice_y=[y['total_due'] for y in invoice_amount]
+        invoice_x=[x['date_added'].strftime('%d %b %Y') for x in invoice_amount]
+        print(invoice_amount)
+        amount_per_invoices=get_plot(invoice_x,invoice_y,"Amount per Invoice","Date","Sales")
+        return Response({'sum_of_sales_plot':sum_of_sales_plot,'mean_of_sales_plot':mean_of_sales_plot,'amount_per_invoices':amount_per_invoices})
 
 class CustomerResource(resources.ModelResource):
 

@@ -34,7 +34,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+<<<<<<< HEAD
     /*border: 3px solid violet;*/
+=======
+>>>>>>> alice_stats
   }
 
 
@@ -95,7 +98,11 @@
 
 }
 
+<<<<<<< HEAD
 .inputBox {
+=======
+.input {
+>>>>>>> alice_stats
   border-radius: 9px;
   color: var(--mainColour);
   font-size: 150%;
@@ -127,9 +134,13 @@
 
 .customerList {
   list-style-type: group;
+<<<<<<< HEAD
   margin-top: 0;
   margin-left: 5%;
   width: 90%;
+=======
+  margin-top: 5%;
+>>>>>>> alice_stats
 }
 
 .customer {
@@ -139,7 +150,11 @@
   background-color: var(--mainColour);
   color: white;
   border-radius: 4px;
+<<<<<<< HEAD
   width: 88%;
+=======
+  width: 85%;
+>>>>>>> alice_stats
   height: 75px;
   margin-top: 6%;
   margin-bottom: auto;
@@ -153,6 +168,7 @@
   margin-left: 5%;
 }
 
+<<<<<<< HEAD
 .homeScreen {
   height: 100%;
 }
@@ -174,3 +190,5 @@
   display: flex;
   align-items: center;
 }
+=======
+>>>>>>> alice_stats
