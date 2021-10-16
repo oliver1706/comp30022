@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-b$4!gl6u)k+r-defc+lsoy_ojbhc_1ot%%onk*7qaumvbv)52l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-3-25-62-207.ap-southeast-2.compute.amazonaws.com', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -159,13 +159,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = 'crm-bbtech'
-<<<<<<< HEAD
 AWS_ACCESS_KEY_ID = #ASK OLIVER
 AWS_SECRET_ACCESS_KEY = #ASK OLIVER
-=======
-AWS_ACCESS_KEY_ID = 'AKIAWSLLJAAOKKNN3UN4'
-AWS_SECRET_ACCESS_KEY = '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'
->>>>>>> alice_stats
 AWS_QUERYSTRING_AUTH = False
 
 
