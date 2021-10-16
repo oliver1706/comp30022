@@ -41,7 +41,7 @@ export default class CustomerStatistics extends Component {
             >
             Profile
             </button>
-            <button 
+            {this.props.customer.invoices.length ? (<div><button 
                 className = {styles.editButton}
                 disables={this.props.activeView === "invoices"}
                 value="invoices"
@@ -56,7 +56,7 @@ export default class CustomerStatistics extends Component {
                 onClick={() => onTab("plots")}
             >
             Plots
-            </button>
+            </button></div>) : null}
           </span>
         )
     }

@@ -70,15 +70,9 @@ export default class CustomerStatistics extends Component {
     if(this.state.loadedPlots) {
       return (
         <ModalBody>
-          <button 
-            className = {styles.editButton}
-            onClick={() => onClose()}
-          >
-            close
-          </button>
           <div>
             {this.plotSelection()}
-            <img src={`data:img/png;base64, ${this.state.currPlot}`}/>
+            <img src={`data:img/png;base64, ${this.state.currPlot}`} width={480} height={360}/>
           </div>
           
         </ModalBody>

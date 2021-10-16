@@ -97,7 +97,7 @@ export default class ExistingCustomer extends Component {
         <Modal isOpen={true} toggle={toggle} className = {styles.customerPopup}>
           <ModalHeader className = {styles.header} toggle={toggle}>{this.state.activeItem.first_name} &nbsp;
           {this.state.activeItem.last_name}</ModalHeader>
-          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab}/>
+          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab} customer={this.state.activeItem}/>
           <CustomerInvoices customerId={this.state.activeItem.id} onClose={this.toggleInvoice}/>
         
         </Modal>)
@@ -106,7 +106,7 @@ export default class ExistingCustomer extends Component {
         <Modal isOpen={true} toggle={toggle} className = {styles.customerPopup}>
           <ModalHeader className = {styles.header} toggle={toggle}>{this.state.activeItem.first_name} &nbsp;
           {this.state.activeItem.last_name}</ModalHeader>
-          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab}/>
+          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab} customer={this.state.activeItem}/>
           <CustomerStatistics customerId={this.state.activeItem.id} onClose={this.toggleStats}/>
         
         </Modal>)
@@ -115,31 +115,14 @@ export default class ExistingCustomer extends Component {
         <Modal isOpen={true} toggle={toggle} className = {styles.customerPopup}>
           <ModalHeader className = {styles.header} toggle={toggle}>{this.state.activeItem.first_name} &nbsp;
           {this.state.activeItem.last_name}</ModalHeader>
-          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab}/>
+          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab} customer={this.state.activeItem}/>
           <button 
             className = {styles.editButton}
             disabled = {!this.state.disableEdit}
             onClick={this.enableEdit}
           >
             Edit
-          </button>
-          {this.state.activeItem.invoices.length ? (
-            <button 
-              className = {styles.editButton}
-              onClick={this.toggleInvoice}
-            >
-              View invoices
-            </button>
-          ) : null}
-
-            <button 
-              className = {styles.editButton}
-              onClick={this.toggleStats}
-            >
-              View stats
-            </button>
-          
-        
+          </button>     
           <ModalBody>
             <Form>
               <FormGroup>
