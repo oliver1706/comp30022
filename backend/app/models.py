@@ -100,6 +100,7 @@ class Invoice(models.Model):
     date_due = models.DateField(null = True, blank = True)
     incoming = models.BooleanField(null = False)
     description = models.CharField(max_length=255, null = False)
+    date_paid=models.DateField(null = True,blank=True)
     def pdfname(self, filename):
         extension = splitext(filename)[1]
         return "invoices" + "/" + uuid4().hex + extension
