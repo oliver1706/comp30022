@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import styles from '../css/viewCustomer.module.css'
+
 import {
   Button,
   Modal,
@@ -84,6 +85,8 @@ export default class CustomerInvoices extends Component {
     }
   }
 
+
+
   setInvoice = (e) => {
       const invoiceList = this.state.allInvoices;
       const { name, value } = e.target;
@@ -131,7 +134,7 @@ export default class CustomerInvoices extends Component {
   }
   render() {
       const invoice = this.currInvoice;
-      const onClose = this.props.onClose
+      const onClose = this.props.onClose;
       return (
         <ModalBody>
           <Form>

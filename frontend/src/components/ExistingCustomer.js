@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { Component } from "react";
 import styles from '../css/viewCustomer.module.css';
-import CustomerInvoices from './CustomerInvoices'
+import CustomerInvoices from './CustomerInvoices.js';
+import CustomerStatistics from './CustomerStatistics.js';
+import CustomerInfoTabs from './CustomerInfoTabs.js';
 import {
   Button,
   Modal,
@@ -24,6 +26,8 @@ export default class ExistingCustomer extends Component {
       organisations: [],
       disableEdit: this.props.disableEdit,
       invoiceToggle: false,
+      statsToggle: false,
+      activeView: "main"
     };
   }
 
@@ -66,27 +70,52 @@ export default class ExistingCustomer extends Component {
     ));
   }
 
+  handleTab = (e) => {
+    console.log(e);
+    //const value = e.target.value;
+
+    this.setState({activeView: e})
+  }
+
   enableEdit = () => {
     this.setState({disableEdit: false})
   }
+
   toggleInvoice = () => {
     this.setState({invoiceToggle: !this.state.invoiceToggle})
   }
-  render() {
-    const { toggle, onSave } = this.props;
 
-    if (this.state.invoiceToggle) {
+  toggleStats = () => {
+    this.setState({statsToggle: !this.state.statsToggle})
+  }
+
+  render() {
+    const { toggle, onSave} = this.props;
+    
+    if (this.state.activeView === "invoices") {
       return (
         <Modal isOpen={true} toggle={toggle} className = {styles.customerPopup}>
-          
+          <ModalHeader className = {styles.header} toggle={toggle}>{this.state.activeItem.first_name} &nbsp;
+          {this.state.activeItem.last_name}</ModalHeader>
+          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab}/>
           <CustomerInvoices customerId={this.state.activeItem.id} onClose={this.toggleInvoice}/>
+        
+        </Modal>)
+    } else if (this.state.activeView === "plots") {
+      return (
+        <Modal isOpen={true} toggle={toggle} className = {styles.customerPopup}>
+          <ModalHeader className = {styles.header} toggle={toggle}>{this.state.activeItem.first_name} &nbsp;
+          {this.state.activeItem.last_name}</ModalHeader>
+          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab}/>
+          <CustomerStatistics customerId={this.state.activeItem.id} onClose={this.toggleStats}/>
+        
         </Modal>)
     } else {
       return (
         <Modal isOpen={true} toggle={toggle} className = {styles.customerPopup}>
           <ModalHeader className = {styles.header} toggle={toggle}>{this.state.activeItem.first_name} &nbsp;
           {this.state.activeItem.last_name}</ModalHeader>
-
+          <CustomerInfoTabs activeView={this.state.activeView} onTab={this.handleTab}/>
           <button 
             className = {styles.editButton}
             disabled = {!this.state.disableEdit}
@@ -102,6 +131,13 @@ export default class ExistingCustomer extends Component {
               View invoices
             </button>
           ) : null}
+
+            <button 
+              className = {styles.editButton}
+              onClick={this.toggleStats}
+            >
+              View stats
+            </button>
           
         
           <ModalBody>
