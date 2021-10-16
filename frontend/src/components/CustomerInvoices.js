@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import styles from '../css/viewCustomer.module.css'
 import {
   Button,
   Modal,
@@ -102,6 +103,7 @@ export default class CustomerInvoices extends Component {
 
   renderCurrentInvoice() {
       const invoice = this.state.currInvoice;
+      console.log(invoice);
       if(this.state.currInvoice != null){
         return (
             <main className = 'container'>
@@ -109,12 +111,15 @@ export default class CustomerInvoices extends Component {
             <div className = 'row'>
             <div className = 'col-md-20 col-sm-10 mx-auto p-0'>
                 <div className = 'card p-3'>
-                    <div className = 'mb-4'>
+                    <span className = {styles.name}>
                         Total Paid: {invoice.total_paid}
-                    </div>
-                    <div className = 'mb-4'>
+                    </span>
+                    <span className = {styles.name}>
                         Total Due: {invoice.total_due}
-                    </div>
+                    </span>
+                    <span className = {styles.name}>
+                        Due on: {invoice.due_date}
+                    </span>
                 </div>
             </div>
             </div>
@@ -126,33 +131,41 @@ export default class CustomerInvoices extends Component {
   }
   render() {
       const invoice = this.currInvoice;
-      return (<main className = 'container'>
+      const onClose = this.props.onClose
+      return (
+        <ModalBody>
+          <Form>
+          <FormGroup>
+            <Label for="currInvoice"></Label>
+            <select 
+                name = "currInvoice"
+                onChange={this.setInvoice}
+                value={invoice}
+                placeholder="Select an Invoice">
+                {this.invoiceSelection()}
+            </select>
+          </FormGroup>
+          </Form>
           {this.renderCurrentInvoice()}
           <button 
-            className = 'btn btn-primary'
+            className = {styles.editButton}
+            onClick={() => onClose()}
+          >
+            close
+          </button>
+          <button 
+            className = {styles.editButton}
             onClick={() => this.incrementInvoiceNum(1)}
           >
             next
           </button>
           <button 
-            className = 'btn btn-primary'
+            className = {styles.editButton}
             onClick={() => this.incrementInvoiceNum(-1)}
           >
             previous
           </button>
-          <Form>
-              <FormGroup>
-                <Label for="currInvoice"> The jester jests, the bester bests </Label>
-                <select 
-                    name = "currInvoice"
-                    onChange={this.setInvoice}
-                    value={invoice}
-                    placeholder="Select an Invoice">
-                    {this.invoiceSelection()}
-                </select>
-          </FormGroup>
-          </Form>
-          </main>
+          </ModalBody>
       );
     }
 }

@@ -226,13 +226,7 @@ export default class CustomerModal extends Component {
           >
             Save
           </Button>
-          <Button
-            color="success"
-            onClick={() => console.log(this.state.activeItem)}
-            className = {styles.saveButton}
-          >
-            test
-          </Button>
+
         </ModalFooter>
       </Modal>
     );
