@@ -56,7 +56,7 @@ class Customer(models.Model):
         customer_watchers = CustomerWatcher.objects.filter(customer = customer.id)
         for customer_watcher in customer_watchers:
             employee = customer_watcher.employee
-            send_mail('Customer ' + str(customer.first_name) + ' ' + str(customer.last_name) + ' has been updated!', 'Visit http://localhost:8000/app/customers/' + str(customer.id) + '/',
+            send_mail('Customer ' + str(customer.first_name) + ' ' + str(customer.last_name) + ' has been updated.', 'Visit https://dev.dv6hru9as863g.amplifyapp.com to see more.',
             None, [employee.id.email], fail_silently=False)
 
 
