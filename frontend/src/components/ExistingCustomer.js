@@ -91,7 +91,7 @@ export default class ExistingCustomer extends Component {
 
   render() {
     const { toggle, onSave} = this.props;
-    
+
     if (this.state.activeView === "invoices") {
       return (
         <Modal isOpen={true} toggle={toggle} className = {styles.customerPopup}>
@@ -126,19 +126,6 @@ export default class ExistingCustomer extends Component {
           <ModalBody>
             <Form>
               <FormGroup>
-                <Label for="description">Description</Label>
-                <Input
-                  disabled={this.state.disableEdit}
-                  type="text"
-                  name="description"
-                  value={this.state.activeItem.description}
-                  onChange={this.handleExistingCustomer}
-                  placeholder="Enter Customer Description"
-                  className = {styles.customerInput}
-                />
-              </FormGroup>
-              <img src={this.state.activeItem.photo} width="250" height="400"/>
-              <FormGroup>
                   <Label for="first_name">First Name</Label>
                   <Input
                     disabled={this.state.disableEdit}
@@ -162,6 +149,20 @@ export default class ExistingCustomer extends Component {
                       className = {styles.customerInput}
                     />
                 </FormGroup>
+                <img className = {styles.customerImg} src={this.state.activeItem.photo} width="250" height="250"/>
+
+                <FormGroup>
+                <Label for="description">Description</Label>
+                <Input
+                  disabled={this.state.disableEdit}
+                  type="text"
+                  name="description"
+                  value={this.state.activeItem.description}
+                  onChange={this.handleExistingCustomer}
+                  placeholder="Enter Customer Description"
+                  className = {styles.customerInput}
+                />
+              </FormGroup>  
                 <FormGroup>
                     <Label for="job_title">Job Title</Label>
                     <Input

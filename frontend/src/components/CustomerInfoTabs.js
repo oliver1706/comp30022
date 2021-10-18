@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import getAuthheader from "../Authentication.js";
-import styles from '../css/viewCustomer.module.css';
+import styles from '../css/infotabs.module.css';
 import {
   Button,
   Modal,
@@ -32,32 +32,32 @@ export default class CustomerStatistics extends Component {
       const activeView = this.props.activeView;
       const onTab = this.props.onTab;
         return (
-          <span>
+          <div>
             <button 
-                className = {styles.editButton}
+                className = {styles.profileButton}
                 disables={this.props.activeView === "main"}
                 value="main"
                 onClick={() => onTab("main")}
             >
             Profile
             </button>
-            {this.props.customer.invoices.length ? (<div><button 
-                className = {styles.editButton}
-                disables={this.props.activeView === "invoices"}
+            {this.props.customer.invoices.length ? (<div className = {styles.infotabs}><button 
+                  className = {styles.otherButtons}
+                  disables={this.props.activeView === "invoices"}
                 value="invoices"
                 onClick={() => onTab("invoices")}
             >
             Invoices
             </button>
-            <button 
-                className = {styles.editButton}
+            <button
+                className = {styles.otherButtons}
                 disables={this.props.activeView === "plots"}
                 value="plots"
                 onClick={() => onTab("plots")}
             >
             Plots
             </button></div>) : null}
-          </span>
+          </div>
         )
     }
 }

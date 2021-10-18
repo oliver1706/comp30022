@@ -1,0 +1,22 @@
+.infotabs {
+    display: inline-block;
+    margin-top: 3%;
+    
+}
+
+
+
+.otherButtons {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+}
+
+.profileButton {
+    background-color: var(--mainColour);
+    color: white;
+    margin-left: 2%;
+    border: var(--mainColour);
+
+
+}
