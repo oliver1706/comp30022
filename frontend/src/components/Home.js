@@ -208,11 +208,18 @@ export default class Home extends AbstractView {
         onClick={()=> this.editItem(item)}
         className = {styles.customer} 
       >
-        <div><img src={item.photo} height={32} width={32}/></div>
-        <span className = {styles.name}> {item.first_name} {item.last_name} {item.image} </span>
-        <br/>
-        <span className = {styles.secondaryText}>{item.phone} {item.department} </span>
+
+        <div className = {styles.parent}>
+          <span className = {styles.name}> {item.first_name} {item.last_name} {item.image} </span>
+        </div>
+        
+        <span className = {styles.secondaryText}>{item.job_title} </span>
+        <div>
+       <img  className = {styles.customerImage} src={item.photo} height={44} width={44}/>
+        </div>
+        
         </li>
+        
     ));
   };
 
