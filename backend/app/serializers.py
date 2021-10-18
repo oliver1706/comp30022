@@ -100,7 +100,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields =  ("id", "description", "first_name", "last_name", "job_title", "gender", "tag", "email", "phone", "photo", "department", "department_name",
-        "organisation", "organisation_name", "invoices", "can_edit", "is_watcher", "owners", "watchers")
+        "organisation", "organisation_name", "tag", "invoices", "can_edit", "is_watcher", "owners", "watchers")
     department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
     organisation = serializers.IntegerField(write_only = True, allow_null = True, required = False)
