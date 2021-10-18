@@ -60,8 +60,11 @@ export default class Home extends AbstractView {
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
+
+    /*
     this.exportData = this.exportData.bind(this);
     this.requestExport = this.requestExport.bind(this);
+    */
   };
 
   
@@ -231,6 +234,8 @@ export default class Home extends AbstractView {
     });
   }
 
+  /*
+
   exportData(){
     const data = this.state.exportData;
     console.log(data);
@@ -249,6 +254,7 @@ export default class Home extends AbstractView {
         .then((res) => this.setState({exportData: res.data}, () => this.exportData()))
         .catch((err) => console.log(err));
   }
+  */
   // advanced search
 
 
@@ -293,11 +299,6 @@ export default class Home extends AbstractView {
       </div>
       <div id = 'Search and Filter' className = {styles.search}>
         <button className = {styles.button}> <FaFilter/>  </button>
-        <button 
-          className = {styles.button}
-          onClick={this.requestExport}> 
-            export 
-        </button>
         <Form onSubmit={e => { e.preventDefault();}}>
           <FormGroup>
             <Input className = {styles.inputBox}  type='text' name='search' value={this.state.search}
