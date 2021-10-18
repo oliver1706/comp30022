@@ -125,7 +125,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         customer = Customer.objects.create(description = validated_data.get("description"), first_name = validated_data.get("first_name"),
             last_name = validated_data.get("last_name"), job_title = validated_data.get("job_title"), email = validated_data.get("email"),
-            phone = validated_data.get("phone"), photo = validated_data.get("photo"))
+            phone = validated_data.get("phone"), photo = validated_data.get("photo"), tag = validated_data.get("tag"))
         update_department_id(customer, validated_data)
         update_organisation_id(customer, validated_data)
         customer.save()
@@ -148,6 +148,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get("email", instance.phone)
         instance.phone = validated_data.get("phone", instance.phone)
         instance.photo = validated_data.get("photo", instance.photo)
+        instance.tag = validated_data.get("tag", instance.tag)
         instance.save()
         instance.update_watchers()
         return instance
