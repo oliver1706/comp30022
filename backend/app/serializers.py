@@ -125,7 +125,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         customer = Customer.objects.create(description = validated_data.get("description"), first_name = validated_data.get("first_name"),
             last_name = validated_data.get("last_name"), job_title = validated_data.get("job_title"), email = validated_data.get("email"),
-            phone = validated_data.get("phone"), photo = validated_data.get("photo"), tag = validated_data.get("tag"))
+            phone = validated_data.get("phone"), photo = validated_data.get("photo"), tag = validated_data.get("tag"), gender = validated_data.get("gender"))
         update_department_id(customer, validated_data)
         update_organisation_id(customer, validated_data)
         customer.save()
