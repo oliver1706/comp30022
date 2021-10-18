@@ -137,7 +137,7 @@ export default class ExistingCustomer extends Component {
                   className = {styles.customerInput}
                 />
               </FormGroup>
-              <img src={this.state.activeItem.photo} width="250" height="400"/>
+              <img src={this.state.activeItem.photo} width="250" height="250"/>
               <FormGroup>
                   <Label for="first_name">First Name</Label>
                   <Input

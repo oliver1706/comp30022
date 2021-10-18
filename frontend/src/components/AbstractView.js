@@ -111,7 +111,7 @@ export default class AbstractView extends Component {
     }
     console.log(data.get("photo"))
     this.toggle();
-
+    console.log(item);
     if (item.id) {
       console.log('Item submitted');
       axios
@@ -139,7 +139,7 @@ export default class AbstractView extends Component {
       data.append(key, item[key]);
     }
     this.toggleExistingCustomer();
-
+    console.log(item);
     if (item.id) {
       console.log('Item submitted');
       axios
@@ -194,7 +194,7 @@ export default class AbstractView extends Component {
 
   createItem = () => {
     const item = {
-                first_name : "",
+                /*first_name : "",
                 last_name : "",
                 email : "",
                 job_title : "",
@@ -202,7 +202,7 @@ export default class AbstractView extends Component {
                 department : "",
                 organisation : null,
                 tag : "",
-                gender : null
+                gender : null*/
               };
 
     this.setState({ activeItem: item, modal: !this.state.modal, disableEdit: false });

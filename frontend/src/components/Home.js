@@ -25,18 +25,6 @@ import ExistingCustomer from './ExistingCustomer';
 
 export default class Home extends AbstractView {
 
-  /*
-  constructor(props, context) {
-    super();
-   
-    this.state = {
-      visible: false
-    };
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.toggleMenu = this.toggleMenu.bind(this);
-  }
-  */
-
   constructor(props) {
     super(props);
     this.state = {
@@ -56,15 +44,8 @@ export default class Home extends AbstractView {
       },
 
     };
-    //this.handleChange.bind(this);
-
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
-
-    /*
-    this.exportData = this.exportData.bind(this);
-    this.requestExport = this.requestExport.bind(this);
-    */
   };
 
   
@@ -72,60 +53,6 @@ export default class Home extends AbstractView {
     window.location.reload(false);
     }
 
-  // customer functionality 
-/*
-  componentDidMount() {
-    console.log(`Search is: ${this.state.search}`);
-    this.refreshList();
-  };
-
-  refreshList = () => {
-    console.log(`Search is: ${this.state.search}`);
-    console.log(`Sort is: ${this.state.sortBy}`)
-    if(this.state.search.length != 0) {
-        if(this.state.searchOn.length != 0) {
-          axios.get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?${this.state.sortBy}${this.state.searchOn}=${this.state.search}`)
-          .then((res) => this.setState({dataList: res.data.results}))
-          .catch((err) => console.log(err));
-        } else {
-        axios.get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?${this.state.sortBy}search=${this.state.search}`)
-        .then((res) => this.setState({dataList: res.data.results}))
-        .catch((err) => console.log(err));
-        }
-    } else {
-      axios
-        .get(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/?${this.state.sortBy}`)
-        .then((res) => this.setState({dataList: res.data.results}))
-        .catch((err) => console.log(err));
-    }
-  };
-
-  */
-/*
-  handleSubmit = (item) => {
-
-    console.log(item)
-    this.toggle();
-
-    if (item.id) {
-      console.log('Item submitted');
-      axios
-        .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, item)
-        .then((res) => this.refreshList());
-      return;
-    }
-    axios
-      .post(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/`, item)
-      .then((res) => this.refreshList());
-  };
-
-  handleDelete = (item) => {
-    
-    axios
-      .delete(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`)
-      .then((res) => this.refreshList());
-  };
-  */
 
   createItem = () => {
     console.log('Yo gaba gaba')
@@ -143,63 +70,14 @@ export default class Home extends AbstractView {
 
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
-/*
-  editItem = (item) => {
-    this.setState({ activeItem: item, modal: !this.state.modal });
-  };
 
-  displayAll = (status) => {
-    if (status) {
-      return this.setState({ viewAll: true });
-    } else {
-      return this.setState({ viewAll: false});
-    }
-  }
-*/
-/*
-  handleChange = (e) => {
-    const target = e.target;
-    this.setState({ search: target.value }, () => {this.refreshList()});
-    console.log(`Goopity Moop ${target.value} vs ${this.state.search}`);
-  };
-*/
-/*
-  toggle = () => {
-    this.setState({ modal: !this.state.modal });
-  };
-
-  toggleSearchBy = () => {
-    this.setState({ searchToggle: !this.state.searchToggle});
+  importData = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const reader  = new FileReader()
+    reader.readAsText(file);
   }
 
-  */
- /*
-
-
-
-  updateSearch = (e) => {
-    console.log(e);
-    this.toggleSearchBy();
-    
-    this.setState({searchOn: e}, this.refreshList());
-
-  }
-
-
-  
-
-  toggleSortBy = () => {
-    this.setState({sortToggle: !this.state.sortToggle});
-  }
-
-  updateSort = (e) => {
-    console.log(e)
-    const sortString = `ordering=${e}&`;
-    console.log(`sortString is: ${sortString}`)
-    this.toggleSortBy();
-    this.setState({sortBy: sortString}, () => this.refreshList());
-  }
-*/
   renderItems = () => {
     const allItems = this.state.dataList;
     return allItems.map((item) => (
@@ -210,21 +88,18 @@ export default class Home extends AbstractView {
       >
 
         <div className = {styles.parent}>
-          <span className = {styles.name}> {item.first_name} {item.last_name} {item.image} </span>
+          <span className = {styles.name}> {item.first_name} {item.last_name} </span>
         </div>
         
-        <span className = {styles.secondaryText}>{item.job_title} </span>
+        <span className = {styles.secondaryText}> {item.job_title} </span>
         <div>
-       <img  className = {styles.customerImage} src={item.photo} height={44} width={44}/>
+       <img className = {styles.customerImage} src={item.photo} height={44} width={44}/>
         </div>
         
         </li>
         
     ));
   };
-
-
-
 
   // menu logic 
   handleMouseDown(e) {
@@ -240,29 +115,6 @@ export default class Home extends AbstractView {
         visible: !this.state.visible
     });
   }
-
-  /*
-
-  exportData(){
-    const data = this.state.exportData;
-    console.log(data);
-    const fileName = 'customers'
-    const exportType = exportFromJSON.types.json
-    exportFromJSON({data, fileName, exportType})
-  }
- 
-  requestExport() {
-    const fileName = 'customers'
-    const exportType = exportFromJSON.types.json
-    let data = [];
-    console.log("trying");
-    axios
-        .get(process.env.REACT_APP_BACKEND_URL + `/app/customers/export_data/`, getAuthheader())
-        .then((res) => this.setState({exportData: res.data}, () => this.exportData()))
-        .catch((err) => console.log(err));
-  }
-  */
-  // advanced search
 
 
   createItem = () => {
@@ -301,6 +153,7 @@ export default class Home extends AbstractView {
           <button onClick = {this.createItem} className = {styles.dashButton}> <FaPlus/>  </button>
           <button onClick = {this.goHome} className = {styles.dashButton}> <FaHome/>  </button>
           <button onClick = {this.handleMouseDown} className = {styles.dashButton}> <FaBars/>  </button>
+          <input type="file" onChange={()=>this.importData}/>
           </div>
         </div>
       </div>
@@ -389,19 +242,3 @@ export default class Home extends AbstractView {
   );
   }
 }
-
-
-/*
- {this.state.adSearch ? (
-          <AdvancedSearch
-          allFields = {['first_name', 'last_name', 'gender', 'tag', 'email', 'phone']}
-          isOpen = {true}
-          toggle = {this.toggleAdSearch}
-          onSave = {this.generateSearchString()}
-          />
-        ) : null}
-
-        */
-
-
-        /*  <h4 className = {styles.results}>Showing {this.state.dataList.length} results </h4> */
