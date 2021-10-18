@@ -13,9 +13,10 @@ class CustomerFilter(FilterSet):
     organisation = CharFilter('organisation__name', 'icontains')
     description = CharFilter(lookup_expr='icontains')
     job_title = CharFilter(lookup_expr='icontains')
+    email = CharFilter(lookup_expr='icontains')
     class Meta:
         model = Customer
-        fields = ['id', 'first_name', 'last_name', 'gender', 'tag', 'email', 'phone']
+        fields = ['id', 'first_name', 'last_name', 'gender', 'tag', 'phone']
         
 
 class EmployeeFilter(FilterSet):
@@ -23,7 +24,7 @@ class EmployeeFilter(FilterSet):
     first_name = CharFilter('id__first_name')
     last_name = CharFilter('id__last_name')
     username = CharFilter('id__username')
-    email = CharFilter('id__email')
+    email = CharFilter('id__email', lookup_expr='icontains')
     job_title = CharFilter(lookup_expr='icontains')
     class Meta:
         model = Employee
