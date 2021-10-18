@@ -150,7 +150,9 @@
   margin-left: 5%;
 }
 .secondaryText {
-  margin-left: 5%;
+  margin-left: 3%;
+  font-size: small;
+  margin-top: -5%;
 }
 
 .homeScreen {
@@ -173,4 +175,14 @@
 .writing {
   display: flex;
   align-items: center;
+}
+
+.customerImage {
+  margin-left: 73%;
+  margin-top: -20%;
+  
+}
+
+.parent {
+  width: 70%;
 }

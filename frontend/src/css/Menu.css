@@ -29,16 +29,20 @@
     list-style-type: none;
     margin-right: 10%;
     font-weight: bold;
+    
   }
 
   #flyoutMenu li {
     margin: 15% 0;
+    width: 100%;
+    margin-right: 5%;
   }
    
 
   #flyoutMenu ul {
     list-style-type: none;
-    font-size: xx-large;
+    font-size: 28px;
     text-align: center;
     margin-top: 20%;
+    
   }

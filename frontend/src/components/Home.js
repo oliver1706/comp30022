@@ -7,10 +7,10 @@ import {FaHome, FaPlus, FaBars,FaSearch, FaFilter,FaSortAmountUp } from 'react-i
 import axios from 'axios';
 import useToken from '../useToken';
 import CustomerView from './CustomerView.js';
-
+import getAuthheader from '../Authentication.js';
 import CustomerModal from '../components/CustomerModal.js';
 import FieldPopUp from './FieldPopUp';
-
+import exportFromJSON from 'export-from-json'
 import {Form, FormGroup, Input} from 'reactstrap';
 
 import AdvancedSearch from './AdvancedSearch.js';
@@ -60,6 +60,11 @@ export default class Home extends AbstractView {
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
+
+    /*
+    this.exportData = this.exportData.bind(this);
+    this.requestExport = this.requestExport.bind(this);
+    */
   };
 
   
@@ -203,11 +208,18 @@ export default class Home extends AbstractView {
         onClick={()=> this.editItem(item)}
         className = {styles.customer} 
       >
-        <img src={item.image}/>
-        <span className = {styles.name}> {item.first_name} {item.last_name} {item.image} </span>
-        <br/>
-        <span className = {styles.secondaryText}>{item.phone} {item.department} </span>
+
+        <div className = {styles.parent}>
+          <span className = {styles.name}> {item.first_name} {item.last_name} {item.image} </span>
+        </div>
+        
+        <span className = {styles.secondaryText}>{item.job_title} </span>
+        <div>
+       <img  className = {styles.customerImage} src={item.photo} height={44} width={44}/>
+        </div>
+        
         </li>
+        
     ));
   };
 
@@ -228,8 +240,28 @@ export default class Home extends AbstractView {
         visible: !this.state.visible
     });
   }
- 
 
+  /*
+
+  exportData(){
+    const data = this.state.exportData;
+    console.log(data);
+    const fileName = 'customers'
+    const exportType = exportFromJSON.types.json
+    exportFromJSON({data, fileName, exportType})
+  }
+ 
+  requestExport() {
+    const fileName = 'customers'
+    const exportType = exportFromJSON.types.json
+    let data = [];
+    console.log("trying");
+    axios
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/customers/export_data/`, getAuthheader())
+        .then((res) => this.setState({exportData: res.data}, () => this.exportData()))
+        .catch((err) => console.log(err));
+  }
+  */
   // advanced search
 
 
