@@ -149,6 +149,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         instance.phone = validated_data.get("phone", instance.phone)
         instance.photo = validated_data.get("photo", instance.photo)
         instance.tag = validated_data.get("tag", instance.tag)
+        instance.gender = validated_data.get("gender", instance.gender)
         instance.save()
         instance.update_watchers()
         return instance
