@@ -151,26 +151,31 @@ export default class CustomerInvoices extends Component {
           </Form>
           {this.renderCurrentInvoice()}
           <div className = {styles.footButtons}>
-          <button 
-            className = {styles.editButton}
-            onClick={() => onClose()}
-          >
-            close
-          </button>
-          <button 
-            className = {styles.editButton}
-            onClick={() => this.incrementInvoiceNum(1)}
-          >
-            next
-          </button>
-          <button 
-            className = {styles.editButton}
+            
+
+            <button 
+              className = {styles.bottomButton}
             onClick={() => this.incrementInvoiceNum(-1)}
-          >
+            >
             previous
-          </button>
+            </button>
+
+            <button 
+            className = {styles.bottomButton}
+            onClick={() => this.incrementInvoiceNum(1)}
+            >
+            next
+            </button>
           </div>
           </ModalBody>
       );
     }
 }
+
+/*
+<button 
+            className = {styles.bottomButton}
+            onClick={() => onClose()}>
+            close
+            </button>
+            */
