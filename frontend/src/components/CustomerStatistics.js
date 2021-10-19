@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import getAuthheader from "../Authentication.js";
-import styles from '../css/viewCustomer.module.css';
+import styles from '../css/infotabs.module.css';
 import {
   Button,
   Modal,
@@ -71,8 +71,8 @@ export default class CustomerStatistics extends Component {
       return (
         <ModalBody>
           <div>
-            {this.plotSelection()}
-            <img src={`data:img/png;base64, ${this.state.currPlot}`} width={480} height={360}/>
+            <div className = {styles.selector} > {this.plotSelection()} </div>
+            <img src={`data:img/png;base64, ${this.state.currPlot}`} width={330} height={330}/>
           </div>
           
         </ModalBody>
