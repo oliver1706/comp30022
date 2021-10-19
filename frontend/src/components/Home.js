@@ -153,7 +153,6 @@ export default class Home extends AbstractView {
           <button onClick = {this.createItem} className = {styles.dashButton}> <FaPlus/>  </button>
           <button onClick = {this.goHome} className = {styles.dashButton}> <FaHome/>  </button>
           <button onClick = {this.handleMouseDown} className = {styles.dashButton}> <FaBars/>  </button>
-          <input type="file" onChange={()=>this.importData}/>
           </div>
         </div>
       </div>
