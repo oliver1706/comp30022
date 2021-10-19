@@ -107,13 +107,20 @@ export default class AbstractView extends Component {
     let data = new FormData();
 
     for (let key in item) {
-      data.append(key, item[key]);
+      if(item[key] == "null" || item[key] == null) {
+        data.append(key, '');
+      } else {
+        data.append(key, item[key]);
+      }
     }
     console.log(data.get("photo"))
     this.toggle();
     console.log(item);
     if (item.id) {
       console.log('Item submitted');
+      console.log(`Hi: ${data.get("photo")}`);
+      data.delete("photo");
+
       axios
         .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, data, getAuthheader())
         .then((res) =>  console.log(res), this.refreshList(),
@@ -132,16 +139,23 @@ export default class AbstractView extends Component {
   handleExistingCustomer = (item) => {
 
     console.log(item)
-
+    console.log("Handling existing cust");
     let data = new FormData();
 
     for (let key in item) {
-      data.append(key, item[key]);
+      if(item[key] == "null" || item[key] == null) {
+        data.append(key, '');
+      } else {
+        data.append(key, item[key]);
+      }
     }
     this.toggleExistingCustomer();
     console.log(item);
     if (item.id) {
       console.log('Item submitted');
+      console.log(`Hi: ${data.get("photo")}`);
+      data.delete("photo");
+      console.log(`Hi: ${data.get("photo")}`);
       axios
         .patch(process.env.REACT_APP_BACKEND_URL + `/app/${this.state.selection}/${item.id}/`, data, getAuthheader())
         .then((res) => console.log(res), this.refreshList(),
