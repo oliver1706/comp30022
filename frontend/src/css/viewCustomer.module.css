@@ -42,8 +42,20 @@ select {
     width: 20%;
     border-radius: 3px;
     margin-left: 75%;
-    margin-top: 4%;
+    margin-top: -7%;
 }
+
+.editButton:focus {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: var(--secondaryColour);
+    width: 20%;
+    border-radius: 3px;
+    margin-left: 75%;
+    margin-top: -7%;
+    font-weight: bold;
+}
+
 .saveButton:disabled {
     background-color: var(--mainColour);
     border: var(--mainColour);
@@ -56,6 +68,17 @@ select {
 .inputForm {
     margin-top: -6%;
 
+}
+
+.customerImg {
+    margin-left: 12%;
+    margin-top: 8%;
+    margin-bottom: 8%;
+
+}
+
+.footButtons {
+    display: inline-block;
 }
 /*
 

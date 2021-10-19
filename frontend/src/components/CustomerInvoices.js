@@ -150,6 +150,7 @@ export default class CustomerInvoices extends Component {
           </FormGroup>
           </Form>
           {this.renderCurrentInvoice()}
+          <div className = {styles.footButtons}>
           <button 
             className = {styles.editButton}
             onClick={() => onClose()}
@@ -168,6 +169,7 @@ export default class CustomerInvoices extends Component {
           >
             previous
           </button>
+          </div>
           </ModalBody>
       );
     }
