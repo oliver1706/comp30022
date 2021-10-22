@@ -140,40 +140,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
                 continue
             customer_owner = CustomerOwner.objects.get(customer = customer, employee = get_object_or_404(Employee, pk = employee_id))
             customer_owner.delete()
-        current_owners = CustomerOwner.objects.filter(customer = pk).values_list('employee_id', flat=True)
         serializer = EmployeeIdsSerializer(data = customer.get_owners())
         serializer.is_valid()
         return JsonResponse(serializer.validated_data)
-
-    @extend_schema(
-        request=EmployeeIdsSerializer,
-        responses=EmployeeIdsSerializer
-    )
-    @action(detail = True, methods=["GET"])
-    def owners(self, request, pk=None):
-        customer = Customer.objects.get(id = pk)
-        serializer = EmployeeIdsSerializer(data = customer.get_owners())
-        serializer.is_valid()
-        return JsonResponse(serializer.validated_data)
-    @action(detail = True, methods=["GET"])
-    def stats(self, request, pk=None):
-        #this function returns the mean, min, max, number of invoices belongs to the customer, number of paid and unpaid invoice among them
-        
-        invoices = Invoice.objects.filter(customer=pk)
-        stats=invoices.aggregate(mean=Avg('total_due'),min=Min('total_due'),max= Max('total_due'))
-        stats['invoice_num']= invoices.count()
-        stats['fully_paid']=0
-        stats['underpaid']=0
-        #sum_date_diff=0
-        for i in invoices:
-            if i.total_paid >= i.total_due:
-                stats['paid']+=1
-               # sum_date_diff+=i.date_due-i.date_added
-            else: 
-                stats['underpaid']+=1
-        
-       # stats['average_date_diff']=sum_date_diff/stats['invoice_num']
-        return Response(stats)
 
     @action(detail=True,methods = ['get'])
     def salesplot(self,request,pk=None):

@@ -1,8 +1,9 @@
+from django.db.models.aggregates import Avg, Sum
 from app.models import Customer, CustomerOwner, CustomerWatcher, Department, Employee, Invoice, Organisation
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from app.views.utils import update_department_id, update_organisation_id
-
+from datetime import date
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -88,7 +89,8 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # No changing the customer on an invoice
-        del validated_data["customer"]
+        if "customer" in validated_data:
+            del validated_data["customer"]
         super(InvoiceSerializer, self).update(instance, validated_data)
         instance.save()
         instance.customer.update_watchers()
@@ -100,21 +102,49 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields =  ("id", "description", "first_name", "last_name", "job_title", "gender", "tag", "email", "phone", "photo", "department", "department_name",
-        "organisation", "organisation_name", "tag", "invoices", "can_edit", "is_watcher", "owners", "watchers")
+        "organisation", "organisation_name", "tag", "invoices", "can_edit", "is_watcher", "owners", "watchers",
+        "average_invoice", "total_invoice", "total_paid", "total_overdue")
     department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
     organisation = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     organisation_name = serializers.CharField(source = "organisation.name", read_only = True, required = False)
+
     invoices = serializers.SerializerMethodField()
+    average_invoice = serializers.SerializerMethodField()
+    total_invoice = serializers.SerializerMethodField()
+    total_paid = serializers.SerializerMethodField()
+    total_overdue = serializers.SerializerMethodField()
+    
     can_edit = serializers.SerializerMethodField()
     is_watcher = serializers.SerializerMethodField()
     owners = EmployeeIdsSerializer(source = "get_owners", read_only=True, required = False)
     watchers = EmployeeIdsSerializer(source = "get_watchers", read_only=True, required = False)
-
+    
     def get_invoices(self, obj):
         invoices = Invoice.objects.filter(customer=obj)
         serializer = InvoiceSerializer(invoices, many=True)
         return serializer.data
+
+    def get_average_invoice(self, obj):
+        invoices = Invoice.objects.filter(customer=obj)
+        average = invoices.aggregate(avg=Avg('total_due'))["avg"]
+        return None if average is None else round(average, 2)
+
+    def get_total_invoice(self, obj):
+        invoices = Invoice.objects.filter(customer=obj)
+        total = invoices.aggregate(sum=Sum('total_due'))["sum"]
+        return 0 if total is None else round(total, 2)
+
+    def get_total_paid(self, obj):
+        invoices = Invoice.objects.filter(customer=obj)
+        total = invoices.aggregate(sum=Sum('total_paid'))["sum"]
+        return 0 if total is None else round(total, 2)
+
+    def get_total_overdue(self, obj):
+        invoices = Invoice.objects.filter(customer=obj, date_paid = None, date_due__lt=date.today())
+        total_paid = invoices.aggregate(sum = Sum('total_paid'))["sum"]
+        total_due = invoices.aggregate(sum = Sum("total_due"))["sum"]
+        return 0 if total_due is None or total_paid is None else round(total_due - total_paid, 2)
 
     def get_can_edit(self, obj):
         return obj.is_editable(self.context["request"].user)
