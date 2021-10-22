@@ -3,7 +3,6 @@ from app.models import Customer, CustomerOwner, CustomerWatcher, Department, Emp
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from app.views.utils import update_department_id, update_organisation_id
-from datetime import date
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -114,7 +113,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     total_invoice = serializers.SerializerMethodField()
     total_paid = serializers.SerializerMethodField()
     total_overdue = serializers.SerializerMethodField()
-    
+
     can_edit = serializers.SerializerMethodField()
     is_watcher = serializers.SerializerMethodField()
     owners = EmployeeIdsSerializer(source = "get_owners", read_only=True, required = False)
@@ -126,25 +125,16 @@ class CustomerSerializer(serializers.ModelSerializer):
         return serializer.data
 
     def get_average_invoice(self, obj):
-        invoices = Invoice.objects.filter(customer=obj)
-        average = invoices.aggregate(avg=Avg('total_due'))["avg"]
-        return None if average is None else round(average, 2)
+        return obj.get_average_invoice()
 
     def get_total_invoice(self, obj):
-        invoices = Invoice.objects.filter(customer=obj)
-        total = invoices.aggregate(sum=Sum('total_due'))["sum"]
-        return 0 if total is None else round(total, 2)
+        return obj.get_total_invoice()
 
     def get_total_paid(self, obj):
-        invoices = Invoice.objects.filter(customer=obj)
-        total = invoices.aggregate(sum=Sum('total_paid'))["sum"]
-        return 0 if total is None else round(total, 2)
+        return obj.get_total_paid()
 
     def get_total_overdue(self, obj):
-        invoices = Invoice.objects.filter(customer=obj, date_paid = None, date_due__lt=date.today())
-        total_paid = invoices.aggregate(sum = Sum('total_paid'))["sum"]
-        total_due = invoices.aggregate(sum = Sum("total_due"))["sum"]
-        return 0 if total_due is None or total_paid is None else round(total_due - total_paid, 2)
+        return obj.get_total_overdue()
 
     def get_can_edit(self, obj):
         return obj.is_editable(self.context["request"].user)

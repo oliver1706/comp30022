@@ -1,5 +1,7 @@
+import datetime
 from django.db import models
 from django.conf import settings
+from django.db.models.aggregates import Avg, Sum
 from django.db.models.deletion import CASCADE
 from django.core.validators import MinLengthValidator
 from django.core.mail import send_mail
@@ -58,7 +60,31 @@ class Customer(models.Model):
             employee = customer_watcher.employee
             send_mail('Customer ' + str(customer.first_name) + ' ' + str(customer.last_name) + ' has been updated.', 'Visit https://dev.dv6hru9as863g.amplifyapp.com to see more.',
             None, [employee.id.email], fail_silently=False)
+            
+    def get_average_invoice(self):
+        invoices = Invoice.objects.filter(customer=self)
+        average = invoices.aggregate(avg=Avg('total_due'))["avg"]
+        return None if average is None else round(average, 2)
 
+    def get_average_invoice_or_zero(self):
+        average = self.get_average_invoice()
+        return 0 if average is None else average
+
+    def get_total_invoice(self):
+        invoices = Invoice.objects.filter(customer=self)
+        total = invoices.aggregate(sum=Sum('total_due'))["sum"]
+        return 0 if total is None else round(total, 2)
+
+    def get_total_paid(self):
+        invoices = Invoice.objects.filter(customer=self)
+        total = invoices.aggregate(sum=Sum('total_paid'))["sum"]
+        return 0 if total is None else round(total, 2)
+
+    def get_total_overdue(self):
+        invoices = Invoice.objects.filter(customer=self, date_paid = None, date_due__lt=datetime.date.today())
+        total_paid = invoices.aggregate(sum = Sum('total_paid'))["sum"]
+        total_due = invoices.aggregate(sum = Sum("total_due"))["sum"]
+        return 0 if total_due is None or total_paid is None else round(total_due - total_paid, 2)
 
     class Meta:
         db_table = "customer"

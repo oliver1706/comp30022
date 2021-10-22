@@ -48,6 +48,21 @@ class CustomerViewSet(viewsets.ModelViewSet):
                 customers = filter(lambda c: c.is_watcher(request.user.id), customers)
             elif is_watcher.lower() == "false":
                 customers = filter(lambda c: not c.is_watcher(request.user.id), customers)
+        ordering = request.query_params.get('ordering')
+        reverse = False
+        if ordering[0] == '-':
+            reverse = True
+            ordering = ordering[1:]
+
+        if not ordering is None and not ordering in self.ordering_fields:
+            if ordering == "average_invoice":
+                customers = sorted(customers, key= lambda c: c.get_average_invoice_or_zero(), reverse = reverse)
+            if ordering == "total_invoice":
+                customers = sorted(customers, key= lambda c: c.get_total_invoice(), reverse = reverse)
+            if ordering == "total_paid":
+                customers = sorted(customers, key= lambda c: c.get_total_paid(), reverse = reverse)
+            if ordering == "total_overdue":
+                customers = sorted(customers, key= lambda c: c.get_total_overdue(), reverse = reverse)
 
         serializer = CustomerSerializer(customers, many=True, context={'request': request})
         return Response(serializer.data)
