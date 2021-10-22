@@ -34,7 +34,7 @@ def get_plot(x,y,title,xlabel,ylabel):
     plt.switch_backend('AGG')
     #plt.figure(figsize=(10,5))
     plt.title(title)
-    plt.plot(x,y)
+    plt.plot(x, y, marker = 'o')
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     graph=get_graph()

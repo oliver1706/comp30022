@@ -149,15 +149,17 @@ class CustomerViewSet(viewsets.ModelViewSet):
         #this function return the plot in base64 
         # to view in html, use <img src ="data:image/png;base64, {{chart|safe}}"
         invoices = Invoice.objects.filter(customer=pk)
-        sales_sum= invoices.annotate(month=Trunc('date_added','month')).values('month').annotate(sum=Sum('total_due')).order_by()
-        x=[x['month'].strftime('%b %Y') for x in sales_sum]
-        sum_y=[y['sum'] for y in sales_sum]
-        sum_of_sales_plot=get_plot(x,sum_y,"Total Purchase of Each Month","Month","Sales")
+        sales_sum= invoices.annotate(year=Trunc('date_added', 'year')).values('year').annotate(sum=Sum('total_due')).order_by()
+        x=[x['year'].strftime('%Y') for x in sales_sum]
+        sum_y=[y['year'] for y in sales_sum]
+        sum_of_sales_plot=get_plot(x,sum_y,"Total Invoice Amount per Year","Year","Sales")
 
         #average amount of invoices per month
-        sales_mean= invoices.annotate(month=Trunc('date_added','month')).values('month').annotate(mean=Avg('total_due')).order_by()
+        sales_mean= invoices.annotate(year=Trunc('date_added','year')).values('year').annotate(mean=Avg('total_due')).order_by()
         mean_y=[y['mean'] for y in sales_mean]
-        mean_of_sales_plot=get_plot(x,mean_y,"Average Purchase of Each month","Month","Sales")
+        print(x)
+        print(mean_y)
+        mean_of_sales_plot=get_plot(x,mean_y,"Average Invoice Amount per Year", "Year", "Sales")
 
         #amount per invoice ordered by time
         invoice_amount= invoices.values('total_due','date_added').order_by('date_added')
