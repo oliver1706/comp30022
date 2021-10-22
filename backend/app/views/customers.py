@@ -31,6 +31,27 @@ class CustomerViewSet(viewsets.ModelViewSet):
     filterset_class = CustomerFilter
     ordering_fields =['description', 'first_name', 'last_name', 'job_title', 'gender', 'tag', 'email', 'phone', 'department__name', 'organisation__name']
     
+    # Can't order and filter on serializer method fields by default
+    def list(self, request, *args, **kwargs):
+        customers = Customer.objects.all()
+        customers = self.filter_queryset(customers)
+        is_owner = request.query_params.get('is_owner')
+        if not is_owner is None:
+            if is_owner.lower() == "true":
+                customers = filter(lambda c: c.is_owner(request.user.id), customers)
+            elif is_owner.lower() == "false":
+                customers = filter(lambda c: not c.is_owner(request.user.id), customers)
+
+        is_watcher = request.query_params.get('is_watcher')
+        if not is_watcher is None:
+            if is_watcher.lower() == "true":
+                customers = filter(lambda c: c.is_watcher(request.user.id), customers)
+            elif is_watcher.lower() == "false":
+                customers = filter(lambda c: not c.is_watcher(request.user.id), customers)
+
+        serializer = CustomerSerializer(customers, many=True, context={'request': request})
+        return Response(serializer.data)
+
     @extend_schema(
         responses=InvoiceSerializer(many=True)
     )
