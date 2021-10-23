@@ -224,7 +224,7 @@ class CustomerResource(resources.ModelResource):
             instance.department = department
         organisation_name = row["organisation_name"]
         if organisation_name != None:
-            organisation, _ = Department.objects.get_or_create(name = organisation_name)
+            organisation, _ = Organisation.objects.get_or_create(name = organisation_name)
             instance.organisation = organisation
         photo_base64 = row["photo"]
         if photo_base64 != None:
