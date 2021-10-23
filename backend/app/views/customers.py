@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from app.permissions import CustomerPermission
 from app.serializers import CustomerSerializer, EmployeeIdsSerializer, InvoiceSerializer
 from rest_framework import viewsets
-from app.models import Customer, CustomerOwner, CustomerWatcher, Department, Employee, Invoice
+from app.models import Customer, CustomerOwner, CustomerWatcher, Department, Employee, Invoice, Organisation
 from django.http.response import HttpResponse, HttpResponseForbidden, JsonResponse
 from import_export import fields, resources
 import tablib
@@ -50,7 +50,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
                 customers = filter(lambda c: not c.is_watcher(request.user.id), customers)
         ordering = request.query_params.get('ordering')
         reverse = False
-        if ordering[0] == '-':
+        if not ordering is None and ordering[0] == '-':
             reverse = True
             ordering = ordering[1:]
 
@@ -107,6 +107,15 @@ class CustomerViewSet(viewsets.ModelViewSet):
         resource = CustomerResource()
         dataset = tablib.Dataset()
         dataset.load(request.body, format="json")
+        result = resource.import_data(dataset, dry_run=False, raise_errors=True)
+        return HttpResponse(result.total_rows)
+
+    
+    @action(detail = False, methods=["POST"])
+    def import_data_file(self, request):
+        resource = CustomerResource()
+        dataset = tablib.Dataset()
+        dataset.load(request.data["file"], format="json")
         result = resource.import_data(dataset, dry_run=False, raise_errors=True)
         return HttpResponse(result.total_rows)
 
