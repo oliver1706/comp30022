@@ -38,16 +38,16 @@ class CustomerViewSet(viewsets.ModelViewSet):
         is_owner = request.query_params.get('is_owner')
         if not is_owner is None:
             if is_owner.lower() == "true":
-                customers = filter(lambda c: c.is_owner(request.user.id), customers)
+                customers = list(filter(lambda c: c.is_owner(request.user.id), customers))
             elif is_owner.lower() == "false":
-                customers = filter(lambda c: not c.is_owner(request.user.id), customers)
+                customers = list(filter(lambda c: not c.is_owner(request.user.id), customers))
 
         is_watcher = request.query_params.get('is_watcher')
         if not is_watcher is None:
             if is_watcher.lower() == "true":
-                customers = filter(lambda c: c.is_watcher(request.user.id), customers)
+                customers = list(filter(lambda c: c.is_watcher(request.user.id), customers))
             elif is_watcher.lower() == "false":
-                customers = filter(lambda c: not c.is_watcher(request.user.id), customers)
+                customers = list(filter(lambda c: not c.is_watcher(request.user.id), customers))
         ordering = request.query_params.get('ordering')
         reverse = False
         if not ordering is None and ordering[0] == '-':
@@ -63,8 +63,13 @@ class CustomerViewSet(viewsets.ModelViewSet):
                 customers = sorted(customers, key= lambda c: c.get_total_paid(), reverse = reverse)
             if ordering == "total_overdue":
                 customers = sorted(customers, key= lambda c: c.get_total_overdue(), reverse = reverse)
-
-        serializer = CustomerSerializer(customers, many=True, context={'request': request})
+        
+        page = self.paginate_queryset(customers)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = self.get_serializer(customers, many=True)
         return Response(serializer.data)
 
     @extend_schema(
