@@ -1,0 +1,74 @@
+:root {
+    --mainColour: #1B496A;
+    --secondaryColour: #F49E8F;
+  }
+
+.header {
+    color: var(--mainColour);
+    text-align: center;
+    display: block;
+}
+
+.popup {
+    margin-top: 35%;
+    height: 3000px;
+}
+
+.radioButtons {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 5%;
+}
+
+
+li {
+    list-style: none;
+}
+
+
+.sortButton {
+    background-color: var(--mainColour);
+    border: 2px solid black;
+    padding: 15px 15px;
+    margin: 11px 0px;
+    
+}
+
+
+
+.page {
+    display: flex;
+    /*border: 3px solid blue;*/
+}
+
+.words1 {
+    padding-left: 0;
+    
+}
+
+.words2 {
+    padding-left: 0;
+    margin-left: 7%;
+    margin-right: auto;
+}
+
+p {
+    color: var(--mainColour);
+    font-size: large;
+    margin: 30px 0px;
+
+}
+
+
+
+.saveButton {
+    background-color: var(--mainColour);
+} 
+
+.sortButton:focus {
+    background-color: var(--secondaryColour);
+    border: 2px solid black;
+    padding: 15px 15px;
+    margin: 11px 0px;
+}
