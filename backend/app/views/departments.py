@@ -1,13 +1,13 @@
-from app.permissions import GetOnlyIfNotAdmin
-from rest_framework import viewsets
-from app.serializers import DepartmentSerializer
-from app.models import Department
 from app.filters import DepartmentFilter
+from app.models import Department
+from app.permissions import GetOnlyIfNotAdmin
+from app.serializers import DepartmentSerializer
+from rest_framework import viewsets
 
-# Department viewset
-# Only admins can create or edit, employees can only view
 
 class DepartmentViewSet(viewsets.ModelViewSet):
+    # Department viewset
+    # Only admins can create or edit, employees can only view
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']

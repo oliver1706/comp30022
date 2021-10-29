@@ -1,11 +1,12 @@
-from rest_framework import viewsets
-from app.serializers import OrganisationSerializer
+from app.filters import OrganisationFilter
 from app.models import Organisation
 from app.permissions import GetOnlyIfNotAdmin
-from app.filters import OrganisationFilter
+from app.serializers import OrganisationSerializer
+from rest_framework import viewsets
 
 # Organisation viewset
 # Only admins can create or edit, employees can only view
+
 
 class OrganisationViewSet(viewsets.ModelViewSet):
     queryset = Organisation.objects.all()
