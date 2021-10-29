@@ -8,12 +8,12 @@ class GetOnlyIfNotAdmin(IsAdminUser):
         else:
             return request.user.is_superuser
 
-# Can only edit your own employee profile unless you are admin
+# Only admins can edit others' profiles and create new profiles
 class EmployeePermission(GetOnlyIfNotAdmin):
     def has_permission(self, request, view):
         if request.user.is_superuser:
             return True
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and request.method == 'GET':
             return True
         return False
     def has_object_permission(self, request, view, obj):

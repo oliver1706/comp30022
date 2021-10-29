@@ -17,7 +17,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ("id", "job_title", "phone", "username", "first_name", "last_name", "email", "password", "photo", "department", "department_name")
+        fields = ("id", "job_title", "phone", "username", "first_name", "last_name", "email", "password", "photo", "department", "department_name", "admin")
 
     id = serializers.PrimaryKeyRelatedField(source="id.id", read_only = True)
     username = serializers.CharField(source="id.username")
@@ -27,11 +27,25 @@ class EmployeeSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(source="id.email")
     department = serializers.IntegerField(write_only = True, allow_null = True, required = False)
     department_name = serializers.CharField(source = "department.name", read_only = True, required = False)
+    admin = serializers.BooleanField(source="id.is_superuser", read_only = True)
     
     def create(self, validated_data):
         user = User.objects.create_user(validated_data.get("id").get("username"), validated_data.get("id").get("email"), validated_data.get("id").get("password"))
         user.first_name = validated_data.get("id").get("first_name")
         user.last_name = validated_data.get("id").get("last_name")
+        user.save()
+        
+        employee = Employee.objects.create(id = user, job_title = validated_data.get("job_title"),
+            phone = validated_data.get("phone"), photo = validated_data.get("photo"))
+        update_department_id(employee, validated_data)
+        employee.save()
+        
+        return employee
+
+    def create_superuser(self, validated_data):
+        user = User.objects.create_superuser(validated_data.get("username"), validated_data.get("email"), validated_data.get("password"))
+        user.first_name = validated_data.get("first_name")
+        user.last_name = validated_data.get("last_name")
         user.save()
         
         employee = Employee.objects.create(id = user, job_title = validated_data.get("job_title"),
@@ -95,7 +109,13 @@ class InvoiceSerializer(serializers.ModelSerializer):
         instance.customer.update_watchers()
         return instance
 
-
+# Read only Customer serializezr for list view
+class CustomerCompactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields =  ("id", "first_name", "last_name", "job_title", "organisation_name")
+        read_only_fields = fields
+    organisation_name = serializers.CharField(source = "organisation.name", read_only = True, required = False)
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
