@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b$4!gl6u)k+r-defc+lsoy_ojbhc_1ot%%onk*7qaumvbv)52l'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -54,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'app.middleware.DisableCsrfCheck',
-    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -85,12 +84,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'database-1',
-        'USER': 'admin',
-        'PASSWORD':'database26',
-        'HOST': 'database-1.cis8rzrdiagl.ap-southeast-2.rds.amazonaws.com',
-        'PORT': '3306',
+        'ENGINE': '',
+         'NAME': '',
+        'USER': '',
+        'PASSWORD':'',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -159,16 +158,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = 'crm-bbtech'
-AWS_ACCESS_KEY_ID = #ASK OLIVER
-AWS_SECRET_ACCESS_KEY = #ASK OLIVER
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
 AWS_QUERYSTRING_AUTH = False
 
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'crm.bbtech@gmail.com'
-EMAIL_HOST_PASSWORD = 'ibysqhuffziiiaii'
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
