@@ -4,7 +4,8 @@ from app.serializers import DepartmentSerializer
 from app.models import Department
 from app.filters import DepartmentFilter
 
-# Department endpoints 
+# Department viewset
+# Only admins can create or edit, employees can only view
 
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()

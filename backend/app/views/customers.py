@@ -13,7 +13,7 @@ from app.filters import CustomerFilter
 import requests
 import base64
 from django.core.files.base import ContentFile    
-from django.db.models import Avg, Min, Max, Sum
+from django.db.models import Avg, Sum
 from .utils import get_plot
 import requests
 import base64
@@ -21,6 +21,7 @@ from django.core.files.base import ContentFile
 from django.db.models.functions import Trunc
 
 # Customer endpoints
+# Has permission class such that only admins and owners can edit, others can only view or "watch" (be notified about changes to the item)
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
@@ -29,7 +30,8 @@ class CustomerViewSet(viewsets.ModelViewSet):
     permission_classes = [CustomerPermission]
     search_fields = ['first_name', 'last_name']
     filterset_class = CustomerFilter
-    ordering_fields =['description', 'first_name', 'last_name', 'job_title', 'gender', 'tag', 'email', 'phone', 'department__name', 'organisation__name']
+    ordering_fields =['description', 'first_name', 'last_name', 'job_title', 'gender', 'tag', 'email', 'phone',
+        'department__name', 'organisation__name']
     
     # Can't order and filter on serializer method fields by default
     def list(self, request, *args, **kwargs):

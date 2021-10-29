@@ -8,8 +8,8 @@ from app.filters import EmployeeFilter
 
 from rest_framework.response import Response
 
-#from backend.app.filters import CustomerFilter
-
+# Employee viewset
+# Only admins can edit other's profiles and create new employees
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
@@ -20,6 +20,8 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     search_fields = ['id__first_name', 'id__last_name']
     ordering_fields = '__all__'
 
+    # As we piggyback off django's in-built user model with our customer (one to one),
+    # We must override and delete both
     def destroy(self, request, pk=None):
         employee = get_object_or_404(Employee, id = pk)
         user = get_object_or_404(User, id = pk)

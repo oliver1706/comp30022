@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 import base64
 from io import BytesIO
 
-# If the validated_data contains a department id or a null department, update it
+# If the validated_data contains a department id or a null department, update instance
 def update_department_id(instance, validated_data):
     department_id = validated_data.get("department")
     if department_id != None:
@@ -12,6 +12,7 @@ def update_department_id(instance, validated_data):
     elif "department" in validated_data:
         instance.department = None
 
+# If the validated_data contains an organisation id or a null department, update instance
 def update_organisation_id(instance, validated_data):
     organisation_id = validated_data.get("organisation")
     if organisation_id != None:
@@ -32,7 +33,6 @@ def get_graph():
 
 def get_plot(x,y,title,xlabel,ylabel):
     plt.switch_backend('AGG')
-    #plt.figure(figsize=(10,5))
     plt.title(title)
     plt.plot(x, y, marker = 'o')
     plt.xlabel(xlabel)
