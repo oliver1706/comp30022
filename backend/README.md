@@ -16,9 +16,10 @@ The application should now be ready for local set-up. For deployment, refer to t
 ### Local setup
 
 1. Run `pip install -r requirements.txt` in the backend folder.
-2. Run `python manage.py runserver` to bring up the server locally. It'll be running on http://localhost:8000/app/.
-3. If you want to run requests, you can visit http://localhost:8000/app/api/schema/swagger-ui/ and click try it out, or simply view them.
-4. Most of these requests will fail however, as you won't be logged in. For simple testing, you'll want to log in as the admin created in the first-time setup steps, using the /app/accounts/login/ endpoint (either in postman or another tool of your choice). This will return a json with a key, which can be used in the Authorization header like "Token abcd1234" (this spacing/format is important).
+2. Run `python manage.py test` to run tests.
+3. Run `python manage.py runserver` to bring up the server locally. It'll be running on http://localhost:8000/app/.
+4. If you want to run requests, you can visit http://localhost:8000/app/api/schema/swagger-ui/ and click try it out, or simply view them.
+5. Most of these requests will fail however, as you won't be logged in. For simple testing, you'll want to log in as the admin created in the first-time setup steps, using the /app/accounts/login/ endpoint (either in postman or another tool of your choice). This will return a json with a key, which can be used in the Authorization header like "Token abcd1234" (this spacing/format is important).
 6. Import postman.postman_collection.json in postman. You will likely have to create a new environment with baseUrl set to localhost:8000. After this, you can click and run requests using the admin token, creating new resources like employees, customers, invoices and departments and modifying, and deleting them.
 
 ### Deployment
