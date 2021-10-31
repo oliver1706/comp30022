@@ -19,16 +19,16 @@ Please contact the team for the URL and credentials of the deployed versions to 
 ### Requirements
 #### Functional requirements:
 
-Mobile app/mobile responsive web app
-Store lead and customer profiles (first name, last name, job title, phone number, email, photo, description etc.)
-Allow users to read & write the above information
-Access control
-Search, filter, sort functions
-Cloud storage/local storage but allow to archive customer data
+- Mobile app/mobile responsive web app
+- Store lead and customer profiles (first name, last name, job title, phone number, email, photo, description etc.)
+- Allow users to read & write the above information
+- Access control
+- Search, filter, sort functions
+- Cloud storage/local storage but allow to archive customer data
 
 #### Advanced functional requirements (optional):
 
-Allow to import all customer data at once (e.g. from spreadsheet)
-Store billing and invoicing status of each customer
-Generate graphical reports for each customer (help analyze the frequency of payments etc.)
-Notify/remind the responsibles when a customer profiles is updated
+- Allow to import all customer data at once (e.g. from spreadsheet)
+- Store billing and invoicing status of each customer
+- Generate graphical reports for each customer (help analyze the frequency of payments etc.)
+- Notify/remind the responsibles when a customer profiles is updated
