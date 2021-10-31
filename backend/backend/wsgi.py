@@ -12,6 +12,7 @@ import sys
 
 from django.core.wsgi import get_wsgi_application
 
+# Make sure to change these to the correct path if running as a wsgi application
 sys.path.append('~/comp30022/backend')
 sys.path.append('~/comp30022/backend/backend')
 sys.path.append('~/comp30022/backend/app')
