@@ -1,12 +1,18 @@
-from app.models import Customer, Employee, Invoice
-from django_filters.rest_framework import FilterSet
 from django_filters.filters import CharFilter, NumberFilter
+from django_filters.rest_framework import FilterSet
+
+from app.models import Customer, Employee, Invoice
+
+# In this file search filters are defined for our objects
+# They should be fairly self-explanatory
 
 class OrganisationFilter(FilterSet):
     name = CharFilter(lookup_expr='icontains')
 
+
 class DepartmentFilter(FilterSet):
     name = CharFilter(lookup_expr='icontains')
+
 
 class CustomerFilter(FilterSet):
     department = CharFilter('department__name', 'icontains')
@@ -14,10 +20,11 @@ class CustomerFilter(FilterSet):
     description = CharFilter(lookup_expr='icontains')
     job_title = CharFilter(lookup_expr='icontains')
     email = CharFilter(lookup_expr='icontains')
+
     class Meta:
         model = Customer
         fields = ['id', 'first_name', 'last_name', 'gender', 'tag', 'phone']
-        
+
 
 class EmployeeFilter(FilterSet):
     id = CharFilter('id__id')
@@ -26,9 +33,11 @@ class EmployeeFilter(FilterSet):
     username = CharFilter('id__username')
     email = CharFilter('id__email', lookup_expr='icontains')
     job_title = CharFilter(lookup_expr='icontains')
+
     class Meta:
         model = Employee
         fields = ['phone']
+
 
 class InvoiceFilter(FilterSet):
     description = CharFilter(lookup_expr='icontains')
@@ -36,7 +45,8 @@ class InvoiceFilter(FilterSet):
     employee__last_name = CharFilter('employee__id__last_name')
     paid_min = NumberFilter('total_paid', 'gte')
     paid_max = NumberFilter('total_paid', 'lte')
+
     class Meta:
         model = Invoice
         fields = ['id', 'customer__first_name', 'customer__last_name', 'total_due',
-         'total_paid', 'date_added', 'date_due', 'incoming']
+                  'total_paid', 'date_added', 'date_due', 'incoming']
