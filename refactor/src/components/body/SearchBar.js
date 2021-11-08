@@ -6,31 +6,45 @@ export function SearchBar(props) {
 
     const [currSearch, setCurrSearch] = useState(props.search)
     const [ordering, setOrdering] = useState(props.ordering)
+    const [previewSearch, setPreviewSearch] = useState("")
 
     useEffect(() => {
         props.updateSearch(currSearch)
     }, [currSearch])
 
-    const handleChange = (e) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(e);
         let value = e.target.value;
         console.log(value)
 
         /* Format for a proper search string */
         console.log(currSearch)
+        console.log("Bananananana")
+        console.log(previewSearch)
         console.log(value);
-        setCurrSearch(value)
+        setCurrSearch(previewSearch)
+        
+    }
+
+    const updatePreview = (e) => {
+        setPreviewSearch(e.target.value);
+    }
+
+    const submitSearch = (e) => { 
+        setCurrSearch(e.target.value)
     }
 
     return (
         <div>
             <Form
-                onSubmit={e => { e.preventDefault() }}
+                onSubmit={e => { handleSubmit(e) }}
             >
                 <Input
                     type="text"
                     name="search"
-                    value={currSearch}
-                    onChange={handleChange}
+                    value={previewSearch}
+                    onChange={updatePreview}
                 />
             </Form>
         </div>
