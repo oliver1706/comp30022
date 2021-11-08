@@ -3,6 +3,8 @@
     --secondaryColour: #F49E8F;
   }
 
+  /* phone styling */
+
   @media only screen and (max-width: 450px) {
       
     .largeLogo {
@@ -17,7 +19,7 @@
         width: 60%;
         height: 200px;
         /*border: 3px solid green; */ 
-        margin-left: 15%;
+        margin-left: 20%;
         margin-right: auto;
         margin-top: 9%;
         margin-bottom: auto;
@@ -26,7 +28,7 @@
         /*border: 3px solid red; */
         width: 60%;
         height: 250px;
-        margin-left: 15%;
+        margin-left: 20%;
         margin-right: auto;
         margin-top: 18%;
         margin-bottom: auto;
@@ -91,6 +93,7 @@
 
 }
 
+/* desktop styling */
 @media only screen and (min-width: 450px) {
 /*
     .page {
@@ -154,7 +157,7 @@
     height: 500px;
     margin-left: 40%;
     margin-right: auto;
-    margin-top: 9%;
+    margin-top: 6%;
     margin-bottom: auto;
     
 }
