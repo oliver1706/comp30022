@@ -42,8 +42,14 @@ export function InspectCustomer(props) {
             >Close
             </Button>
             <button className={alternateStyles.profileButton} onClick={() => setActiveTab('edit')}> view </button>
-            <button className={alternateStyles.profileButton} onClick={() => setActiveTab('graphs')}> graphs </button>
-            <button className={alternateStyles.profileButton} onClick={() => setActiveTab('invoices')}> invoices </button>
+            { props.customer.invoices.length ?
+                <div>
+                    <button className={alternateStyles.profileButton} onClick={() => setActiveTab('graphs')}> graphs </button>
+                    <button className={alternateStyles.profileButton} onClick={() => setActiveTab('invoices')}> invoices </button>
+                </div>
+                :
+                null
+            }
             </header>
         </div>
         )    
