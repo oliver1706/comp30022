@@ -15,8 +15,9 @@ export function Header(props) {
             <div id = 'Rightside' className = {styles.block}>
                 <div id = 'icons' className = {styles.icons}>
                     <HomeButton goHome={props.goHome}/>
-                    <MenuButton openMenu={props.openMenu}/>
                     <AddItemButton addItem={props.addItem}/>
+                    <MenuButton openMenu={props.openMenu}/>
+                    
                 </div>
             </div>
         </div>

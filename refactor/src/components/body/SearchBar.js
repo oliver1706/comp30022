@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, Label } from "reactstrap"
 import styles from '../../css/advancedSearch.module.css'
+import searchStyle from '../../css/home.module.css'
 import lodash from "lodash"
 export function SearchBar(props) {
 
@@ -45,6 +46,8 @@ export function SearchBar(props) {
                     name="search"
                     value={previewSearch}
                     onChange={updatePreview}
+                    placeholder = 'Search'
+                    className = {searchStyle.inputBox}
                 />
             </Form>
         </div>
@@ -122,7 +125,7 @@ export function AdvancedSearch(props) {
                 onClick={() => handleSubmit()}
                 
                 >
-                Search
+                Searchfef
                 </Button>
             </ModalFooter>
         </Modal>

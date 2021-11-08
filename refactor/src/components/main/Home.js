@@ -151,10 +151,15 @@ export default function Home(props) {
                 console.log(data);
                 return (
                     <div>
+                        <div className = {styles.search}> 
                         <SearchBar
                             search={search}
                             updateSearch={updateSearch}
+                            className = {styles.inputBox}
+                            placeholder = 'Search'
                         />
+                        </div>
+                        <div className = {styles.CustomerList}>
                         <CustomerView
                             dataList={data.results}
                             editItem={editCustomer}
@@ -164,6 +169,7 @@ export default function Home(props) {
                             advancedSearchToggle={advancedSearchToggle}
                             setAdvancedSearchToggle={setAdvancedSearchToggle}
                         />
+                        </div>
                     </div>
                 );
             case "EditCustomer":

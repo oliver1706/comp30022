@@ -17,7 +17,7 @@ export function CustomerView(props) {
 
     return(
         <div>
-            <button onClick={() => props.setAdvancedSearchToggle(! props.advancedSearchToggle)}>Advanced Search</button>
+            <h4 className = {styles.advancedSearch} onClick={() => props.setAdvancedSearchToggle(! props.advancedSearchToggle)}>Advanced Search</h4>
             <ul className={styles.customerList}>
                 {renderCustomers({editItem: props.editItem, dataList: props.dataList,})}
             </ul>
