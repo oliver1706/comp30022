@@ -30,7 +30,7 @@ import { CustomerInvoices } from "./CustomerInvoices";
 export function InspectCustomer(props) {
 
     const [activeTab, setActiveTab] = useState("edit");
-
+    const [editable, setEditable] = useState(props.editable)
     const renderHeader = () => {
         return(
         <div>
@@ -41,6 +41,9 @@ export function InspectCustomer(props) {
                 className = {styles.saveButton}
             >Close
             </Button>
+            <button className={alternateStyles.profileButton} onClick={() => requestWatch(props.customer.id)}> Watch </button>
+            <button className={alternateStyles.profileButton} onClick={() => requestUnwatch(props.customer.id)}> Unwatch </button>
+            
             <button className={alternateStyles.profileButton} onClick={() => setActiveTab('edit')}> view </button>
             { props.customer.invoices.length ?
                 <div>
@@ -64,7 +67,7 @@ export function InspectCustomer(props) {
                     <div>
                         <EditCustomer
                             customer={props.customer}
-                            editable={props.editable}
+                            editable={editable}
                             newCustomer={props.newCustomer}
                             handleSubmit={props.handleSubmit}
                         />
@@ -96,4 +99,20 @@ export function InspectCustomer(props) {
         {renderTab()}
         </div>
     )
+}
+
+function requestWatch(id) {
+    console.log("Hello")
+    axios
+        .post(process.env.REACT_APP_BACKEND_URL + `app/customers/${id}/watch`, id, getAuthheader())
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+}
+
+function requestUnwatch(id) {
+
+    axios
+        .post(process.env.REACT_APP_BACKEND_URL + `app/customers/${id}/unwatch`, id, getAuthheader())
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
 }

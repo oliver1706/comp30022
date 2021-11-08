@@ -123,6 +123,7 @@ export function EditCustomer(props) {
 
     return (
         <Container>
+            <button className="" onClick={() => {console.log(editable); setEditable(true); console.log(editable)}}> edit </button>
             <body>
                 <Form>
                     <FormGroup>
