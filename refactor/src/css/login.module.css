@@ -3,6 +3,104 @@
     --secondaryColour: #F49E8F;
   }
 
+  @media only screen and (max-width: 450px) {
+      
+    .largeLogo {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 95%;
+        background-size: 0%;
+        margin-top: 25%;
+    }
+    .logo {
+        width: 60%;
+        height: 200px;
+        /*border: 3px solid green; */ 
+        margin-left: 15%;
+        margin-right: auto;
+        margin-top: 9%;
+        margin-bottom: auto;
+    }
+    .loginCredentials {
+        /*border: 3px solid red; */
+        width: 60%;
+        height: 250px;
+        margin-left: 15%;
+        margin-right: auto;
+        margin-top: 18%;
+        margin-bottom: auto;
+        
+    }
+
+    .center {
+        text-align: left;  
+        /* border: 3px solid #73AD21; */  
+        margin: auto;
+        width: 20%;
+        padding:300px 0;
+        font-size: 20px;
+        
+    }
+    
+    .text {
+        text-align: left;
+        color: rgb(46, 191, 240);
+        font-weight: 600;
+        margin-bottom: 0px;
+    }
+    
+    .loginButton {
+        color: white;
+        background-color: rgb(46, 191, 240);
+        /* border: 3px solid red; */ 
+        margin-top: 30px;
+        margin-left: 30%;
+    }
+    .loginButton {
+        margin-left: 4%;
+        margin-right: auto;
+        background-color: var(--mainColour);
+        height: 40px;
+        width: 93%;
+        border-radius: 12px;
+    }
+    
+    .input {
+        margin-left: 8%;
+        border: 1px solid var(--mainColour);
+        margin-bottom: 4%;
+        margin-top: auto;
+        color: var(--mainColour);
+        width: 85%;
+    }
+    
+    .input[type = text] {
+        color: var(--mainColour);
+    }
+    
+    .input[type = password] {
+        color: var(--mainColour);
+    }
+    
+    .text {
+        color: var(--mainColour);
+        margin-bottom: 5%;
+        margin-top: auto;
+    }
+
+}
+
+@media only screen and (min-width: 450px) {
+/*
+    .page {
+        border: 3px solid var(--mainColour);
+        width: 30%;
+        height: 700px;
+        margin-top: 10%;
+        margin-left: 20%;
+    }
+*/
 .center {
     text-align: left;  
     /* border: 3px solid #73AD21; */  
@@ -15,9 +113,11 @@
 
 .text {
     text-align: left;
-    color: rgb(46, 191, 240);
+    color: var(--mainColour);
     font-weight: 600;
     margin-bottom: 0px;
+    font-size: x-large;
+    margin-left: 0.5%;
 }
 
 .loginButton {
@@ -32,51 +132,50 @@
     width: 60%;
     height: 200px;
     /*border: 3px solid green; */ 
-    margin-left: 19%;
     margin-right: auto;
-    margin-top: 9%;
+    margin-top: 5%;
     margin-bottom: auto;
+    margin-left: 16.5%;
 }
 
-.input {
-    margin-bottom: 30px;
-}
 
 .largeLogo {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 95%;
+    width: 20%;
     background-size: 0%;
 }
 
 
 .loginCredentials {
     /*border: 3px solid red; */
-    width: 60%;
-    height: 250px;
-    margin-left: 20%;
+    width: 90%;
+    height: 500px;
+    margin-left: 40%;
     margin-right: auto;
-    margin-top: 15%;
+    margin-top: 9%;
     margin-bottom: auto;
     
 }
 .loginButton {
-    margin-left: 3%;
+    margin-left: 0.5%;
     margin-right: auto;
     background-color: var(--mainColour);
     height: 40px;
-    width: 93%;
+    width: 13.5%;
     border-radius: 12px;
+    margin-top: 3%;
 }
 
 .input {
-    margin-left: 8%;
     border: 1px solid var(--mainColour);
-    margin-bottom: 4%;
-    margin-top: auto;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    margin-left: 1%;
     color: var(--mainColour);
-    width: 85%;
+    width: 12.25%;
+    height: 33px;
 }
 
 .input[type = text] {
@@ -87,8 +186,4 @@
     color: var(--mainColour);
 }
 
-.text {
-    color: var(--mainColour);
-    margin-bottom: 5%;
-    margin-top: auto;
 }
