@@ -17,12 +17,14 @@ export function CustomerView(props) {
 
     return(
         <div>
-            <button onClick={() => props.setAdvancedSearchToggle(! props.advancedSearchToggle)}>hi</button>
+            <button onClick={() => props.setAdvancedSearchToggle(! props.advancedSearchToggle)}>Advanced Search</button>
             <ul className={styles.customerList}>
                 {renderCustomers({editItem: props.editItem, dataList: props.dataList,})}
             </ul>
-            <button onClick={prevPage} className={styles.button}>Prev</button>
-            <button onClick={nextPage} className={styles.button}>Next</button>
+            {props.data.previous ? <div><button onClick={prevPage} className={styles.button}>Prev</button></div>: null}
+            {props.data.next ? <div><button onClick={nextPage} className={styles.button}>Next</button></div>: null}
+            
+            
         </div>
     )
 

@@ -30,7 +30,7 @@ import { InspectCustomer } from '../body/InspectCustomer';
 export default function Home(props) {
     //State hook stuff
     const [test, setTest] = useState(0);
-    const [selection, setSelection] = useState("employees");
+    const [selection, setSelection] = useState("customers");
     const [data, setData] = useState(false);
     const [search, setSearch] = useState("");
     const [advancedSearch, setAdvancedSearch] = useState(false)
