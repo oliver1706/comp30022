@@ -23,6 +23,14 @@ export function Menu(props) {
         <li><a onClick={() => requestExport()/*No need for prop*/} >Export Customer Data</a></li>
         <li><a onClick={() => {props.openEmployees(); props.handleClose()}}>View Employees</a></li>
         <li><a onClick={() => {props.openCustomers(); props.handleClose()}}>View Customers</a></li>
+        <li>
+            <form>
+                <div className="">
+                    <label>Select File</label>
+                    <input type="file" name="file" onChange={e => requestImport(e.target.files[0])}></input>
+                </div>
+            </form>
+        </li>
         </ul>
         </div>
     );
@@ -38,6 +46,23 @@ function logout() {
       window.location.reload(false)})
 }
 
+function requestImport(file) {
+    console.log(file)
+
+    let form = new FormData();
+
+    form.append('file', file);
+
+    axios
+        .post(process.env.REACT_APP_BACKEND_URL + `/app/customers/import_data_file/`, form, getAuthheader())
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err))
+
+}
+
+function importData(data) {
+
+}
 
 // Two functions for this so it can be asynchronous (unsure if better way to do it - Max)
 function requestExport() {
@@ -45,11 +70,10 @@ function requestExport() {
     console.log("trying");
     axios
         .get(process.env.REACT_APP_BACKEND_URL + `/app/customers/export_data/`, getAuthheader())
-        .then((res) => this.setState({exportData: res.data}, () => exportData()))
+        .then((res) => {console.log(res.data); exportData(res.data)})
         .catch((err) => console.log(err));
   }
-function exportData(){
-    const data = this.state.exportData;
+function exportData(data){
     console.log(data);
     const fileName = 'customers'
     const exportType = exportFromJSON.types.json
