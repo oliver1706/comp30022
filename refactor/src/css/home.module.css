@@ -72,11 +72,11 @@
   color: var(--mainColour) ;
   background-color: white;
   font-size: larger;
-  margin-left: 1%;
-  margin-right: 5%;
+  margin-left: 40%;
   border: white;
   font-size: 150%;
   margin-bottom: 4%;
+  margin-top: 4%;
 }
 .icons {
   width: 80%;
@@ -193,6 +193,15 @@
 .parent {
   width: 70%;
 }
+.foot {
+  display: inline-block;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  justify-content: s;
+}
 
 }
 
@@ -263,11 +272,13 @@
   color: var(--mainColour) ;
   background-color: white;
   font-size: larger;
-  margin-left: 1%;
+  margin-left: 100%;
   margin-right: 5%;
   border: white;
   font-size: 150%;
   margin-bottom: 4%;
+  display: inline-block;
+  align-items: center;
 }
 .icons {
   width: 80%;
@@ -384,5 +395,6 @@
 .parent {
   width: 70%;
 }
+
 
 }

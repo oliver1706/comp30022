@@ -177,9 +177,9 @@ export function OrderingForm(props) {
 
     return (
         <Container isOpen={props.isOpen} toggle={props.toggle} className={modalStyles.customerPopup}>
-            <header className = {modalStyles.header} toggle={props.toggle}> Order By
-                <button onClick={props.toggle}>Close</button>
-            </header>
+            <h2 className = {modalStyles.header} toggle={props.toggle}> Sort By
+                <button className = {modalStyles.closeButton} onClick={props.toggle}>Close</button>
+            </h2>
 
                 <Form>
                     <FormGroup>

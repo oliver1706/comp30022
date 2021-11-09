@@ -29,20 +29,20 @@ select {
 
 
 .header {
-    background-color: var(--mainColour);
-    color: white;
+    color: var(--mainColour);
     margin-bottom: 3%;
     height: 75px;
-}
-/*
-
-.genderSelect{
-    margin-right: 1%;
-    margin-left: auto;
+    margin-left: 15%;
 }
 
-.gender {
+
+.closeButton {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
     width: 20%;
+    height: 22px;
+    border-radius: 3px;
+    margin-left: 35%;
+    margin-top: -3%;     
 }
-
-*/
