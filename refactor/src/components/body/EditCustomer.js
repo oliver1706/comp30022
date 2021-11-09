@@ -92,21 +92,49 @@ export function EditCustomer(props) {
     }
 
     const handleSave = () => {
-        let data = {
-            description: description,
-            photo: getPhotoForSubmission(props.newCustomer, photo),
-            first_name: first_name,
-            last_name: last_name,
-            job_title: job_title,
-            email: email,
-            phone: phone,
-            department: department,
-            organisation: organisation,
-            tag: tag,
-            gender: gender,
-        };
+        let customer = props.customer;
+        let hasId = false;
 
-        props.handleSubmit('customers', data);
+        for(let propName in customer) {
+            if(customer.hasOwnProperty(propName) && propName === "id") {
+                hasId = true;
+            }
+        }
+
+        if( hasId ) {
+            let data = {
+                id: customer.id,
+                description: description,
+                photo: getPhotoForSubmission(props.newCustomer, photo),
+                first_name: first_name,
+                last_name: last_name,
+                job_title: job_title,
+                email: email,
+                phone: phone,
+                department: department,
+                organisation: organisation,
+                tag: tag,
+                gender: gender,
+            };
+            props.handleSubmit('customers', data);
+        } else {
+
+            let data = {
+                description: description,
+                photo: getPhotoForSubmission(props.newCustomer, photo),
+                first_name: first_name,
+                last_name: last_name,
+                job_title: job_title,
+                email: email,
+                phone: phone,
+                department: department,
+                organisation: organisation,
+                tag: tag,
+                gender: gender,
+            };
+            props.handleSubmit('customers', data);
+        }
+        
     } 
 
     const organisationSelection = () => {

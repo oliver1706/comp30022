@@ -8,7 +8,7 @@ import {
     Label,
 } from "reactstrap"
 import axios from 'axios'
-import styles from '../../css/viewEmployee.module.css'
+import styles from '../../css/viewCustomer.module.css'
 import { getAuthheader } from '../main/Util';
 
 export function EditEmployee(props) {
@@ -62,17 +62,39 @@ export function EditEmployee(props) {
     }
 
     const handleSave = () => {
-        let data = {
-    
-            username: username,
-            first_name: first_name,
-            last_name: last_name,
-            job_title: job_title,
-            phone: phone,
-            department: department,
+
+        let employee = props.employee;
+        let hasId = false;
+
+        for(let propName in employee) {
+            if(employee.hasOwnProperty(propName) && propName === "id") {
+                hasId = true;
+            }
+        }
+        if( hasId ) {
+            let data = {
+                id: employee.id,
+                username: username,
+                first_name: first_name,
+                last_name: last_name,
+                job_title: job_title,
+                phone: phone,
+                department: department,
+            }
+            props.handleSubmit('employees', data);
+        } else {
+            let data = {
+                username: username,
+                first_name: first_name,
+                last_name: last_name,
+                job_title: job_title,
+                phone: phone,
+                department: department,
+            }
+            props.handleSubmit('employees', data);
         }
 
-        props.handleSubmit('employees', data);
+        
     }
 
     const departmentSelection = () => {
@@ -83,13 +105,17 @@ export function EditEmployee(props) {
 
     return (
         <Container>
-            <header className={styles.header}> Hello </header>
-            <Button
-                color="success"
-                onClick={() =>props.handleClose()}
-                className={styles.saveButton}
-            >Close
-            </Button>
+            <header className={styles.header}> {props.employee.first_name}
+                <Button
+                    color="success"
+                    onClick={() =>props.handleClose()}
+                    className={styles.saveButton}
+                >Close
+                </Button>
+                <button className={styles.saveButton} onClick={() => {console.log(editable); setEditable(true); console.log(editable)}}> edit </button>
+
+            </header>
+            
             <body>
                 <Form className = {styles.inputForm}>
                     <FormGroup>

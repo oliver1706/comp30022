@@ -188,6 +188,12 @@ export default function Home(props) {
                 console.log(data);
                 return (
                     <div>
+                        <SearchBar
+                            search={search}
+                            updateSearch={updateSearch}
+                            className = {styles.inputBox}
+                            placeholder = 'Search'
+                        />
                         <EmployeeView
                             dataList={data.results}
                             editItem={editEmployee}
