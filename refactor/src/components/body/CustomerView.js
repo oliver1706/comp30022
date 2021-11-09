@@ -23,9 +23,10 @@ export function CustomerView(props) {
             <ul className={styles.customerList}>
                 {renderCustomers({editItem: props.editItem, dataList: props.dataList,})}
             </ul>
+            <div className = {styles.paging}>
             {props.data.previous ? <div><button onClick={prevPage} className={styles.button}>Prev</button></div>: null}
             {props.data.next ? <div><button onClick={nextPage} className={styles.button}>Next</button></div>: null}
-            
+            </div>
             
         </div>
     )

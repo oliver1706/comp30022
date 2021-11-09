@@ -22,8 +22,9 @@ export function Menu(props) {
         <li><a onClick={() => logout()/*No need for prop*/} >Logout</a></li>
         <li><a onClick={() => requestExport()/*No need for prop*/} >Export Customer Data</a></li>
         <li><a onClick={() => {props.openEmployees(); props.handleClose()}}>View Employees</a></li>
-        <li><a onClick={() => {props.openCustomers(); props.handleClose()}}>View Customers</a></li>
+        
         <li><a onClick={() => {props.createOrgOrDept(); props.handleClose()}}>Create Organisation <br/> Or Department</a></li>
+        <li><a onClick={e => requestImport(e.target.files[0])}>Import Data</a></li>
         <li>
             <form>
                 <div className="">
