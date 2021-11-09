@@ -124,13 +124,18 @@ export function AdvancedSearch(props) {
 
     return (
         <Modal className = {styles.popup} isOpen={true} toggle={props.toggle}>
-            <ModalHeader className = {styles.header}toggle={props.toggle} charCode = 'Ya mum'>Advanced Search </ModalHeader>
+            <h2 className = {styles.header}toggle={props.toggle} >Advanced Search 
+            <Button
+            className = {styles.closeButton}
+            >Close
+            </Button>
+            </h2>
             <ModalBody>
                 <Form onSubmit={e => { e.preventDefault() }}>
                 {renderFields()}
                 </Form>
             </ModalBody>
-            <ModalFooter>
+            <ModalFooter className = {styles.foot}>
                 <Button
                 className = {styles.searchButton}
                 color="success"

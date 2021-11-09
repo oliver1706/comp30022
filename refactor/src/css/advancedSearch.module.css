@@ -7,6 +7,14 @@
     background-color: var(--mainColour);
     border: var(--mainColour);
     color: white;
+    margin-left: 75%;
+    width: 17%;
+    height: 20px;
+    border-radius: 3px;
+    margin-top: 0%;
+    margin-bottom: 10%;
+    
+    
 } 
 
 .header {
@@ -14,7 +22,7 @@
     margin-bottom: 3%;
     font-size: x-large;
     width: 80%;
-    height: 100px;
+    height: 50px;
     margin-left: 10%;
 }
 
@@ -29,8 +37,16 @@
     width: 74%;
     margin-left: 12%;
     margin-bottom: 5%;
+    margin-top: 3%;
 }
 
 .closeButton {
-    color: #1B496A;
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+    margin-left: 15%;
+    width: 17%;
+    height: 20px;
+    border-radius: 3px;
+    margin-bottom: 10%;
 }
