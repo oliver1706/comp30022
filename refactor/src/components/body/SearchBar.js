@@ -52,17 +52,17 @@ export function SearchBar(props) {
                     className = {searchStyle.inputBox}
                 />
                 {orderingToggle ? 
-                    <OrderingForm
+                    null/*<OrderingForm
                         isOpen={orderingToggle}
                         toggle={() => {setOrderingToggle(! orderingToggle); console.log(orderingToggle)}}
                         setOrdering={props.setOrdering} 
-                    />
+                    />*/
                     :
                     null}
            
             </Form>
             
-            <button onClick={() => setOrderingToggle(! orderingToggle)}> Toggle Ordering</button>
+
         </div>
     )
 }
@@ -147,7 +147,7 @@ export function AdvancedSearch(props) {
 
 }
 
-function OrderingForm(props) {
+export function OrderingForm(props) {
     
     const [orderSelection, setOrderSelection] = useState("default")
 
@@ -172,7 +172,9 @@ function OrderingForm(props) {
 
     return (
         <Container isOpen={props.isOpen} toggle={props.toggle} className={modalStyles.customerPopup}>
-            <header className = {modalStyles.header} toggle={props.toggle}> Order By</header>
+            <header className = {modalStyles.header} toggle={props.toggle}> Order By
+                <button onClick={props.toggle}>Close</button>
+            </header>
 
                 <Form>
                     <FormGroup>

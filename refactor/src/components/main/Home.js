@@ -24,9 +24,10 @@ import React, { Redirect, Component, useState, useEffect } from 'react';
 import { EditCustomer } from '../body/EditCustomer';
 import { EmployeeView } from '../body/EmployeeView';
 import { EditEmployee } from '../body/EditEmployee';
-import { SearchBar, AdvancedSearch} from '../body/SearchBar'
+import { SearchBar, AdvancedSearch, OrderingForm} from '../body/SearchBar'
 import { InspectCustomer } from '../body/InspectCustomer';
 import { CreateOrgOrDept } from '../body/CreateOrgOrDept';
+import { orderBy } from 'lodash';
 
 export default function Home(props) {
     //State hook stuff
@@ -42,6 +43,7 @@ export default function Home(props) {
     const [pageNum, setPageNum] = useState(1); // For Pagination of requests
     const [page, setPage] = useState("CustomerView"); // For Loading different body elements, use loadpage to change
     const [ordering, setOrdering] = useState(false);
+    const [orderByToggle, setOrderByToggle] = useState(false); // For the  ordering "pop up"
 
     
 
@@ -170,6 +172,8 @@ export default function Home(props) {
                             pageNum={pageNum}
                             advancedSearchToggle={advancedSearchToggle}
                             setAdvancedSearchToggle={setAdvancedSearchToggle}
+                            orderByToggle={orderByToggle}
+                            setOrderByToggle={setOrderByToggle}
                         />
                         </div>
                     </div>
@@ -254,7 +258,7 @@ export default function Home(props) {
                 toggle={() => {setAdvancedSearchToggle(false)}}
                 idOpen={advancedSearchToggle}
             />
-        ) : renderBody(page)}
+        ) : (orderByToggle ? <OrderingForm isOpen={orderByToggle} toggle={() => {setOrderByToggle(! orderByToggle)}} setOrdering={setOrdering}/> : renderBody(page))}
         
         {null}
     </section>
