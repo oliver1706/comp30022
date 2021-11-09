@@ -105,7 +105,6 @@ export function EditCustomer(props) {
             let data = {
                 id: customer.id,
                 description: description,
-                photo: getPhotoForSubmission(props.newCustomer, photo),
                 first_name: first_name,
                 last_name: last_name,
                 job_title: job_title,
