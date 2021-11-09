@@ -26,6 +26,7 @@ import { EmployeeView } from '../body/EmployeeView';
 import { EditEmployee } from '../body/EditEmployee';
 import { SearchBar, AdvancedSearch} from '../body/SearchBar'
 import { InspectCustomer } from '../body/InspectCustomer';
+import { CreateOrgOrDept } from '../body/CreateOrgOrDept';
 
 export default function Home(props) {
     //State hook stuff
@@ -218,6 +219,12 @@ export default function Home(props) {
                         />
                     </div>
                 );
+            case "CreateOrgOrDept":
+                return (
+                    <div>
+                        <CreateOrgOrDept/>
+                    </div>
+                )
         }
     } else { return (<div>Loading</div>)}
     }
@@ -237,6 +244,7 @@ export default function Home(props) {
             visibility={menuToggle}
             openCustomers={() => loadPage("CustomerView")}
             openEmployees={() => loadPage("EmployeeView")}
+            createOrgOrDept={() => loadPage("CreateOrgOrDept")}
         />
         
         {advancedSearchToggle ? (

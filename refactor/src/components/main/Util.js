@@ -81,6 +81,8 @@ export function getSelection(page) { // Maps each page to it's relevant database
             return "employees"
         case "EditEmployee":
             return "employees"
+        case "CreateOrgOrDept":
+            return "customers"
     }
 }
 
