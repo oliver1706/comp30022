@@ -150,11 +150,12 @@ export function EditCustomer(props) {
 
     return (
         <Container>
-            <button className="" onClick={() => {console.log(editable); setEditable(true); console.log(editable)}}> edit </button>
+            <button className= {styles.editButton} onClick={() => {console.log(editable); setEditable(true); console.log(editable)}}> edit </button>
             <body>
                 <Form>
                     <FormGroup>
                         <Label for="description">Description</Label>
+                        
                         <Input
                             disabled={! editable}
                             type="text"
@@ -300,6 +301,7 @@ export function EditCustomer(props) {
                 </Form>
             </body>
             <footer>
+                
                 <Button
                     color="success"
                     onClick={() => handleSave()}

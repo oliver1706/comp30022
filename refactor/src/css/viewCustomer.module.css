@@ -7,17 +7,22 @@
 label {
     width: 30%;
     margin-left: 4%;
+    margin-bottom: 10%;
 }
 
 .customerInput {
     width: 75%;
     margin-left: 10%;
+    margin-top: 3%;
+    margin-bottom: 5%;
 }
 
 
 select {
     width: 75%;
     margin-left: 10%;
+    margin-top: 3%;
+    margin-bottom: 5%;
 }
 
 
@@ -25,34 +30,45 @@ select {
 .saveButton {
     background-color: var(--mainColour);
     border: var(--mainColour);
+    color: white;
+    margin-left: 75%;
+    width: 17%;
+    border-radius: 3px;
+    margin-top: 8%;
+    margin-bottom: 10%;
+    
 } 
 
 
 .header {
-    background-color: var(--mainColour);
-    color: white;
+    color: var(--mainColour);
     margin-bottom: 3%;
-    height: 75px;
+    height: 40px;
+    font-size: x-large;
+    margin-left: 10%;
 }
 
 .editButton {
     background-color: var(--mainColour);
     border: var(--mainColour);
     color: white;
-    width: 20%;
+    width: 17%;
     border-radius: 3px;
     margin-left: 75%;
-    margin-top: -7%;
+    position: absolute;
+    margin-top: -27.25%;
+    
 }
 
 .editButton:focus {
     background-color: var(--mainColour);
     border: var(--mainColour);
     color: var(--secondaryColour);
-    width: 20%;
+    width: 17%;
     border-radius: 3px;
     margin-left: 75%;
-    margin-top: -7%;
+    position: absolute;
+    margin-top: -30.75;
     font-weight: bold;
 }
 
@@ -72,8 +88,8 @@ select {
 
 .customerImg {
     margin-left: 12%;
-    margin-top: 8%;
-    margin-bottom: 8%;
+    margin-top: 1%;
+    margin-bottom: 4%;
 
 }
 
@@ -90,6 +106,13 @@ select {
     width: 30%;
     border-radius: 3px;
     margin-left: 10%;
+}
+
+.tabButtons {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 8%;
+    margin-left: 4%;
 }
 /*
 

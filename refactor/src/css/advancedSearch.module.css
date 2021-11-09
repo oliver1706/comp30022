@@ -6,20 +6,31 @@
 .searchButton {
     background-color: var(--mainColour);
     border: var(--mainColour);
+    color: white;
 } 
 
 .header {
-    background-color: var(--mainColour);
-    color: white;
+    color: var(--mainColour);
     margin-bottom: 3%;
+    font-size: x-large;
+    width: 80%;
+    height: 100px;
+    margin-left: 10%;
 }
 
 .fieldLabel {
     width: 30%;
-    margin-left: 4%;
+    margin-left: 7%;
+    padding-right: 5%;
+    margin-bottom: 100%;
 }
 
 .customerInput {
-    width: 75%;
-    margin-left: 10%;
+    width: 74%;
+    margin-left: 12%;
+    margin-bottom: 5%;
+}
+
+.closeButton {
+    color: #1B496A;
 }

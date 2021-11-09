@@ -34,26 +34,32 @@ export function InspectCustomer(props) {
     const renderHeader = () => {
         return(
         <div>
-        <header className={styles.header}>{props.customer.first_name} {props.customer.last_name}
+        <h2 className={styles.header}>{props.customer.first_name} {props.customer.last_name} </h2>
+
+        <div className = {styles.tabButtons} >
             <Button
                 color="success"
                 onClick={() => props.handleClose()}
-                className = {styles.saveButton}
+                className = {alternateStyles.profileButton}
             >Close
             </Button>
-            <button className={alternateStyles.profileButton} onClick={() => requestWatch(props.customer.id)}> Watch </button>
-            <button className={alternateStyles.profileButton} onClick={() => requestUnwatch(props.customer.id)}> Unwatch </button>
+           
             
-            <button className={alternateStyles.profileButton} onClick={() => setActiveTab('edit')}> view </button>
+            <button className={alternateStyles.profileButton} onClick={() => setActiveTab('edit')}> Profile </button>
             { props.customer.invoices.length ?
-                <div>
-                    <button className={alternateStyles.profileButton} onClick={() => setActiveTab('graphs')}> graphs </button>
-                    <button className={alternateStyles.profileButton} onClick={() => setActiveTab('invoices')}> invoices </button>
+                <div className = {alternateStyles.infotabs}>
+                    <button className={alternateStyles.profileButton} onClick={() => setActiveTab('graphs')}> Graphs </button>
+                    <button className={alternateStyles.profileButton} onClick={() => setActiveTab('invoices')}> Invoices </button>
                 </div>
                 :
                 null
             }
-            </header>
+            <div className = {alternateStyles.infotabs}>
+
+            <button className={alternateStyles.profileButton} onClick={() => requestWatch(props.customer.id)}> Watch </button>
+            <button className={alternateStyles.profileButton} onClick={() => requestUnwatch(props.customer.id)}> Unwatch </button>
+           </div>
+           </div>
         </div>
         )    
     }

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react"
 import { Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, Label, Container } from "reactstrap"
-
 import styles from '../../css/advancedSearch.module.css'
 import modalStyles from '../../css/addCustomer.module.css'
 import searchStyle from '../../css/home.module.css'
@@ -124,8 +123,8 @@ export function AdvancedSearch(props) {
     }
 
     return (
-        <Modal isOpen={true} toggle={props.toggle}>
-            <ModalHeader className = {styles.header}toggle={props.toggle}>Advanced Search </ModalHeader>
+        <Modal className = {styles.popup} isOpen={true} toggle={props.toggle}>
+            <ModalHeader className = {styles.header}toggle={props.toggle} charCode = 'Ya mum'>Advanced Search </ModalHeader>
             <ModalBody>
                 <Form onSubmit={e => { e.preventDefault() }}>
                 {renderFields()}
@@ -138,7 +137,7 @@ export function AdvancedSearch(props) {
                 onClick={() => handleSubmit()}
                 
                 >
-                Searchfef
+                Search
                 </Button>
             </ModalFooter>
         </Modal>

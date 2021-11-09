@@ -4,6 +4,12 @@
     
 }
 
+.watchers {
+    display: inline-block;
+    margin-top: 5%;
+    margin-left: 28%;
+
+}
 
 .otherButtons {
     background-color: var(--mainColour);
@@ -23,15 +29,14 @@
 .profileButton {
     background-color: var(--mainColour);
     color: white;
-    margin-left: 2%;
-    border: var(--mainColour);
+    border: white;
+    display: inline-block;
 }
 
 
 .profileButton:focus {
     background-color: var(--secondaryColour);
     color: var(--mainColour);
-    margin-left: 2%;
     border: var(--mainColour);
     font-weight: bold;
 }
