@@ -8,24 +8,29 @@ import {
     Label,
 } from "reactstrap"
 import axios from 'axios'
-import styles from '../../css/viewCustomer.module.css'
+import styles from '../../css/createOrgOrDept.module.css'
 import { getAuthheader } from '../main/Util';
 
 
 export function CreateOrgOrDept(props) {
 
-    const [selection, setSelection] = useState("organisations");
-    const [nameEntry, setNameEntry] = useState("");
+    const [departmentNameEntry, setDepartmentNameEntry] = useState("");
+    const [organisationNameEntry, setOrganisationNameEntry] = useState("");
 
-    const handleSubmit = () => {
+    const handleSubmit = (selection) => {
 
-        let data = {
-            name: nameEntry
-        }
 
         let form = new FormData();
+        switch (selection) {
+            case 'departments':
+                form.append('name', departmentNameEntry);
+                break;
+            case 'organisations':
+                form.append('name', organisationNameEntry)
+            default:
+                break;
+        }
 
-        form.append('name', nameEntry);
         console.log(form);
         axios
             .post(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/`, form, getAuthheader())
@@ -37,21 +42,30 @@ export function CreateOrgOrDept(props) {
     return (
         <div>
             <Form>
-                <select
-                    value={selection}
-                    onChange={(e) => setSelection(e.target.value)}
-                >
-                    <option value='organisations'>Organisation</option>
-                    <option value='departments'>Department</option>
-                </select>
-                <Input
-                    className = ''
-                    type='text'
-                    name='name'
-                    value={nameEntry}
-                    onChange={(e) => setNameEntry(e.target.value)}
-                ></Input>
-                <button onClick={() => handleSubmit()}>Submit</button>
+                <div className={styles.create}>
+                    <h1>Create Department</h1>
+                    <Input
+                        className = ''
+                        type='text'
+                        name='name'
+                        value={departmentNameEntry}
+                        onChange={(e) => setDepartmentNameEntry(e.target.value)}
+                        placeholder='Enter Department Name'
+                    ></Input>
+                    <button onClick={() => handleSubmit('departments')}>Create</button>
+                </div>
+                <div className={styles.create}>
+                    <h1>Create Organisation</h1>
+                    <Input
+                        className = ''
+                        type='text'
+                        name='name'
+                        value={organisationNameEntry}
+                        onChange={(e) => setOrganisationNameEntry(e.target.value)}
+                        placeholder='Enter Organisation Name'
+                    ></Input>
+                    <button onClick={() => handleSubmit('organisations')}>Create</button>
+                </div>
             </Form>
 
             

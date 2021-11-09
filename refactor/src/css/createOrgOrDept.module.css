@@ -1,0 +1,26 @@
+:root {
+    --mainColour: #1B496A;
+    --secondaryColour: #F49E8F;
+}
+
+button {
+    background-color: var(--mainColour);
+    color: white;
+} 
+h1 {
+    text-align: center;
+    margin: 0;
+    padding: 3% 0;
+    color: white;
+}
+
+input {
+    width: 200px;
+    margin: 2%;
+    
+}
+
+.create {
+    background-color: var(--mainColour);
+    border-radius: 10px;
+}
