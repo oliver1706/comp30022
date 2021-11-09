@@ -127,6 +127,7 @@ export function AdvancedSearch(props) {
             <h2 className = {styles.header}toggle={props.toggle} >Advanced Search 
             <Button
             className = {styles.closeButton}
+            onClick={() => {props.toggle()}}
             >Close
             </Button>
             </h2>
