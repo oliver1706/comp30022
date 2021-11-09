@@ -40,6 +40,7 @@ export default function Home(props) {
     const [activeItem, setActiveItem] = useState(false);
     const [pageNum, setPageNum] = useState(1); // For Pagination of requests
     const [page, setPage] = useState("CustomerView"); // For Loading different body elements, use loadpage to change
+    const [ordering, setOrdering] = useState(false);
 
     
 
@@ -52,10 +53,10 @@ export default function Home(props) {
         setData({results: []})
         console.log("Use effect called");
         const [tempSelection, tempSearch, tempSort] = [selection, search, sort]
-        refreshList(acceptResponse, tempSelection, tempSearch, advancedSearch, tempSort, pageNum);
+        refreshList(acceptResponse, tempSelection, ordering, tempSearch, advancedSearch, tempSort, pageNum);
         console.log(data.results);
 
-    }, [search, page, sort, pageNum, selection, test/*Just to make life easy */]) //The list at the end stops this being called if the things haven't changed
+    }, [search, page, sort, ordering, pageNum, selection, test/*Just to make life easy */]) //The list at the end stops this being called if the things haven't changed
 
     function loadPage(page) {
         console.log(`Setting to ${page}`)
@@ -76,28 +77,27 @@ export default function Home(props) {
     }
 
     function acceptResponse(res) {
-        // Searching throws out a new request on every key press.
-        // Sometimes they arrive out of order, ruining the searchbar!
-        // This verifies that the responses url is equivalent to the most recent one
-        // before updating dataList
 
-        // This does not  work. I think when the axios request finishes, the values for
-        // state are locked already locked in. Unsure how to fix but definitely needs to be
-        // Possible solution: https://stackoverflow.com/questions/68947742/get-axios-responses-in-the-same-order-as-requests-for-search-functionality
         console.log(res)
-        if(res.config.url === (process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&search=${search}&${sort}`)) {
-            setData(res.data);
-            console.log(search)
-            console.log(res.config.url)
-            console.log(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&search=${search}&${sort}`)
-        } else {
-            //Reject >:(
-            console.log("Old response received")
-        }
+
+        setData(res.data);
+        console.log(search)
+        console.log(res.config.url)
+        console.log(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&search=${search}&${sort}`)
+
     }
 
     function updateAdvancedSearch(searchString) {
         setAdvancedSearch(searchString);
+    }
+    function updateOrdering(orderBy) {
+        console.log(orderBy)
+        if(orderBy === 'default') {
+            setOrdering(false)
+        } else {
+            setOrdering(orderBy);
+        }
+
     }
 
     function updateSearch(search) {
@@ -156,6 +156,7 @@ export default function Home(props) {
                             search={search}
                             updateSearch={updateSearch}
                             className = {styles.inputBox}
+                            setOrdering={updateOrdering}
                             placeholder = 'Search'
                         />
                         </div>

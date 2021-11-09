@@ -1,24 +1,29 @@
 import axios from 'axios';
 
-export function refreshList(acceptResponse, selection, search, advancedSearch, sort, pageNum) {
+export function refreshList(acceptResponse, selection, ordering, search, advancedSearch, sort, pageNum) {
 
     //For debugging
     console.log(`Search is ${search}`);
     console.log(`Selection is ${selection}`);
     console.log(`Sort is ${sort}`);
     console.log(`PageNum is ${pageNum}`);
+    console.log(`Ordering is ${ordering}`)
+    let orderBy = ''
+    if(ordering) {
+        orderBy = `ordering=${ordering}`;
+    }
     
 
     if(advancedSearch) {
-        console.log(`/app/${selection}/?page=${pageNum}&${advancedSearch}&${sort}`);
+        console.log(`/app/${selection}/?page=${pageNum}&${advancedSearch}&${sort}&${orderBy}`);
         axios
-            .get(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&${advancedSearch}&${sort}`, getAuthheader())
+            .get(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&${advancedSearch}&${sort}&${orderBy}`, getAuthheader())
             .then((res) => {acceptResponse(res)})
             .catch((err) => {console.log(err)});
     } else {
-        console.log(`/app/${selection}/?page=${pageNum}&search=${search}&${sort}`);
+        console.log(`/app/${selection}/?page=${pageNum}&search=${search}&${sort}&${orderBy}`);
         axios
-            .get(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&search=${search}&${sort}`, getAuthheader())
+            .get(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&search=${search}&${sort}&${orderBy}`, getAuthheader())
             .then((res) => {acceptResponse(res)})
             .catch((err) => {console.log(err)});
     }

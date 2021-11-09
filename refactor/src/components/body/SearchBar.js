@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react"
-import { Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, Label } from "reactstrap"
+import { Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, Label, Container } from "reactstrap"
+
 import styles from '../../css/advancedSearch.module.css'
+import modalStyles from '../../css/addCustomer.module.css'
 import searchStyle from '../../css/home.module.css'
 import lodash from "lodash"
 export function SearchBar(props) {
@@ -8,7 +10,7 @@ export function SearchBar(props) {
     const [currSearch, setCurrSearch] = useState(props.search)
     const [ordering, setOrdering] = useState(props.ordering)
     const [previewSearch, setPreviewSearch] = useState("")
-
+    const [orderingToggle, setOrderingToggle] = useState(false)
     useEffect(() => {
         props.updateSearch(currSearch)
     }, [currSearch])
@@ -49,7 +51,18 @@ export function SearchBar(props) {
                     placeholder = 'Search'
                     className = {searchStyle.inputBox}
                 />
+                {orderingToggle ? 
+                    <OrderingForm
+                        isOpen={orderingToggle}
+                        toggle={() => {setOrderingToggle(! orderingToggle); console.log(orderingToggle)}}
+                        setOrdering={props.setOrdering} 
+                    />
+                    :
+                    null}
+           
             </Form>
+            
+            <button onClick={() => setOrderingToggle(! orderingToggle)}> Toggle Ordering</button>
         </div>
     )
 }
@@ -134,6 +147,49 @@ export function AdvancedSearch(props) {
 
 }
 
+function OrderingForm(props) {
+    
+    const [orderSelection, setOrderSelection] = useState("default")
+
+    const handleChange = (e) => {
+        let value = e.target.value;
+        setOrderSelection(value);
+        props.setOrdering(value);
+    }
+
+    const generateSelection = () => {
+        const orderingFields = ['default',
+            'first_name', 
+            'last_name', 
+            'average_invoice', 
+            'total_invoice',
+            'total_overdue']
+
+        return orderingFields.map((field) => (
+            <option value={field}>{humanise(field)}</option>
+        ));
+    }
+
+    return (
+        <Container isOpen={props.isOpen} toggle={props.toggle} className={modalStyles.customerPopup}>
+            <header className = {modalStyles.header} toggle={props.toggle}> Order By</header>
+
+                <Form>
+                    <FormGroup>
+                        <select
+                            className={modalStyles.selectButton}
+                            name="ordering"
+                            value={orderSelection}
+                            onChange={handleChange}
+                            placeholder="Order by...">
+                                {generateSelection()}
+                        </select>
+                    </FormGroup>
+                </Form>
+
+        </Container>
+    )
+}
 function humanise(str) {
     var i, frags = str.split('_');
     for (i=0; i<frags.length; i++) {
