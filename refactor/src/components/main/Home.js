@@ -27,6 +27,7 @@ import { EditEmployee } from '../body/EditEmployee';
 import { SearchBar, AdvancedSearch, OrderingForm} from '../body/SearchBar'
 import { InspectCustomer } from '../body/InspectCustomer';
 import { CreateOrgOrDept } from '../body/CreateOrgOrDept';
+import { ImportData } from '../body/ImportData';
 import { orderBy } from 'lodash';
 
 export default function Home(props) {
@@ -229,6 +230,12 @@ export default function Home(props) {
                         <CreateOrgOrDept/>
                     </div>
                 )
+            case "ImportData":
+                return (
+                    <div>
+                        <ImportData/>
+                    </div>
+                )
         }
     } else { return (<div>Loading</div>)}
     }
@@ -249,6 +256,7 @@ export default function Home(props) {
             openCustomers={() => loadPage("CustomerView")}
             openEmployees={() => loadPage("EmployeeView")}
             createOrgOrDept={() => loadPage("CreateOrgOrDept")}
+            importData={() => loadPage("ImportData")}
         />
         
         {advancedSearchToggle ? (
