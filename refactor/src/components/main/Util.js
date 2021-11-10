@@ -3,11 +3,7 @@ import axios from 'axios';
 export function refreshList(acceptResponse, selection, ordering, search, advancedSearch, sort, pageNum) {
 
     //For debugging
-    console.log(`Search is ${search}`);
-    console.log(`Selection is ${selection}`);
-    console.log(`Sort is ${sort}`);
-    console.log(`PageNum is ${pageNum}`);
-    console.log(`Ordering is ${ordering}`)
+
     let orderBy = ''
     if(ordering) {
         orderBy = `ordering=${ordering}`;
@@ -15,17 +11,13 @@ export function refreshList(acceptResponse, selection, ordering, search, advance
     
 
     if(advancedSearch) {
-        console.log(`/app/${selection}/?page=${pageNum}&${advancedSearch}&${sort}&${orderBy}`);
         axios
             .get(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&${advancedSearch}&${sort}&${orderBy}`, getAuthheader())
-            .then((res) => {acceptResponse(res)})
-            .catch((err) => {console.log(err)});
+            .then((res) => {acceptResponse(res)});
     } else {
-        console.log(`/app/${selection}/?page=${pageNum}&search=${search}&${sort}&${orderBy}`);
         axios
             .get(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&search=${search}&${sort}&${orderBy}`, getAuthheader())
-            .then((res) => {acceptResponse(res)})
-            .catch((err) => {console.log(err)});
+            .then((res) => {acceptResponse(res)});
     }
 
 }
@@ -36,8 +28,6 @@ export function getAuthheader() {
 }
 
 export function handleSubmit(selection, data) {
-
-    console.log(data);
 
     let form = new FormData();
 
@@ -51,17 +41,12 @@ export function handleSubmit(selection, data) {
 
     if(form.has('id')) {
         // Patch
-        console.log(`Submitting a ${selection} with id ${form.get('id')}`)
         axios
-            .patch(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/${form.get('id')}/`, form, getAuthheader())
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+            .patch(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/${form.get('id')}/`, form, getAuthheader());
     } else {
         // Post
         axios
-            .post(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/`, form, getAuthheader())
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+            .post(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/`, form, getAuthheader());
     }
     
 }

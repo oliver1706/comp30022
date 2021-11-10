@@ -40,16 +40,13 @@ function logout() {
 }
 
 function requestImport(file) {
-    console.log(file)
 
     let form = new FormData();
 
     form.append('file', file);
 
     axios
-        .post(process.env.REACT_APP_BACKEND_URL + `/app/customers/import_data_file/`, form, getAuthheader())
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err))
+        .post(process.env.REACT_APP_BACKEND_URL + `/app/customers/import_data_file/`, form, getAuthheader());
 
 }
 
@@ -60,14 +57,10 @@ function importData(data) {
 // Two functions for this so it can be asynchronous (unsure if better way to do it - Max)
 function requestExport() {
     let data = [];
-    console.log("trying");
     axios
-        .get(process.env.REACT_APP_BACKEND_URL + `/app/customers/export_data/`, getAuthheader())
-        .then((res) => {console.log(res.data); exportData(res.data)})
-        .catch((err) => console.log(err));
+        .get(process.env.REACT_APP_BACKEND_URL + `/app/customers/export_data/`, getAuthheader());
   }
 function exportData(data){
-    console.log(data);
     const fileName = 'customers'
     const exportType = exportFromJSON.types.json
     exportFromJSON({data, fileName, exportType})

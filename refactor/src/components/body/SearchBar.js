@@ -16,15 +16,10 @@ export function SearchBar(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e);
+
         let value = e.target.value;
-        console.log(value)
 
         /* Format for a proper search string */
-        console.log(currSearch)
-        console.log("Bananananana")
-        console.log(previewSearch)
-        console.log(value);
         setCurrSearch(previewSearch)
         
     }
@@ -50,15 +45,6 @@ export function SearchBar(props) {
                     placeholder = 'Search'
                     className = {searchStyle.inputBox}
                 />
-                {orderingToggle ? 
-                    null/*<OrderingForm
-                        isOpen={orderingToggle}
-                        toggle={() => {setOrderingToggle(! orderingToggle); console.log(orderingToggle)}}
-                        setOrdering={props.setOrdering} 
-                    />*/
-                    :
-                    null}
-           
             </Form>
             
 
@@ -69,10 +55,6 @@ export function SearchBar(props) {
 export function AdvancedSearch(props) {
 
     const [searchFields, setSearchFields] = useState(props.allFields.map((field) => ""))
-    
-    useEffect(() => {
-        console.log(searchFields)
-    }, [searchFields])
 
     const generateSearchString = () => {
         let searchString = ""

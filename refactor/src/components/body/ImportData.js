@@ -26,8 +26,7 @@ export function ImportData(props) {
 
             axios
                 .post(process.env.REACT_APP_BACKEND_URL + `/app/customers/import_data_file/`, form, getAuthheader())
-                .then((res) => setRequestStatus("done"))
-                .catch((err) => console.log(err))
+                .then((res) => setRequestStatus("done"));
         }
     }
 

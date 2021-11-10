@@ -47,10 +47,8 @@ export function EditCustomer(props) {
     // Also a little bit gross but I think the best way to do this
     const handleChange = (e) => {
         let {name, value} = e.target;
-        console.log(e);
         switch (name) {
             case 'description':
-                console.log("Matched Description")
                 setDescription(value);
                 break;
             case 'photo':
@@ -58,7 +56,6 @@ export function EditCustomer(props) {
                 setPhoto(value);
                 break;
             case 'first_name':
-                console.log("Matched First_Name")
                 setFirst_name(value);
                 break;
             case 'last_name':
@@ -85,9 +82,6 @@ export function EditCustomer(props) {
             case 'gender':
                 setGender(value);
                 break;
-            default:
-                console.log(`Error ${name} not a recognised case`);
-
         }
     }
 
@@ -150,7 +144,7 @@ export function EditCustomer(props) {
 
     return (
         <Container>
-            <button className= {styles.editButton} onClick={() => {console.log(editable); setEditable(true); console.log(editable)}}> edit </button>
+            <button className= {styles.editButton} onClick={() => {setEditable(true)}}> edit </button>
             <body>
                 <Form>
                     <FormGroup>
@@ -318,12 +312,10 @@ export function EditCustomer(props) {
 
 function refreshData(setOrgs, setDepts) {
     axios.get(process.env.REACT_APP_BACKEND_URL + `/app/departments/`, getAuthheader())
-        .then((res) => setDepts(res.data.results))
-        .catch((err) => console.log(err));
+        .then((res) => setDepts(res.data.results));
 
     axios.get(process.env.REACT_APP_BACKEND_URL + `/app/organisations/`, getAuthheader())
-        .then((res) => setOrgs(res.data.results))
-        .catch((err) => console.log(err));
+        .then((res) => setOrgs(res.data.results));
 }
 
 function getPhotoForSubmission(newCustomer, photo) {

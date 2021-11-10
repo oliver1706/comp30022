@@ -55,8 +55,6 @@ export function EditEmployee(props) {
             case 'department':
                 setDepartment(value);
                 break;
-            default:
-                console.log(`Error unrecognised name: ${name}`);
 
         }
     }
@@ -112,7 +110,7 @@ export function EditEmployee(props) {
                     className={styles.saveButton}
                 >Close
                 </Button>
-                <button className={styles.saveButton} onClick={() => {console.log(editable); setEditable(true); console.log(editable)}}> edit </button>
+                <button className={styles.saveButton} onClick={() => {setEditable(true)}}> edit </button>
 
             </header>
             
@@ -220,6 +218,5 @@ export function EditEmployee(props) {
 
 function refreshData(setDepts) {
     axios.get(process.env.REACT_APP_BACKEND_URL + `/app/departments/`, getAuthheader())
-        .then((res) => setDepts(res.data.results))
-        .catch((err) => console.log(err));
+        .then((res) => setDepts(res.data.results));
 }

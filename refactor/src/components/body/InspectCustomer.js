@@ -108,20 +108,15 @@ export function InspectCustomer(props) {
 }
 
 function requestWatch(id) {
-    console.log("Hello")
+
     axios
-    .post(process.env.REACT_APP_BACKEND_URL + `/app/customers/${id}/watch/`, id, getAuthheader())
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+    .post(process.env.REACT_APP_BACKEND_URL + `/app/customers/${id}/watch/`, id, getAuthheader());
     return null
 }
 
 function requestUnwatch(id) {
 
     axios
-        .post(process.env.REACT_APP_BACKEND_URL + `/app/customers/${id}/unwatch/`, id, getAuthheader())
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-
+        .post(process.env.REACT_APP_BACKEND_URL + `/app/customers/${id}/unwatch/`, id, getAuthheader());
         return null
 }

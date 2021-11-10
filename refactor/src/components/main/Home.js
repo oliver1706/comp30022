@@ -55,15 +55,12 @@ export default function Home(props) {
     useEffect(() => {
         //Refresh the list
         setData({results: []})
-        console.log("Use effect called");
         const [tempSelection, tempSearch, tempSort] = [selection, search, sort]
         refreshList(acceptResponse, tempSelection, ordering, tempSearch, advancedSearch, tempSort, pageNum);
-        console.log(data.results);
 
     }, [search, page, sort, ordering, pageNum, selection, test/*Just to make life easy */]) //The list at the end stops this being called if the things haven't changed
 
     function loadPage(page) {
-        console.log(`Setting to ${page}`)
         setSelection(getSelection(page));
         setSearch("");
         setSort("");
@@ -71,23 +68,12 @@ export default function Home(props) {
         //dataList hopefully updated by useEffect
         setPage(page);
         //Unecessary but a little helpful for testing:
-        setTest(0);
 
-    }
-
-    function testLog(e){
-        console.log(test);
-        setTest(test + 1)
     }
 
     function acceptResponse(res) {
 
-        console.log(res)
-
-        setData(res.data);
-        console.log(search)
-        console.log(res.config.url)
-        console.log(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/?page=${pageNum}&search=${search}&${sort}`)
+        setData(res.data)
 
     }
 
@@ -95,7 +81,7 @@ export default function Home(props) {
         setAdvancedSearch(searchString);
     }
     function updateOrdering(orderBy) {
-        console.log(orderBy)
+
         if(orderBy === 'default') {
             setOrdering(false)
         } else {
@@ -110,7 +96,7 @@ export default function Home(props) {
     }
 
     const editCustomer = (customer) => {
-        console.log(customer)
+
         setActiveItem(customer);
         loadPage("EditCustomer")
     }
@@ -118,21 +104,16 @@ export default function Home(props) {
     const newItem = () => {
         switch(selection) {
             case "customers":
-                console.log(`Selection was `)
                 createCustomer();
                 break;
             case "employees":
                 createEmployee();
                 break;
-            default:
-                console.log(`Unexpected selection ${selection}`)
 
         }
     }
 
     const editEmployee = (employee) => {
-        console.log(employee);
-        console.log("Juniper")
         setActiveItem(employee);
         loadPage("EditEmployee");
     }
@@ -152,7 +133,6 @@ export default function Home(props) {
         switch (page) {
 
             case "CustomerView":
-                console.log(data);
                 return (
                     <div>
                         <div className = {styles.search}> 
@@ -192,7 +172,6 @@ export default function Home(props) {
                     </div>
                 );
             case "EmployeeView":
-                console.log(data);
                 return (
                     <div>
                         <SearchBar
@@ -251,7 +230,7 @@ export default function Home(props) {
             addItem={() => newItem()}
         />
         <Menu
-            handleClose={() => {setMenuToggle(false); console.log("Closed menu")}} 
+            handleClose={() => {setMenuToggle(false)}} 
             visibility={menuToggle}
             openCustomers={() => loadPage("CustomerView")}
             openEmployees={() => loadPage("EmployeeView")}

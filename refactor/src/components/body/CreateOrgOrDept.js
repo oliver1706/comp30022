@@ -31,11 +31,8 @@ export function CreateOrgOrDept(props) {
                 break;
         }
 
-        console.log(form);
         axios
-            .post(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/`, form, getAuthheader())
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+            .post(process.env.REACT_APP_BACKEND_URL + `/app/${selection}/`, form, getAuthheader());
         
     }
 

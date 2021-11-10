@@ -15,12 +15,10 @@ export function CustomerGraphs(props) {
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${props.customer.id}/salesplot/`, getAuthheader())
-            .then((res) => {setPlots(res.data); setLoadedPlots(true); setCurrPlot(res.data.sum_of_sales_plot)})
-            .catch((err) => console.log(err));
+            .then((res) => {setPlots(res.data); setLoadedPlots(true); setCurrPlot(res.data.sum_of_sales_plot)});
   
         axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${props.customer.id}/stats/`, getAuthheader())
-            .then((res) => {setStats(res.data); setLoadedStats(true)})
-            .catch((err) => console.log(err));
+            .then((res) => {setStats(res.data); setLoadedStats(true)});
     }, []);
 
     const updatePlot = (e) => {

@@ -17,8 +17,7 @@ export function CustomerInvoices(props) {
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_BACKEND_URL + `/app/customers/${props.customer.id}/invoices`, getAuthheader())
-            .then((res) => {setAllInvoices(res.data); setCurrInvoice(res.data[0])})
-            .catch((err) => console.log(err));
+            .then((res) => {setAllInvoices(res.data); setCurrInvoice(res.data[0])});
     }, [])
 
     const invoiceSelection = () => {
