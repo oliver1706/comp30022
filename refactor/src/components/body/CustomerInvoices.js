@@ -20,13 +20,10 @@ export function CustomerInvoices(props) {
             .then((res) => {setAllInvoices(res.data); setCurrInvoice(res.data[0])});
     }, [])
 
-    const invoiceSelection = () => {
-        const invoiceList = allInvoices;
-  
-        return invoiceList.map((invoice) => (
-            <option value={invoice.id}>{invoice.description}</option>
-        ));
-    }
+    useEffect(() => {
+        console.log(invoiceNum);
+        console.log(currInvoice);
+    }, [invoiceNum, currInvoice])
 
     const incrementInvoiceNum = (i) => {
         const currNum = invoiceNum;
@@ -42,6 +39,7 @@ export function CustomerInvoices(props) {
                     setInvoiceNum(newNum);
                     setCurrInvoice(invoices[newNum]);
                 }
+                break
             case 1:
                 if(currNum < allInvoices.length - 1) {
                     const newNum  = currNum + 1;
@@ -52,18 +50,24 @@ export function CustomerInvoices(props) {
                     setInvoiceNum(newNum);
                     setCurrInvoice(invoices[newNum]);
                 }
+                break
+            default:
+                console.log(`Unexpected increment i=${i}`)
         }
     }
 
     const setInvoice = (e) => {
 
         const { name, value } = e.target;
-  
+        console.log("Here")
+        console.log(value);
+        console.log("Here")
         const matchInvoice = (elem) => elem.id == value;
   
         const newIndex = allInvoices.findIndex(matchInvoice);
         const newInvoice = allInvoices[newIndex];
-        
+        console.log("This:")
+        console.log(newInvoice)
         setCurrInvoice(newInvoice);
         setInvoiceNum(newIndex);
     }
@@ -75,19 +79,19 @@ export function CustomerInvoices(props) {
         if (invoice != null) {
             return (
                 <main className = 'container'>
-                <h1 className= 'text-black text-center my-4'>{invoice.description}</h1>
+                <h2>{`${invoice.description}`}</h2>
                 <div className = 'row'>
                     <div className = 'col-md-20 col-sm-10 mx-auto p-0'>
                         <div className = 'card p-3'>
-                            <span className = {styles.name}>
+                            <div className = {styles.name}>
                                 Total Paid: {invoice.total_paid}
-                            </span>
-                            <span className = {styles.name}>
+                            </div>
+                            <div className = {styles.name}>
                                 Total Due: {invoice.total_due}
-                            </span>
-                            <span className = {styles.name}>
-                                Due on: {invoice.due_date}
-                            </span>
+                            </div>
+                            <div className = {styles.name}>
+                                Due on: {invoice.date_due}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,20 +104,10 @@ export function CustomerInvoices(props) {
 
     return (
         <body>
-            <Form>
-                <FormGroup>
-                    <Label for="currInvoice"></Label>
-                    <select 
-                        name = "currInvoice"
-                        onChange={setInvoice}
-                        value={currInvoice}
-                        placeholder="Select an Invoice">
-                        {invoiceSelection()}
-                    </select>
-                </FormGroup>
-            </Form>
+
             {renderCurrentInvoice()}
-                <div className = {styles.footButtons}>
+
+            <div className = {styles.footButtons}>
                 
 
                 <button 
