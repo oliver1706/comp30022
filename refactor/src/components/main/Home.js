@@ -47,18 +47,25 @@ export default function Home(props) {
     const [orderByToggle, setOrderByToggle] = useState(false); // For the  ordering "pop up"
 
     
-
+    
     useEffect(() => {
         loadPage("CustomerView")
     }, [])
 
     useEffect(() => {
+        console.log(advancedSearch);
+    }, [advancedSearch])
+
+    useEffect(() => {
         //Refresh the list
         setData({results: []})
+        console.log(`Search is: ${search}`);
+        console.log(`Advanced search is: ${advancedSearch}`);
         const [tempSelection, tempSearch, tempSort] = [selection, search, sort]
         refreshList(acceptResponse, tempSelection, ordering, tempSearch, advancedSearch, tempSort, pageNum);
 
-    }, [search, page, sort, ordering, pageNum, selection, test/*Just to make life easy */]) //The list at the end stops this being called if the things haven't changed
+    }, [search, page, sort, ordering, pageNum, selection, test, advancedSearch/*Just to make life easy */]) //The list at the end stops this being called if the things haven't changed
+
 
     function loadPage(page) {
         setSelection(getSelection(page));
@@ -91,7 +98,10 @@ export default function Home(props) {
     }
 
     function updateSearch(search) {
-        setAdvancedSearch(false);
+        console.log("Updated")
+        if(search !== '') {
+            setAdvancedSearch(false);
+        }
         setSearch(search);
     }
 
@@ -155,6 +165,7 @@ export default function Home(props) {
                             setAdvancedSearchToggle={setAdvancedSearchToggle}
                             orderByToggle={orderByToggle}
                             setOrderByToggle={setOrderByToggle}
+                            setSearch={setSearch}
                         />
                         </div>
                     </div>
@@ -188,6 +199,7 @@ export default function Home(props) {
                             pageNum={pageNum}
                             advancedSearchToggle={advancedSearchToggle}
                             setAdvancedSearchToggle={setAdvancedSearchToggle}
+                            setSearch={setSearch}
                         />
                     </div>
                 );
@@ -243,7 +255,7 @@ export default function Home(props) {
                 allFields={getAllFields('customers')}
                 updateSearch={setAdvancedSearch}
                 toggle={() => {setAdvancedSearchToggle(false)}}
-                idOpen={advancedSearchToggle}
+                isOpen={advancedSearchToggle}
             />
         ) : (orderByToggle ? <OrderingForm isOpen={orderByToggle} toggle={() => {setOrderByToggle(! orderByToggle)}} setOrdering={setOrdering}/> : renderBody(page))}
         
