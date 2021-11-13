@@ -60,7 +60,7 @@ select {
     
 }
 
-.editButton:focus {
+.editButtonClicked {
     background-color: var(--mainColour);
     border: var(--mainColour);
     color: var(--secondaryColour);
@@ -68,7 +68,7 @@ select {
     border-radius: 3px;
     margin-left: 75%;
     position: absolute;
-    margin-top: -30.75;
+    margin-top: -27.25%;
     font-weight: bold;
 }
 
