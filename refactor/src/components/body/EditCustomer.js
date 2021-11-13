@@ -22,6 +22,7 @@ import { CustomerView } from './CustomerView';
 export function EditCustomer(props) {
     
     const [editable, setEditable] = useState(props.editable);
+    const [editButtonStyle, setStyle] = useState(styles.editButton)
     
     // For each field, id is grabbed only at submission, it is immutable
     const [description, setDescription] = useState(props.customer.description);
@@ -43,6 +44,14 @@ export function EditCustomer(props) {
     useEffect(() => {
         refreshData(setAllOrgs, setAllDepts);
     }, [] /* Empty array means only run on mount */)
+
+    const switchStyle = () => {
+        if (editButtonStyle == styles.editButton) {
+            setStyle(styles.editButtonClicked);
+        } else {
+            setStyle(styles.editButton);
+        }
+    }
 
     // Also a little bit gross but I think the best way to do this
     const handleChange = (e) => {
@@ -126,6 +135,7 @@ export function EditCustomer(props) {
                 gender: gender,
             };
             props.handleSubmit('customers', data);
+            props.handleClose();
         }
         
     } 
@@ -144,7 +154,7 @@ export function EditCustomer(props) {
 
     return (
         <Container>
-            <button className= {styles.editButton} onClick={() => {setEditable(true)}}> edit </button>
+            <button className= {editButtonStyle} onClick={() => {setEditable(!editable); switchStyle()}}> Edit </button>
             <body>
                 <Form>
                     <FormGroup>
@@ -163,7 +173,7 @@ export function EditCustomer(props) {
                     <FormGroup>
                         {props.newCustomer ? (
                             <div>
-                                <Label for="photo">photo</Label>
+                                <Label for="photo">Photo</Label>
                                 <Input
                                     disabled={! editable}
                                     type="file"

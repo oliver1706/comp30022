@@ -37,9 +37,9 @@ export function CustomerGraphs(props) {
         // Done manually
         return (
             <select onChange={updatePlot} value={currPlot}>
-                <option value={plots.sum_of_sales_plot}>Total Spending Per Month</option>
-                <option value={plots.mean_of_sales_plot}>Average Spending</option>
-                <option value={plots.amount_per_invoices}>Spending per Invoice</option>
+                <option value={plots.sum_of_sales_plot}>Total Spending Per Year</option>
+                <option value={plots.mean_of_sales_plot}>Average Spending Per Year</option>
+                <option value={plots.amount_per_invoices}>Spending Per Invoice</option>
             </select>
         )
     

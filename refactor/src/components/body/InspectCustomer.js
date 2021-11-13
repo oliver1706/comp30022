@@ -76,6 +76,7 @@ export function InspectCustomer(props) {
                             editable={editable}
                             newCustomer={props.newCustomer}
                             handleSubmit={props.handleSubmit}
+                            handleClose={props.handleClose}
                         />
                     </div>
                 )
