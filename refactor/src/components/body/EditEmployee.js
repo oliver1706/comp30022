@@ -183,7 +183,7 @@ export function EditEmployee(props) {
                             name="password"
                             value={password}
                             onChange={handleChange}
-                            placeholder="Enter Employee Username"
+                            placeholder="Enter Password"
                         />
                     </FormGroup>
                     <FormGroup>
