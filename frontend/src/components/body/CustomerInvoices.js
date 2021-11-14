@@ -21,8 +21,6 @@ export function CustomerInvoices(props) {
     }, [])
 
     useEffect(() => {
-        console.log(invoiceNum);
-        console.log(currInvoice);
     }, [invoiceNum, currInvoice])
 
     const incrementInvoiceNum = (i) => {
@@ -59,15 +57,10 @@ export function CustomerInvoices(props) {
     const setInvoice = (e) => {
 
         const { name, value } = e.target;
-        console.log("Here")
-        console.log(value);
-        console.log("Here")
         const matchInvoice = (elem) => elem.id == value;
   
         const newIndex = allInvoices.findIndex(matchInvoice);
         const newInvoice = allInvoices[newIndex];
-        console.log("This:")
-        console.log(newInvoice)
         setCurrInvoice(newInvoice);
         setInvoiceNum(newIndex);
     }
@@ -75,8 +68,8 @@ export function CustomerInvoices(props) {
     const renderCurrentInvoice = () => {
 
         const invoice = currInvoice;
-
         if (invoice != null) {
+            const pdf = invoice.pdf
             return (
                 <main className = 'container'>
                 <h2>{`${invoice.description}`}</h2>
@@ -91,6 +84,9 @@ export function CustomerInvoices(props) {
                             </div>
                             <div className = {styles.name}>
                                 Due on: {invoice.date_due}
+                            </div>
+                            <div className = {styles.name}>
+                                {pdf && <a href={invoice.pdf}>PDF link</a>}
                             </div>
                         </div>
                     </div>
