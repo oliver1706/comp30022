@@ -6,6 +6,7 @@
 //This delegation amkes it easier to update the functionality/looks of the app.
 
 //Additionally the switch to functions should make the app work much more smoothly
+import axios from "axios"
 
 import styles from '../../css/home.module.css'
 
@@ -45,7 +46,7 @@ export default function Home(props) {
     const [page, setPage] = useState("CustomerView"); // For Loading different body elements, use loadpage to change
     const [ordering, setOrdering] = useState(false);
     const [orderByToggle, setOrderByToggle] = useState(false); // For the  ordering "pop up"
-
+    const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
     
     
     useEffect(() => {
@@ -56,6 +57,9 @@ export default function Home(props) {
     }, [advancedSearch])
 
     useEffect(() => {
+        if (!isMobile) {
+            return
+        }
         //Refresh the list
         setData({results: []})
         const [tempSelection, tempSearch, tempSort] = [selection, search, sort]
@@ -135,6 +139,13 @@ export default function Home(props) {
     }
 
     function renderBody(page) {
+        if(!isMobile){
+            axios.post(process.env.REACT_APP_BACKEND_URL + `/app/accounts/logout/`)
+            .then(() =>  {
+                sessionStorage.removeItem("key");
+            });
+            return <div>Apologies, but this website is only available for mobile devices.</div>
+        }
         if(data) {
         switch (page) {
 

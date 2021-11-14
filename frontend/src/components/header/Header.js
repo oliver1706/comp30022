@@ -4,7 +4,10 @@ import React, {useState, useEffect} from 'react';
 import {HomeButton, MenuButton, AddItemButton} from './HeaderButtons.js';
 
 export function Header(props) {
-
+    const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+    if(!isMobile){
+        return <div></div>
+    }
     return (
         <div id = 'dashboard' className={styles.dashboard}>
             <div id = "Leftside" className={styles.block}>
