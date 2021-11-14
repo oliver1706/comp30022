@@ -53,14 +53,11 @@ export default function Home(props) {
     }, [])
 
     useEffect(() => {
-        console.log(advancedSearch);
     }, [advancedSearch])
 
     useEffect(() => {
         //Refresh the list
         setData({results: []})
-        console.log(`Search is: ${search}`);
-        console.log(`Advanced search is: ${advancedSearch}`);
         const [tempSelection, tempSearch, tempSort] = [selection, search, sort]
         refreshList(acceptResponse, tempSelection, ordering, tempSearch, advancedSearch, tempSort, pageNum);
 
@@ -98,7 +95,6 @@ export default function Home(props) {
     }
 
     function updateSearch(search) {
-        console.log("Updated")
         if(search !== '') {
             setAdvancedSearch(false);
         }

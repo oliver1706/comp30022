@@ -15,12 +15,10 @@ import {
     Input,
     Label,
 } from "reactstrap";
-import { FaAudioDescription } from 'react-icons/fa';
 import axios from 'axios'
 import styles from '../../css/viewCustomer.module.css';
 import alternateStyles from '../../css/infotabs.module.css'
 import { getAuthheader } from '../main/Util';
-import { CustomerView } from './CustomerView';
 
 import React, { useState, useEffect } from 'react'
 import { EditCustomer } from './EditCustomer';
@@ -33,34 +31,33 @@ export function InspectCustomer(props) {
     const [editable, setEditable] = useState(props.editable)
     const renderHeader = () => {
         return(
-        <div>
-        <h2 className={styles.header}>{props.customer.first_name} {props.customer.last_name} </h2>
+        <header>
+            <h2 className={styles.header}>{props.customer.first_name} {props.customer.last_name}</h2>
 
-        <div className = {styles.tabButtons} >
-            <Button
-                color="success"
-                onClick={() => props.handleClose()}
-                className = {alternateStyles.profileButton}
-            >Close
-            </Button>
-           
+            <div className = {styles.tabButtons} >
+                <Button
+                    color="success"
+                    onClick={() => props.handleClose()}
+                    className = {alternateStyles.profileButton}
+                >Close
+                </Button>
             
-            <button className={alternateStyles.profileButton} onClick={() => setActiveTab('edit')}> Profile </button>
-            { props.customer.invoices.length ?
-                <div className = {alternateStyles.infotabs}>
-                    <button className={alternateStyles.profileButton} onClick={() => setActiveTab('graphs')}> Graphs </button>
-                    <button className={alternateStyles.profileButton} onClick={() => setActiveTab('invoices')}> Invoices </button>
-                </div>
-                :
-                null
-            }
-            <div className = {alternateStyles.infotabs}>
 
-            <button className={alternateStyles.profileButton} onClick={() => requestWatch(props.customer.id)}> Watch </button>
-            <button className={alternateStyles.profileButton} onClick={() => requestUnwatch(props.customer.id)}> Unwatch </button>
-           </div>
-           </div>
-        </div>
+                <button className={alternateStyles.profileButton} onClick={() => setActiveTab('edit')}> Profile </button>
+                { props.customer.invoices.length ?
+                    <div className = {alternateStyles.infotabs}>
+                        <button className={alternateStyles.profileButton} onClick={() => setActiveTab('graphs')}> Graphs </button>
+                        <button className={alternateStyles.profileButton} onClick={() => setActiveTab('invoices')}> Invoices </button>
+                    </div>
+                    :
+                    null
+                }
+                <div className = {alternateStyles.infotabs}>
+                    <button className={alternateStyles.profileButton} onClick={() => requestWatch(props.customer.id)}> Watch </button>
+                    <button className={alternateStyles.profileButton} onClick={() => requestUnwatch(props.customer.id)}> Unwatch </button>
+                </div>
+            </div>
+        </header>
         )    
     }
 

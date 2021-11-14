@@ -48,6 +48,18 @@ select {
     margin-left: 10%;
 }
 
+.closeButton {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+    width: 17%;
+    border-radius: 3px;
+    margin-left: 80%;
+    position: absolute;
+    margin-top: -15%;
+    
+}
+
 .editButton {
     background-color: var(--mainColour);
     border: var(--mainColour);
@@ -60,6 +72,18 @@ select {
     
 }
 
+.editButtonEmp {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: white;
+    width: 17%;
+    border-radius: 3px;
+    margin-left: 80%;
+    position: absolute;
+    margin-top: -6%;
+    
+}
+
 .editButtonClicked {
     background-color: var(--mainColour);
     border: var(--mainColour);
@@ -69,6 +93,18 @@ select {
     margin-left: 75%;
     position: absolute;
     margin-top: -27.25%;
+    font-weight: bold;
+}
+
+.editButtonClickedEmp {
+    background-color: var(--mainColour);
+    border: var(--mainColour);
+    color: var(--secondaryColour);
+    width: 17%;
+    border-radius: 3px;
+    margin-left: 80%;
+    position: absolute;
+    margin-top: -6%;
     font-weight: bold;
 }
 

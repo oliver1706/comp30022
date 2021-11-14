@@ -22,7 +22,7 @@ import { CustomerView } from './CustomerView';
 export function EditCustomer(props) {
     
     const [editable, setEditable] = useState(props.editable);
-    const [editButtonStyle, setStyle] = useState(styles.editButton)
+    const [editButtonStyle, setStyle] = useState(styles.editButton);
     
     // For each field, id is grabbed only at submission, it is immutable
     const [description, setDescription] = useState(props.customer.description);
@@ -135,8 +135,8 @@ export function EditCustomer(props) {
                 gender: gender,
             };
             props.handleSubmit('customers', data);
-            props.handleClose();
         }
+        props.handleClose();
         
     } 
 
@@ -158,19 +158,6 @@ export function EditCustomer(props) {
             <body>
                 <Form>
                     <FormGroup>
-                        <Label for="description">Description</Label>
-                        
-                        <Input
-                            disabled={! editable}
-                            type="text"
-                            name="description"
-                            value={description}
-                            onChange={handleChange}
-                            placeholder="Enter Customer Description"
-                            className = {styles.customerInput}
-                        />
-                    </FormGroup>
-                    <FormGroup>
                         {props.newCustomer ? (
                             <div>
                                 <Label for="photo">Photo</Label>
@@ -191,6 +178,19 @@ export function EditCustomer(props) {
                             />
                         )}
                         
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="description">Description</Label>
+                        
+                        <Input
+                            disabled={! editable}
+                            type="text"
+                            name="description"
+                            value={description}
+                            onChange={handleChange}
+                            placeholder="Enter Customer Description"
+                            className = {styles.customerInput}
+                        />
                     </FormGroup>
                     <FormGroup>
                         <Label for="first_name">First Name</Label>

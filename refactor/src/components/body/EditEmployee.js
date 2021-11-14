@@ -14,6 +14,7 @@ import { getAuthheader } from '../main/Util';
 export function EditEmployee(props) {
 
     const [editable, setEditable] = useState(props.editable);
+    const [editButtonStyle, setStyle] = useState(styles.editButtonEmp);
 
     //For each field, id is grabbed only at submission, it is immutable
     const [username, setUsername] = useState(props.employee.username);
@@ -23,6 +24,8 @@ export function EditEmployee(props) {
     const [job_title, setJob_title] = useState(props.employee.job_title);
     const [phone, setPhone] = useState(props.employee.phone);
     const [department, setDepartment] = useState(props.employee.department);
+    const [email, setEmail] = useState(props.employee.email);
+    const [photo, setPhoto] = useState(props.employee.photo);
 
     // For enumerating departments in selection
     const [allDepts, setAllDepts] = useState([]);
@@ -31,9 +34,21 @@ export function EditEmployee(props) {
         refreshData(setAllDepts);
     }, []) // Empty array so only run on mount
 
+    const switchStyle = () => {
+        if (editButtonStyle == styles.editButtonEmp) {
+            setStyle(styles.editButtonClickedEmp);
+        } else {
+            setStyle(styles.editButtonEmp);
+        }
+    }
+
     const handleChange = (e) => {
         let {name, value} = e.target;
         switch (name) {
+            case 'photo':
+                value = e.target.files[0];
+                setPhoto(value);
+                break;
             case 'username':
                 setUsername(value);
                 break;
@@ -54,6 +69,9 @@ export function EditEmployee(props) {
                 break;
             case 'department':
                 setDepartment(value);
+                break;
+            case 'email':
+                setEmail(value);
                 break;
 
         }
@@ -78,20 +96,25 @@ export function EditEmployee(props) {
                 job_title: job_title,
                 phone: phone,
                 department: department,
+                password: password,
+                email: email,
             }
             props.handleSubmit('employees', data);
         } else {
             let data = {
+                photo: getPhotoForSubmission(props.newEmployee, photo),
                 username: username,
                 first_name: first_name,
                 last_name: last_name,
                 job_title: job_title,
                 phone: phone,
                 department: department,
+                password: password,
+                email: email,
             }
             props.handleSubmit('employees', data);
         }
-
+        props.handleClose();
         
     }
 
@@ -103,19 +126,42 @@ export function EditEmployee(props) {
 
     return (
         <Container>
-            <header className={styles.header}> {props.employee.first_name}
+            <header>
+                <h2 className = {styles.header}>{props.employee.first_name} {props.employee.last_name}</h2>
                 <Button
                     color="success"
                     onClick={() =>props.handleClose()}
-                    className={styles.saveButton}
+                    className={styles.closeButton}
                 >Close
                 </Button>
-                <button className={styles.saveButton} onClick={() => {setEditable(true)}}> edit </button>
+                <button className={editButtonStyle} onClick={() => {setEditable(!editable); switchStyle();}}>Edit</button>
 
             </header>
             
-            <body>
+            <div>
                 <Form className = {styles.inputForm}>
+                <FormGroup>
+                        {props.newEmployee ? (
+                            <div>
+                                <Label for="photo">Photo</Label>
+                                <Input
+                                    disabled={! editable}
+                                    type="file"
+                                    name="photo"
+                
+                                    onChange={handleChange}
+                                    className = {styles.customerInput}
+                                />
+                            </div>
+                        ) : (
+                            <img 
+                                className = {styles.customerImg} 
+                                src={photo} 
+                                width="250" height="250"
+                            />
+                        )}
+                        
+                    </FormGroup>
                     <FormGroup>
                         <Label for="username">Username</Label>
                         <Input
@@ -129,7 +175,7 @@ export function EditEmployee(props) {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="password">password</Label>
+                        <Label for="password">Password</Label>
                         <Input
                             className = {styles.customerInput}
                             disabled={! editable}
@@ -189,6 +235,18 @@ export function EditEmployee(props) {
                         />
                     </FormGroup>
                     <FormGroup>
+                        <Label for="email">Email</Label>
+                        <Input
+                            disabled={! editable}
+                            type="text"
+                            name="email"
+                            value={email}
+                            onChange={handleChange}
+                            placeholder="john@example.com"
+                            className = {styles.customerInput}
+                        />
+                    </FormGroup>
+                    <FormGroup>
                         <Label for="department">Department</Label>
                         
                         <select 
@@ -202,7 +260,7 @@ export function EditEmployee(props) {
                         </select>
                     </FormGroup>
                 </Form>
-            </body>
+            </div>
             <footer>
                 <Button
                 color="success"
@@ -219,4 +277,13 @@ export function EditEmployee(props) {
 function refreshData(setDepts) {
     axios.get(process.env.REACT_APP_BACKEND_URL + `/app/departments/`, getAuthheader())
         .then((res) => setDepts(res.data.results));
+}
+
+function getPhotoForSubmission(newEmployee, photo) {
+
+    if(newEmployee) {
+        return photo;
+    } else {
+        return '';
+    }
 }
