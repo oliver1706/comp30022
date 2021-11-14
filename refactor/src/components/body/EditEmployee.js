@@ -96,7 +96,6 @@ export function EditEmployee(props) {
                 job_title: job_title,
                 phone: phone,
                 department: department,
-                password: password,
                 email: email,
             }
             props.handleSubmit('employees', data);
@@ -140,7 +139,7 @@ export function EditEmployee(props) {
             
             <div>
                 <Form className = {styles.inputForm}>
-                <FormGroup>
+                    <FormGroup>
                         {props.newEmployee ? (
                             <div>
                                 <Label for="photo">Photo</Label>
@@ -148,7 +147,6 @@ export function EditEmployee(props) {
                                     disabled={! editable}
                                     type="file"
                                     name="photo"
-                
                                     onChange={handleChange}
                                     className = {styles.customerInput}
                                 />
@@ -175,16 +173,23 @@ export function EditEmployee(props) {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="password">Password</Label>
-                        <Input
-                            className = {styles.customerInput}
-                            disabled={! editable}
-                            type="text"
-                            name="password"
-                            value={password}
-                            onChange={handleChange}
-                            placeholder="Enter Password"
-                        />
+                        {props.newEmployee ? (
+                            <div>
+
+                                <Label for="password">Password</Label>
+                                <Input
+                                    className = {styles.customerInput}
+                                    disabled={! editable}
+                                    type="text"
+                                    name="password"
+                                    value={password}
+                                    onChange={handleChange}
+                                    placeholder="Enter Password"
+                                />
+                            </div>
+                        ) : (
+                            <span></span>
+                        )}
                     </FormGroup>
                     <FormGroup>
                         <Label for="first_name">First Name</Label>
